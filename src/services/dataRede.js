@@ -9,5 +9,11 @@ export default {
         return await http.get(urlServer,{ headers: {
             authorization: authUserToken
         }})
+    },
+    buscaMeusIndicadosDiretos: async () => {
+        const urlServer = '/rededireta';
+        return await http.get(urlServer,{ headers: {
+            authorization: authUserToken
+        }})
     }
 }

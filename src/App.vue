@@ -39,9 +39,10 @@ body{
     margin: 0%;
     text-align: center;
 }
-input, textarea, button{
+input, textarea, button, select{
   padding: 10px;
   background-color: white;
+  border: 1px solid grey;
 }
 table{
   width: 100%;

@@ -63,5 +63,8 @@ export default {
 </script>
 
 <style>
-
+.login{
+    margin: 50px 500px;
+    width: 300px;
+}
 </style>

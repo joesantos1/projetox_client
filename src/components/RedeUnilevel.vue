@@ -2,12 +2,41 @@
   <div class="content-user">
       <div class="content1">
             <div class="rede-unilevel">
-                    <h4>Minha rede unilevel | Total de Cadastros: {{tRC}} | Buscar: <input type="text" size="20" v-model="busca" @keyup="buscaRedeUnilevel" > <button @click="buscaRedeUnilevel">Buscar</button></h4>
-                        <table cellspacing="0px">
+                    <h4>Minha rede unilevel | Total de Cadastros: {{tRC}} | Buscar: <select name="buscapor" v-model="buscapor" id="">
+                        
+                        <option value="unome">NOME</option>
+                        <option value="nivel">NIVEL</option>
+                        <option value="udata">DATA DO CADASTRO</option>
+                        </select> <input type="text" size="20" v-model="busca" @keyup="buscaRedeUnilevel" > <button @click="buscaRedeUnilevel">Buscar</button></h4>
+
+                        <div class="busca" v-if="embusca">
+                            <p>Resultados da busca: {{rb.length}} registros encontrados.</p>
+                            <table cellspacing="0px">
+                                <tr>
+                                    <th>NOME</th>
+                                    <th>N</th>
+                                    <th>[NIVEL] UPLINE</th>
+                                    <th>R.D.</th>
+                                    <th>STATUS</th>
+                                    <th>ADD EM:</th>
+                                </tr>
+                                <tr v-for="v of rb" :key="v.id">
+                                    <td>{{v.unome}}</td>
+                                    <td align="center">#{{v.nivel}}</td>
+                                    <td>{{v.myups}}</td>
+                                    <td align="center">{{v.utd == 0 || v.utd == undefined ? '-' : v.utd}}</td>
+                                    <td align="center">{{v.ustatus == 1 ? 'ATIVO' : 'INATIVO'}}</td>
+                                    <td align="center">{{formatData(v.udata)}}</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                        
+                        <table cellspacing="0px" v-if="!embusca">
                             <tr>
                                 <th>NOME</th>
                                 <th>N</th>
-                                <th>UPLINES</th>
+                                <th>[NIVEL] UPLINE</th>
                                 <th>R.D.</th>
                                 <th>STATUS</th>
                                 <th>ADD EM:</th>
@@ -22,7 +51,7 @@
                             </tr>
 
                         </table>
-                        <h4>(*) R.D. = Rede Direta <br>(*) N = Nivel | {{rb}}</h4>
+                        <h4>(*) R.D. = Rede Direta <br>(*) N = Nivel </h4>
                        
                 </div>
       </div>
@@ -40,7 +69,9 @@ export default {
             rb: [],
             tRC: null,
             listaError: false,
-            busca: null
+            busca: null,
+            buscapor: 'unome',
+            embusca: false
         }
     },
     methods:{
@@ -61,18 +92,43 @@ export default {
         },
         buscaRedeUnilevel(){
 
-            var r = []
-            
-                for(var v in this.ru){
-                    var un = this.ru[v].unome.toLowerCase()
-                    r[v] = un.indexOf(this.busca.toLowerCase())
+            let r
+            this.rb = []
+            let bu = this.busca
 
-                    if(r[v]==0){
-                        return this.rb = this.ru[v]
+            if(bu==null || bu==' ' || bu == ''){
+                this.embusca = false
+               return this.rb = []
+            }
+                for(var v in this.ru){
+
+                    var vv = this.ru[v]
+                    
+                    let un
+
+                    if(this.buscapor == 'unome'){
+                        un =  vv.unome.toLowerCase()
+                        bu = bu.toLowerCase()
+                        r = un.indexOf(bu)
+                    }
+                    if(this.buscapor == 'nivel'){
+                        un = vv.nivel
+                        r = bu == un ? 1 : -1
+                        
+                    }
+                    if(this.buscapor == 'udata'){
+                        un = vv.udata
+                        r = un.indexOf(bu)
+
+                    }
+
+                    if(r>=0){
+                        this.embusca = true
+                        this.rb.push(this.ru[v])
+                        
                     }
                 } 
-            
-            
+            return
         
         }
     },
