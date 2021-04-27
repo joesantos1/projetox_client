@@ -2,29 +2,28 @@
   <div class="content-user">
       <div class="content1">
             <div class="rede-unilevel">
-                    <h4>Minha rede unilevel | Total de Cadastros: {{tRC}}</h4>
+                    <h4>Minha rede unilevel | Total de Cadastros: {{tRC}} | Buscar: <input type="text" size="20" v-model="busca" @keyup="buscaRedeUnilevel" > <button @click="buscaRedeUnilevel">Buscar</button></h4>
                         <table cellspacing="0px">
                             <tr>
-                                <th>NIVEL</th>
                                 <th>NOME</th>
-                                <th>T. CADASTROS</th>
+                                <th>N</th>
+                                <th>UPLINES</th>
+                                <th>R.D.</th>
                                 <th>STATUS</th>
                                 <th>ADD EM:</th>
-                                <th></th>
                             </tr>
-                            <tr v-for="v of ru.nivel1" :key="v.id">
+                            <tr v-for="v of ru" :key="v.id">
+                                <td>{{v.unome}}</td>
                                 <td align="center">#{{v.nivel}}</td>
-                                <td>
-                                    <a v-if="v.uredetotal > 0" @click="verNivelAbaixo(v.uid,0)">{{v.unome}}</a>
-                                    <span v-if="v.uredetotal==undefined || v.uredetotal==0">{{v.unome}}</span>
-                                </td>
-                                <td align="center">{{v.uredetotal == 0 || v.uredetotal == undefined ? '-' : v.uredetotal}}</td>
+                                <td>{{v.myups}}</td>
+                                <td align="center">{{v.utd == 0 || v.utd == undefined ? '-' : v.utd}}</td>
                                 <td align="center">{{v.ustatus == 1 ? 'ATIVO' : 'INATIVO'}}</td>
                                 <td align="center">{{formatData(v.udata) }}</td>
-                                <td align="center">[+]</td>
                             </tr>
 
                         </table>
+                        <h4>(*) R.D. = Rede Direta <br>(*) N = Nivel | {{rb}}</h4>
+                       
                 </div>
       </div>
       
@@ -38,8 +37,10 @@ export default {
     data(){
         return {
             ru: [],
+            rb: [],
             tRC: null,
-            listaError: false
+            listaError: false,
+            busca: null
         }
     },
     methods:{
@@ -58,16 +59,28 @@ export default {
 
             return r;
         },
-        verNivelAbaixo(uid,nivel){
+        buscaRedeUnilevel(){
 
+            var r = []
+            
+                for(var v in this.ru){
+                    var un = this.ru[v].unome.toLowerCase()
+                    r[v] = un.indexOf(this.busca.toLowerCase())
 
+                    if(r[v]==0){
+                        return this.rb = this.ru[v]
+                    }
+                } 
+            
+            
+        
         }
     },
     mounted(){
         REDE_UNILEVEL.buscaMinhaRedeUnilevel()
         .then(r => {
             this.tRC = r.data.tRC
-            return this.ru = r.data.RCO
+            return this.ru = r.data.RC
 
         })
         .catch(err => {
@@ -86,7 +99,9 @@ export default {
 }
 .rede-unilevel table td{
     border: 1px solid grey;
-    
+}
+.rede-unilevel table tr:hover{
+    background-color: rgb(219, 219, 219);
 }
 .rede-unilevel table{
     border-collapse: collapse;
