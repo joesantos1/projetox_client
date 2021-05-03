@@ -47,7 +47,7 @@ input, textarea, button, select{
 table{
   width: 100%;
 }
-.content-user{
+.content-user, .content-u{
   float: left;
   width: 80%;
 }

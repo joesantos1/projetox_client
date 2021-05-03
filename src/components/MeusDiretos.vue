@@ -1,5 +1,5 @@
 <template>
-  <div class="content-user">
+  <div class="content-u">
     <div class="content1">
       <h4>Meus indicados diretos | Total: {{rd.length}} cadastros diretos.</h4>
             <div class="diretos">

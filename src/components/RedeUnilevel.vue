@@ -15,15 +15,15 @@
                                 <tr>
                                     <th>NOME</th>
                                     <th>N</th>
-                                    <th>[NIVEL] UPLINE</th>
+                                    <th>[NIVEL] UPLINES</th>
                                     <th>R.D.</th>
                                     <th>STATUS</th>
                                     <th>ADD EM:</th>
                                 </tr>
                                 <tr v-for="v of rb" :key="v.id">
-                                    <td>{{v.unome}}</td>
+                                    <td>{{v.unome}} </td>
                                     <td align="center">#{{v.nivel}}</td>
-                                    <td>{{v.myups}}</td>
+                                    <td> {{v.myups}}</td>
                                     <td align="center">{{v.utd == 0 || v.utd == undefined ? '-' : v.utd}}</td>
                                     <td align="center">{{v.ustatus == 1 ? 'ATIVO' : 'INATIVO'}}</td>
                                     <td align="center">{{formatData(v.udata)}}</td>
@@ -43,8 +43,8 @@
                             </tr>
                             <tr v-for="v of ru" :key="v.id">
                                 <td>{{v.unome}}</td>
-                                <td align="center">#{{v.nivel}}</td>
-                                <td>{{v.myups}}</td>
+                                <td align="center"><span id="nivel">{{v.nivel}}</span></td>
+                                <td v-html="v.myups"> </td>
                                 <td align="center">{{v.utd == 0 || v.utd == undefined ? '-' : v.utd}}</td>
                                 <td align="center">{{v.ustatus == 1 ? 'ATIVO' : 'INATIVO'}}</td>
                                 <td align="center">{{formatData(v.udata) }}</td>
@@ -71,7 +71,8 @@ export default {
             listaError: false,
             busca: null,
             buscapor: 'unome',
-            embusca: false
+            embusca: false,
+            showupl: false
         }
     },
     methods:{
@@ -130,14 +131,18 @@ export default {
                 } 
             return
         
+        },
+        mostraupl(id){
+            
+            return console.log(this.showupl)
         }
     },
     mounted(){
         REDE_UNILEVEL.buscaMinhaRedeUnilevel()
+        
         .then(r => {
             this.tRC = r.data.tRC
             return this.ru = r.data.RC
-
         })
         .catch(err => {
             return alert(err)
@@ -155,6 +160,7 @@ export default {
 }
 .rede-unilevel table td{
     border: 1px solid grey;
+    padding: 4px;
 }
 .rede-unilevel table tr:hover{
     background-color: rgb(219, 219, 219);
@@ -164,5 +170,13 @@ export default {
 }
 .rede-unilevel a{
     cursor: pointer;
+}
+#nivel{
+    padding: 1px 6px;
+    margin: 1px;
+    background-color: grey;
+    color: white;
+    cursor: pointer;
+    border-radius: 3px;
 }
 </style>

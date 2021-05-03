@@ -7,6 +7,7 @@
                 <li><router-link to="/cadastro">+ Novo Cadastro</router-link></li>
                 <li><router-link to="/meusdiretos">Meus indicados</router-link></li>
                 <li><router-link to="/redeunilevel">Minha rede unilevel</router-link></li>
+                <li><router-link to="/meusdados">Meus dados</router-link></li>
                 <li><router-link to="/logout">Sair</router-link></li>
             </ul>
     </div>

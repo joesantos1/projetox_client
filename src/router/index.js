@@ -6,6 +6,7 @@ import authVUSER from '../services/auth'
 import RedeUnilevel from '@/components/RedeUnilevel'
 import RedeDireta from '@/components/MeusDiretos'
 import Cadastro from '@/components/Cadastro'
+import MeusDados from '@/components/MeusDados'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ const router = new Router({
       path: '/meusdiretos',
       name: 'RedeDireta',
       component: RedeDireta
+    },
+    {
+      path: '/meusdados',
+      name: 'meusdados',
+      component: MeusDados
     },
     {
       path: '/cadastro',
