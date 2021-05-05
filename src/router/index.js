@@ -7,6 +7,7 @@ import RedeUnilevel from '@/components/RedeUnilevel'
 import RedeDireta from '@/components/MeusDiretos'
 import Cadastro from '@/components/Cadastro'
 import MeusDados from '@/components/MeusDados'
+import CatalogoJobs from '@/components/Jobs'
 
 Vue.use(Router)
 
@@ -24,6 +25,11 @@ const router = new Router({
       path: '/redeunilevel',
       name: 'RedeUnilevel',
       component: RedeUnilevel
+    },
+    {
+      path: '/catalogo',
+      name: 'CatalogoJobs',
+      component: CatalogoJobs
     },
     {
       path: '/meusdiretos',

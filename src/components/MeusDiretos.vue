@@ -46,7 +46,7 @@ export default {
     buscaRedeDireta(){
       REDEDIRETA.buscaMeusIndicadosDiretos()
       .then(r => {
-        this.rd = r.data.ss
+        return this.rd = r.data.ss
       })
       .catch(err => {
         return this.listaError = err

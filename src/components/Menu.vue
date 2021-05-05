@@ -4,6 +4,7 @@
         <h4>Olá {{mydd.nome}},</h4>
             <ul>
                 <li><router-link to="/">Home</router-link></li>
+                <li><router-link to="/catalogo">Catalogo de Trabalhos</router-link></li>
                 <li><router-link to="/cadastro">+ Novo Cadastro</router-link></li>
                 <li><router-link to="/meusdiretos">Meus indicados</router-link></li>
                 <li><router-link to="/redeunilevel">Minha rede unilevel</router-link></li>

@@ -177,6 +177,6 @@ export default {
     background-color: grey;
     color: white;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 2px;
 }
 </style>
