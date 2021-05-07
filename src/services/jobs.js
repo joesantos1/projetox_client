@@ -9,5 +9,11 @@ export default {
         return await http.get(urlServer,{ headers: {
             authorization: authUserToken
         }})
+    },
+    cadastrarCandidato: async (d) => {
+        const urlServer = '/inscreverjob/'+d;
+        return await http.get(urlServer,{ headers: {
+            authorization: authUserToken
+        }})
     }
 }

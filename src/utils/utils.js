@@ -1,6 +1,10 @@
 export default {
     formatData: (data) => {
 
+        if(!data){
+            return '...'
+        }
+
         var d = data.split('T')
         var d1 = d[0].split('-')
         var h1 = d[1].split(':')
