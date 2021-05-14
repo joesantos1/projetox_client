@@ -8,6 +8,7 @@ import RedeDireta from '@/components/MeusDiretos'
 import Cadastro from '@/components/Cadastro'
 import MeusDados from '@/components/MeusDados'
 import CatalogoJobs from '@/components/Jobs'
+import Arquivos from '@/components/Arquivos'
 
 Vue.use(Router)
 
@@ -45,6 +46,11 @@ const router = new Router({
       path: '/cadastro',
       name: 'Cadastro',
       component: Cadastro
+    },
+    {
+      path: '/arquivos',
+      name: 'arquivos',
+      component: Arquivos
     },
     {
       path: '/login',

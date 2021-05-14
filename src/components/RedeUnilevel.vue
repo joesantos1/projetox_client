@@ -139,7 +139,6 @@ export default {
     },
     mounted(){
         REDE_UNILEVEL.buscaMinhaRedeUnilevel()
-        
         .then(r => {
             this.tRC = r.data.tRC
             return this.ru = r.data.RC
