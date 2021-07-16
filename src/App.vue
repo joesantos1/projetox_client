@@ -46,6 +46,8 @@ input, textarea, button, select{
 }
 table{
   width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0px;
 }
 .content-user, .content-u{
   float: left;
@@ -54,4 +56,12 @@ table{
 .content1{
   margin: 20px;
 }
+.tb1 th{
+  background-color: #2c3e50;
+  color: white;
+}
+.tb1 th, .tb1 td{
+  border: 1px solid rgb(216, 216, 216);
+}
+
 </style>

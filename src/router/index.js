@@ -9,6 +9,8 @@ import Cadastro from '@/components/Cadastro'
 import MeusDados from '@/components/MeusDados'
 import CatalogoJobs from '@/components/Jobs'
 import Arquivos from '@/components/Arquivos'
+import NewPlayAcc from '@/components/NewPlayAcc'
+import UpdPlayAcc from '@/components/UpdPlayAcc'
 
 Vue.use(Router)
 
@@ -23,9 +25,14 @@ const router = new Router({
       component: Dash
     },
     {
-      path: '/redeunilevel',
-      name: 'RedeUnilevel',
-      component: RedeUnilevel
+      path: '/new-play-account',
+      name: 'New Play-Acc',
+      component: NewPlayAcc
+    },
+    {
+      path: '/upd-play-acc/:id',
+      name: 'updplayacc',
+      component: UpdPlayAcc
     },
     {
       path: '/catalogo',
