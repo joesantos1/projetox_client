@@ -22,4 +22,16 @@ export default {
             authorization: authUserToken
         }})
     },
+    buscaDadosUsuario: async () => {
+        const urlServer = '/buscameusdados';
+        return await http.get(urlServer,{ headers: {
+            authorization: authUserToken
+        }})
+    },
+    buscaTodosUsuarios: async () => {
+        const urlServer = '/buscatodosusuarios';
+        return await http.get(urlServer,{ headers: {
+            authorization: authUserToken
+        }})
+    },
 }

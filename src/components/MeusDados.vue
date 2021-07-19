@@ -5,6 +5,16 @@
       <form @submit.prevent="atualizaMeusDados">
         <table>
           <tr>
+                <th>CATEGORIA</th>
+                <td>
+                    <select name="categoria" id="categoria" v-model="fm.categoria">
+                        <option value="1">SOU JOGADOR (PLAYER)</option>
+                        <option value="2">QUERO SELECIONAR JOGADORES (OWNER)</option>
+                        <option value="3">SOU AMBOS</option>
+                    </select>
+                </td>
+            </tr>
+          <tr>
             <th>NOME</th>
             <td><input type="text" name="nome" v-model="fm.nome"></td>
           </tr>
@@ -12,14 +22,33 @@
               <th>EMAIL</th>
               <td><input type="text" name="email" v-model="fm.email"></td>
           </tr>
-          
+          <tr>
+            <th>DATA DE NASCIMENTO</th>
+            <td><input type="text" name="nascimento" v-model="fm.nascimento"></td>
+          </tr>
+          <tr>
+            <th>CPF OU Nº PASSAPORTE</th>
+            <td><input type="text" name="cpf" v-model="fm.cpf" value="0"></td>
+          </tr>
           <tr>
             <th>TEL 1</th>
             <td><input type="text" name="tel1" v-model="fm.tel1"></td>
           </tr>
           <tr>
+            <th>ENDEREÇO:</th>
+            <td><input type="text" name="endereco" v-model="fm.endereco"></td>
+          </tr>
+          <tr>
             <th>CIDADE</th>
             <td><input type="text" name="cidade" v-model="fm.cidade"></td>
+          </tr>
+          <tr>
+            <th>ESTADO</th>
+            <td><input type="text" name="estado" v-model="fm.estado"></td>
+          </tr>
+          <tr>
+            <th>PAÍS</th>
+            <td><input type="text" name="pais" v-model="fm.pais"></td>
           </tr>
           <tr>
             <td></td>
@@ -62,7 +91,7 @@ import DATAUSER from '../services/dataUser'
 export default {
   data(){
     return {
-      fm: JSON.parse(localStorage.getItem('_user')),
+      fm: [],
       fmp: {
         pass: null,
         pass_new: null,
@@ -71,6 +100,17 @@ export default {
     }
   },
   methods:{
+    buscaDadosUser(){
+
+      DATAUSER.buscaDadosUsuario()
+      .then(r => {
+        return this.fm = r.data.rr
+      })
+      .catch(err => {
+        return alert(err)
+      })
+
+    },
     atualizaMeusDados(){
 
       DATAUSER.atualizaDadosUsuario(this.fm)
@@ -99,6 +139,9 @@ export default {
         return alert(err.response.data.error)
       })
     }
+  },
+  mounted(){
+    return this.buscaDadosUser()
   }
 }
 </script>

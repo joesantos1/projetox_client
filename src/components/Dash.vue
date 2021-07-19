@@ -1,7 +1,9 @@
 <template>
   <div class="content-u">
     <div class="content1">
-      <mpc />
+      <h3>Você possui {{nprops}} propostas e acordos. <span v-if="nprops>0"><router-link to="/propostas">Acessar</router-link></span> </h3>
+      <MYPLAYACCOUNTS />
+      <CATALOGO />
     </div>
 
   </div>
@@ -9,14 +11,32 @@
 
 <script>
 import MYPLAYACCOUNTS from '@/components/MyPlayAccounts.vue'
+import CATALOGO from '@/components/Catalogo.vue'
+import PROPOSTAS from '../services/agreements'
+
 export default {
   components:{
-    mpc: MYPLAYACCOUNTS
+    MYPLAYACCOUNTS,
+    CATALOGO
   },
   data(){
     return {
-      
+      nprops: 0
     }
+  },
+  methods: {
+    buscaPropostas(){
+      PROPOSTAS.buscaPropostasEAcordos(1)
+      .then(r => {
+        return this.nprops = r.data.nprops
+      })
+      .catch(err => {
+        return this.nprops = 0
+      })
+    }
+  },
+  mounted(){
+    return this.buscaPropostas()
   }
 }
 </script>

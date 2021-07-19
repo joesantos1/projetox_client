@@ -11,13 +11,13 @@ export default {
         }})
     },
     cadastraNovaPlayAcc: async (dados) => {
-        const urlServer = '/cadastraplaycc';
+        const urlServer = '/cadastraplayacc';
         return await http.post(urlServer, dados, { headers: {
             authorization: authUserToken
         }})
     },
     buscaParaUpdPlayAcc: async (id) => {
-        const urlServer = '/editaplayacc/'+id;
+        const urlServer = '/buscadadosplayacc/'+id;
         return await http.get(urlServer, { headers: {
             authorization: authUserToken
         }})

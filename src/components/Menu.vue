@@ -4,8 +4,7 @@
         <h4>Olá {{mydd.nome}},</h4>
             <ul>
                 <li><router-link to="/">Home</router-link></li>
-                <li><router-link to="/catalogo">Catalogo de Trabalhos</router-link></li>
-                <li><router-link to="/cadastro">+ Novo Cadastro</router-link></li>
+                <li><router-link to="/catalogo">Catálogo de Players</router-link></li>
                 <li><router-link to="/redeunilevel">Referrels Program</router-link></li>
                 <li><router-link to="/meusdados">Meus dados</router-link></li>
                 <li><router-link to="/logout">Sair</router-link></li>

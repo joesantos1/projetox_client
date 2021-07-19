@@ -40,7 +40,7 @@ body{
     text-align: center;
 }
 input, textarea, button, select{
-  padding: 10px;
+  padding: 5px 15px;
   background-color: white;
   border: 1px solid grey;
 }
@@ -55,6 +55,9 @@ table{
 }
 .content1{
   margin: 20px;
+}
+.tb1{
+  margin: 10px 0px;
 }
 .tb1 th{
   background-color: #2c3e50;

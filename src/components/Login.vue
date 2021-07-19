@@ -38,6 +38,32 @@
                 <td><input type="password" name="confirm_pass" v-model="fm.pass_confirm"></td>
             </tr>
             <tr>
+                <th>GAMES (Experiência) (*) Blockchain Games, NFTs, RPG, MMOs e outros.</th>
+                <td>
+                    <input type="checkbox" id="xp0" name="games" value="Axie Infinity" v-model="xp"> 
+                    <label for="xp0">Axie Infinity</label>
+
+                    <input type="checkbox" id="xp1" name="games" value="Alien Word" v-model="xp"> 
+                    <label for="xp1">Alien Word</label>
+                    
+                    <input type="checkbox" id="xp2" name="games" value="Decentraland" v-model="xp"> 
+                    <label for="xp2">Descentraland</label>
+
+                    <input type="checkbox" id="xp3" name="games" value="MyPet" v-model="xp"> 
+                    <label for="xp3">My Pet</label>
+                </td>
+            </tr>
+            <tr>
+                <th>CATEGORIA</th>
+                <td>
+                    <select name="categoria" id="categoria" v-model="fm.categoria">
+                        <option value="1">SOU JOGADOR (PLAYER)</option>
+                        <option value="2">QUERO SELECIONAR JOGADORES (OWNER)</option>
+                        <option value="3">SOU AMBOS</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td></td>
                 <td><button type="submit" v-if="btf">CADASTRAR</button> <button type="reset">LIMPAR</button></td>
             </tr>
@@ -58,6 +84,7 @@ export default {
             email: null,
             pass: null,
             listaError: false,
+            xp: [],
             fm: {
                 nome: null,
                 email: null,
@@ -82,6 +109,7 @@ export default {
             }
 
             this.btf = false
+            this.fm.lista_games = this.xp
 
            CAD_USER.cadastraUsuario(this.fm)
            .then(r => {

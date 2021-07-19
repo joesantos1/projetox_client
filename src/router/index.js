@@ -11,6 +11,8 @@ import CatalogoJobs from '@/components/Jobs'
 import Arquivos from '@/components/Arquivos'
 import NewPlayAcc from '@/components/NewPlayAcc'
 import UpdPlayAcc from '@/components/UpdPlayAcc'
+import NovaProposta from '@/components/Contratos'
+import VerPropostas from '@/components/Propostas'
 
 Vue.use(Router)
 
@@ -25,13 +27,23 @@ const router = new Router({
       component: Dash
     },
     {
+      path: '/propostas',
+      name: 'Propostas',
+      component: VerPropostas
+    },
+    {
+      path: '/fazerproposta/:idp',
+      name: 'NovaProposta',
+      component: NovaProposta
+    },
+    {
       path: '/new-play-account',
       name: 'New Play-Acc',
       component: NewPlayAcc
     },
     {
-      path: '/upd-play-acc/:id',
-      name: 'updplayacc',
+      path: '/play-account/:id/:idagree',
+      name: 'playacc',
       component: UpdPlayAcc
     },
     {
