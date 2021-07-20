@@ -7,12 +7,13 @@ import RedeUnilevel from '@/components/RedeUnilevel'
 import RedeDireta from '@/components/MeusDiretos'
 import Cadastro from '@/components/Cadastro'
 import MeusDados from '@/components/MeusDados'
-import CatalogoJobs from '@/components/Jobs'
 import Arquivos from '@/components/Arquivos'
 import NewPlayAcc from '@/components/NewPlayAcc'
 import UpdPlayAcc from '@/components/UpdPlayAcc'
 import NovaProposta from '@/components/Contratos'
 import VerPropostas from '@/components/Propostas'
+import Catalogo from '@/components/Catalogo'
+import MyPlayAccs from '@/components/MyPlayAccounts'
 
 Vue.use(Router)
 
@@ -37,6 +38,11 @@ const router = new Router({
       component: NovaProposta
     },
     {
+      path: '/play-accounts',
+      name: 'myplayaccounts',
+      component: MyPlayAccs
+    },
+    {
       path: '/new-play-account',
       name: 'New Play-Acc',
       component: NewPlayAcc
@@ -48,8 +54,8 @@ const router = new Router({
     },
     {
       path: '/catalogo',
-      name: 'CatalogoJobs',
-      component: CatalogoJobs
+      name: 'Catalogo',
+      component: Catalogo
     },
     {
       path: '/meusdiretos',

@@ -1,12 +1,9 @@
 <template>
-  <div class="content-u">
     <div class="content1">
       <h3>Você possui {{nprops}} propostas e acordos. <span v-if="nprops>0"><router-link to="/propostas">Acessar</router-link></span> </h3>
-      <MYPLAYACCOUNTS />
-      <CATALOGO />
+      <MYPLAYACCOUNTS dashview="true" />
+      <CATALOGO dashview="true" />
     </div>
-
-  </div>
 </template>
 
 <script>

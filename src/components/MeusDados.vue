@@ -1,9 +1,9 @@
 <template>
-  <div class="content-u">
+  <div>
     <div class="content1 meusdados">
       <h4>MEUS DADOS:</h4>
       <form @submit.prevent="atualizaMeusDados">
-        <table>
+        <table class="tb1">
           <tr>
                 <th>CATEGORIA</th>
                 <td>
@@ -49,6 +49,10 @@
           <tr>
             <th>PAÍS</th>
             <td><input type="text" name="pais" v-model="fm.pais"></td>
+          </tr>
+          <tr>
+            <th>Apresentação [about me]</th>
+            <td><textarea name="about" id="about" cols="40" rows="5" v-model="fm.about"></textarea></td>
           </tr>
           <tr>
             <td></td>

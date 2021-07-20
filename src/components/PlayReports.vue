@@ -1,6 +1,7 @@
 <template>
   <div class="play_reports">
-      <h3>(+) Novo registro de metas e resultado [new play reports]:</h3>
+          <div>
+              <h3>(+) Novo registro de metas e resultado [new play reports]:</h3>
           <form @submit.prevent="novoPR" v-if="!owner">
               <table class="tb1">
                 <tr>
@@ -22,7 +23,8 @@
               </table>
               <i>(*) Campos obrigatórios.</i>
           </form>
-          <h3>Total de registros de metas e resultados [play reports] | {{qtd}} registros encontrados</h3>
+          </div>
+          <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados</h3>
           <table class="tb1">
               <tr>
                   <th>[#ID]</th>

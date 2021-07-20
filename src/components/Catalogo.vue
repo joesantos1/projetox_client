@@ -1,24 +1,24 @@
 <template>
-  <div class="catalogo">
-        <h3>Catálogo de Players | players cadastrados.</h3>
+  <div :class="dashview ? '' : 'content1'">
+        <h3><span v-if="!dashview"><router-link to="/">Dashboard</router-link> | </span>Catálogo de Players | {{PL.length}} players cadastrados. <router-link to="/catalogo" v-if="dashview">ver completo</router-link></h3>
         <table class="tb1">
             <tr>
                 <th>Player</th>
                 <th>Status</th>
                 <th>País</th>
                 <th>Games (Exp)</th>
-                <th>Ganhos Acumulados</th>
+                <th>Total XP</th>
                 <th>Data do cadastro</th>
                 <th></th>
             </tr>
             <tr v-for="v of PL" :key="v.id">
-                <td>{{v.nome}}</td>
+                <td>{{v.nome + ' #00' + v.idusuarios}}</td>
                 <td>{{UTILS.vStatusPlayer(v.status) }}</td>
                 <td>{{v.pais}}</td>
                 <td>{{UTILS.verGames(v.games)}}</td>
-                <td>{{v.ganhosa}}</td>
+                <td>{{v.total_xp}}</td>
                 <td>{{UTILS.formatData(v.createdAt)}}</td>
-                <td><span v-if="v.idusuarios != IDU.iduser"><router-link :to="'/fazerproposta/' + v.idusuarios">Contratar</router-link></span>  </td>
+                <td><span v-if="v.idusuarios != IDU.iduser"><router-link :to="'/fazerproposta/' + v.idusuarios">Fazer proposta</router-link></span>  </td>
             </tr>
         </table>
   </div>
@@ -28,6 +28,7 @@
 import ALLUSERS from '../services/dataUser'
 import UTILS from '@/utils/utils'
 export default {
+    props: ['dashview'],
     data(){
         return {
             PL: [],
@@ -46,7 +47,7 @@ export default {
             })
         }
     },
-    mounted(){
+    created(){
         return this.buscaPlayers()
     }
 }

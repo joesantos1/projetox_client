@@ -1,6 +1,4 @@
 <template>
-  <div>
-       <div class="content-user">
       <div class="content1">
           <h2><router-link to="/">Dashboard</router-link> > (+) Nova Play-Account</h2>
           <form @submit.prevent="updPlayAcc" v-if="owner">
@@ -49,48 +47,47 @@
                       </tr>
               </table>
           <h3>Acordos (Agreements) | <button @click="verAcordos()">{{mostrar}}</button></h3>
-
-          <table class="tb1" v-if="mostrar=='ocultar'">
-              <tr>
-                  <th>STATUS</th>
-                  <td>{{UTILS.vStatusAgreement(fpa.a_status)}}</td>
-              </tr>
-              <tr>
-                  <th>PLAYER [codename]</th>
-                  <td>{{fpa.player_nome}}</td>
-              </tr>
-              <tr>
-                  <th>TERMOS</th>
-                  <td>{{fpa.termos}}</td>
-              </tr>
-              <tr>
-                  <th>META [points]</th>
-                  <td>{{fpa.meta_points}}</td>
-              </tr>
-              <tr>
-                  <th>META [record]</th>
-                  <td>{{UTILS.vMetaRecord(fpa.meta_record)}}</td>
-              </tr>
-              <tr>
-                  <th>(%) SHARE</th>
-                  <td>{{fpa.share}}</td>
-              </tr>
-              <tr>
-                  <th>Método de Pagamento</th>
-                  <td>{{UTILS.vPaymentType(fpa.payment_type)}}</td>
-              </tr>
-              <tr>
-                  <th>Enviado em</th>
-                  <td>{{UTILS.formatData(fpa.a_data) }}</td>
-              </tr>
-          </table>
+            <div v-if="mostrar=='ocultar'">
+                    <table class="tb1" >
+                <tr>
+                    <th>STATUS</th>
+                    <td>{{UTILS.vStatusAgreement(fpa.a_status)}}</td>
+                </tr>
+                <tr>
+                    <th>PLAYER [codename]</th>
+                    <td>{{fpa.player_nome}} #00{{fpa.player_id}}</td>
+                </tr>
+                <tr>
+                    <th>TERMOS</th>
+                    <td>{{fpa.termos}}</td>
+                </tr>
+                <tr>
+                    <th>META [points]</th>
+                    <td>{{fpa.meta_points}}</td>
+                </tr>
+                <tr>
+                    <th>META [record]</th>
+                    <td>{{UTILS.vMetaRecord(fpa.meta_record)}}</td>
+                </tr>
+                <tr>
+                    <th>(%) SHARE</th>
+                    <td>{{fpa.share}}</td>
+                </tr>
+                <tr>
+                    <th>Método de Pagamento</th>
+                    <td>{{UTILS.vPaymentType(fpa.payment_type)}}</td>
+                </tr>
+                <tr>
+                    <th>Enviado em</th>
+                    <td>{{UTILS.formatData(fpa.a_data) }}</td>
+                </tr>
+            </table>
+            </div>
+          
           <div v-if="listaError" class="errors" @click="listaError=false">{{listaError}}</div>
 
           <PLAYREPORTS :owner="owner" :idagree="this.$route.params.idagree" v-if="fpa.a_status==3" />
       </div>
-
-  </div>
-  </div>
 </template>
 
 <script>
@@ -110,7 +107,7 @@ export default {
             btf: true,
             listaError: false,
             owner: Boolean,
-            mostrar: 'ocultar'
+            mostrar: 'mostrar'
         }
     },
     methods: {

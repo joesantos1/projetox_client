@@ -2,8 +2,8 @@
 <div class="content-u">
     <div class="content1">
 <div class="contratos">
-      <h3><router-link to="/">DashBoard</router-link> | Contratação de Player | {{da.player_name}}</h3>
-      <table>
+      <h3><router-link to="/">DashBoard</router-link> | Proposta de contratação | Player: {{da[0].player_name}}</h3>
+      <table class="tb1">
               <tr>
                   <th>Player [codename]</th>
                   <td>{{da[0].player_name}}</td>
@@ -23,7 +23,7 @@
             <tr>
                 <th>Play-Account (*)</th>
                 <td>
-                    <select name="play-acc" id="play-acc" v-model="fm.idplay_acc">
+                    <select name="play-acc" id="play-acc" v-model="fm.idplay_acc" >
                         <option v-for="v of da" :key="v.id" :value="v.idplay_acc">{{v.titulo + ' | ' + v.games_name}}</option>
                     </select>
                 </td>
@@ -88,8 +88,9 @@ export default {
                 meta_points: null,
                 meta_record: null,
                 share: null,
+                payment_type: null
             },
-            da: [],
+            da: [{0:{player:null}}],
             btf: true
         }
     },
@@ -97,7 +98,8 @@ export default {
         buscaDadosParaAcordo(){
             NOVOACORDO.buscaDadosParaNovoAcordo(this.idplayer)
             .then(r => {
-                return this.da = r.data.busca
+                this.da = r.data.busca
+                return 
             })
             .catch(err => {
                 alert(err.response.data.error);
@@ -107,6 +109,8 @@ export default {
         FazerNovaProposta(){
 
             this.btf = false
+            this.fm.idgames = this.da[0].idgames
+
             NOVOACORDO.enviarPropostaDeAcordo(this.fm)
             .then(r => {
                 this.btf = true
@@ -129,7 +133,7 @@ export default {
             return vvv
         }
     },
-    mounted(){
+    created(){
         return this.buscaDadosParaAcordo()
     }
 }

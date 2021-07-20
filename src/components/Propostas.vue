@@ -1,5 +1,4 @@
 <template>
-  <div class="content-u">
       <div class="content1">
 <h3><router-link to="/">Dashboard</router-link> | Propostas e Acordos | {{qtd}} registros encontrados.</h3>
         <table class="tb1" v-for="v of fpa" :key="v.id">
@@ -55,8 +54,6 @@
               </tr>
           </table>
       </div>
-      
-  </div>
 </template>
 
 <script>

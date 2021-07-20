@@ -1,5 +1,4 @@
 <template>
-  <div class="content-user">
       <div class="content1">
           <h2>+ Nova Play-Account</h2>
           <form @submit.prevent="cadastraNovaPA">
@@ -30,8 +29,6 @@
           </form>
           <div v-if="listaError" class="errors" @click="listaError=false">{{listaError}}</div>
       </div>
-
-  </div>
 </template>
 
 <script>

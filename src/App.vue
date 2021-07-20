@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <MENU />
-    <router-view/>
+    <div class="content-u">
+      <router-view/>
+    </div>
+    
   </div>
 </template>
 
@@ -18,9 +21,9 @@ export default {
 <style>
 body{
   margin: 0px;
-  font-size: 14px;
+  font-size: 16px;
 }
-#app {
+#app,textarea {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -50,8 +53,10 @@ table{
   border-spacing: 0px;
 }
 .content-user, .content-u{
-  float: left;
-  width: 80%;
+  position: absolute;
+  left: 15%;
+  width: 85%;
+  height: auto;
 }
 .content1{
   margin: 20px;

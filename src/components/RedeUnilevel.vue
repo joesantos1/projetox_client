@@ -1,5 +1,4 @@
 <template>
-  <div class="content-user">
       <div class="content1">
             <div class="rede-unilevel">
                     <h4>Minha rede unilevel | Total de Cadastros: {{tRC}} | Buscar: <select name="buscapor" v-model="buscapor" id="">
@@ -55,8 +54,6 @@
                        
                 </div>
       </div>
-      
-  </div>
 </template>
 
 <script>

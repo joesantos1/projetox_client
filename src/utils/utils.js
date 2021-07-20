@@ -19,7 +19,7 @@ export default {
             return 'Acordo enviado. Aguardando confirmação de proposta.'
         }
         if(s==2){
-            return 'Aguardando um novo acordo'
+            return 'Aguardando um novo acordo - <a href="/catalogo">Contratar player</a>'
         }
         if(s==3){
             return 'Contrato confirmado. Player selecionado.'
@@ -43,7 +43,7 @@ export default {
     },
     vStatusPlayer: (s) => {
         if(s==1){
-            return 'Buscando novos contratos'
+            return 'Sem contrato'
         }
         if(s==3) return 'Player contratado.'
     },

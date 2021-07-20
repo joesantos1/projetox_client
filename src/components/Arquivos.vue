@@ -1,5 +1,5 @@
 <template>
-  <div class="content-u">
+  <div>
       <div class="content1">
           <h4>Meus arquivos</h4>
           <form @submit.prevent="upFiles" enctype="multipart/form-data">
