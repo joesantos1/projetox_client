@@ -1,5 +1,5 @@
 <template>
-  <div class="play_reports">
+  <div>
           <div>
               <h3>(+) Novo registro de metas e resultado [new play reports]:</h3>
           <form @submit.prevent="novoPR" v-if="!owner">
@@ -28,7 +28,8 @@
           <table class="tb1">
               <tr>
                   <th>[#ID]</th>
-                  <th>Data</th>
+                  <th>Registrado em</th>
+                  <th>Atualizado em</th>
                   <th>Player [codename]</th>
                   <th>Meta [points]</th>
                   <th>Report [points]</th>
@@ -39,6 +40,7 @@
               <tr v-for="v of dpr" :key="v.id">
                   <td>#0x{{idagree}}</td>
                   <td>{{UTILS.formatData(v.createdAt)}}</td>
+                  <td>{{UTILS.formatData(v.updatedAt)}}</td>
                   <td>{{v.player_name}}</td>
                   <td>{{v.meta_points}}</td>
                   <td>{{v.points}}</td>

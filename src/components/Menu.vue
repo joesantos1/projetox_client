@@ -6,6 +6,7 @@
                 <li><router-link to="/">Home</router-link></li>
                 <li><router-link to="/catalogo">Players [catalogo]</router-link></li>
                 <li><router-link to="/play-accounts">My Play-accounts</router-link></li>
+                <li><router-link to="/marketplace">Marketplace</router-link></li>
                 <li><router-link to="/redeunilevel">Referrels Program</router-link></li>
                 <li><router-link to="/meusdados">Meus dados</router-link></li>
                 <li><router-link to="/logout">Sair</router-link></li>

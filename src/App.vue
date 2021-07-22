@@ -2,7 +2,7 @@
   <div id="app">
     <MENU />
     <div class="content-u">
-      <router-view/>
+      <router-view />
     </div>
     
   </div>
@@ -64,12 +64,16 @@ table{
 .tb1{
   margin: 10px 0px;
 }
-.tb1 th{
+.tb1 th, .tb2 th{
   background-color: #2c3e50;
   color: white;
 }
 .tb1 th, .tb1 td{
   border: 1px solid rgb(216, 216, 216);
+}
+.tb2 th{
+  text-align: right;
+  padding-right: 10px;
 }
 
 </style>

@@ -21,5 +21,11 @@ export default {
         return await http.put(urlServer,dados,{ headers: {
             authorization: authUserToken
         }})
+    },
+    buscaTodosPlayReportsPlayer: async (idp) => {
+        const urlServer = '/todosreportsplayer/' + idp;
+        return await http.get(urlServer,{ headers: {
+            authorization: authUserToken
+        }})
     }
 }

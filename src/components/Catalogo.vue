@@ -12,7 +12,7 @@
                 <th></th>
             </tr>
             <tr v-for="v of PL" :key="v.id">
-                <td>{{v.nome + ' #00' + v.idusuarios}}</td>
+                <td><router-link :to="'/player/' + v.idusuarios">{{v.nome + ' #00' + v.idusuarios}}</router-link> </td>
                 <td>{{UTILS.vStatusPlayer(v.status) }}</td>
                 <td>{{v.pais}}</td>
                 <td>{{UTILS.verGames(v.games)}}</td>

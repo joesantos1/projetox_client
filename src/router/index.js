@@ -14,6 +14,7 @@ import NovaProposta from '@/components/Contratos'
 import VerPropostas from '@/components/Propostas'
 import Catalogo from '@/components/Catalogo'
 import MyPlayAccs from '@/components/MyPlayAccounts'
+import Player from '@/components/Player'
 
 Vue.use(Router)
 
@@ -31,6 +32,11 @@ const router = new Router({
       path: '/propostas',
       name: 'Propostas',
       component: VerPropostas
+    },
+    {
+      path: '/player/:idp',
+      name: 'Player',
+      component: Player
     },
     {
       path: '/fazerproposta/:idp',
