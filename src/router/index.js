@@ -15,6 +15,9 @@ import VerPropostas from '@/components/Propostas'
 import Catalogo from '@/components/Catalogo'
 import MyPlayAccs from '@/components/MyPlayAccounts'
 import Player from '@/components/Player'
+import Market from '@/components/Market'
+import Market_PA from '@/components/Market_PA'
+import MySales from '@/components/MySales'
 
 Vue.use(Router)
 
@@ -32,6 +35,21 @@ const router = new Router({
       path: '/propostas',
       name: 'Propostas',
       component: VerPropostas
+    },
+    {
+      path: '/marketplace',
+      name: 'Market',
+      component: Market
+    },
+    {
+      path: '/marketplace/pa/:idpa',
+      name: 'MarketPA',
+      component: Market_PA
+    },
+    {
+      path: '/mysales',
+      name: 'mysales',
+      component: MySales
     },
     {
       path: '/player/:idp',

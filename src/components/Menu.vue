@@ -4,9 +4,16 @@
         <h4>Olá {{mydd.nome}},</h4>
             <ul>
                 <li><router-link to="/">Home</router-link></li>
+                <li>
+                    <router-link to="/marketplace">Marketplace</router-link>
+                    <ul>
+                        <li><router-link to="/myorders">Minhas compras</router-link></li>
+                        <li><router-link to="/mysales">Minhas vendas</router-link></li>
+                    </ul>
+                </li>
                 <li><router-link to="/catalogo">Players [catalogo]</router-link></li>
                 <li><router-link to="/play-accounts">My Play-accounts</router-link></li>
-                <li><router-link to="/marketplace">Marketplace</router-link></li>
+                
                 <li><router-link to="/redeunilevel">Referrels Program</router-link></li>
                 <li><router-link to="/meusdados">Meus dados</router-link></li>
                 <li><router-link to="/logout">Sair</router-link></li>

@@ -25,6 +25,11 @@ export default {
             return 'Contrato confirmado. Player selecionado.'
         }
     },
+    vStatusPlayAccMarket: (s) => {
+        if(s==1) return 'Acordo enviado. Aguardando confirmação de proposta.'
+        if(s==2) return 'Aguardando um novo acordo'
+        if(s==3) return 'Contrato confirmado. Player selecionado.'
+    },
     vMetaRecord: (v) => {
         if(v==1) return 'DIÁRIA';
         if(v==2) return 'MENSAL';
@@ -59,5 +64,10 @@ export default {
     vStatusPlayReports: (v) => {
         if(v==1) return 'Não verificado.'
         if(v==2) return 'Verificado.'
+    },
+    verQuotaCurrency(v){
+        if(v=='BTC') return 'Bitcoin (BTC)'
+        if(v=='ETH') return 'Ethereum (ETH)'
+        if(v=='USDT') return 'Dollar Tether (USDT)'
     }
 }
