@@ -12,7 +12,9 @@
                 <th></th>
             </tr>
             <tr v-for="v of PL" :key="v.id">
-                <td><router-link :to="'/player/' + v.idusuarios">{{v.nome + ' #00' + v.idusuarios}}</router-link> </td>
+                <td>
+                    <router-link :to="'/player/' + v.idusuarios">
+                <span class="foto-user-list" v-if="v.foto_url"><img :src="v.foto_url" alt=""></span> <span>{{v.nome + ' #' + v.idusuarios}}</span></router-link> </td>
                 <td>{{UTILS.vStatusPlayer(v.status) }}</td>
                 <td>{{v.pais}}</td>
                 <td>{{UTILS.verGames(v.games)}}</td>
@@ -54,5 +56,13 @@ export default {
 </script>
 
 <style>
-
+.tb1 span{
+    display: inline;
+}
+.foto-user-list img{
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    display: inline;
+}
 </style>

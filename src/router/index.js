@@ -18,6 +18,7 @@ import Player from '@/components/Player'
 import Market from '@/components/Market'
 import Market_PA from '@/components/Market_PA'
 import MySales from '@/components/MySales'
+import MyOrders from '@/components/MyOrders'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ const router = new Router({
       path: '/marketplace',
       name: 'Market',
       component: Market
+    },
+    {
+      path: '/myorders',
+      name: 'Orders',
+      component: MyOrders
     },
     {
       path: '/marketplace/pa/:idpa',
@@ -72,7 +78,7 @@ const router = new Router({
       component: NewPlayAcc
     },
     {
-      path: '/play-account/:id/:idagree',
+      path: '/play-account/:id',
       name: 'playacc',
       component: UpdPlayAcc
     },

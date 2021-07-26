@@ -9,7 +9,7 @@
           <li>Share: {{v.quota_share}}%</li>
           <li>Mananger: {{v.manager_name}}</li>
           <li>Registrada em: {{UTILS.formatData(v.createdAt) }}</li>
-          <li><router-link :to="'/marketplace/pa/'+v.idpa">COMPRAR</router-link> </li>
+          <li><router-link :to="'/marketplace/pa/'+v.idpa" v-if="(v.quota_total-v.total_venda)>0">COMPRAR</router-link><span v-else>ESGOTADO</span> </li>
       </ul>
   </div>
 </template>

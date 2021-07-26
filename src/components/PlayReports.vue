@@ -45,7 +45,7 @@
                   <td>{{v.meta_points}}</td>
                   <td>{{v.points}}</td>
                   <td>{{v.comments}}</td>
-                  <td>{{UTILS.vStatusPlayReports(v.status)}}</td>
+                  <td v-html="UTILS.vStatusPlayReports(v.status)"></td>
                   <td v-if="owner"><button v-if="v.status==1" @click="verificaPR(v.idplay_reports)">Verificar</button></td>
               </tr>
           </table>
@@ -72,14 +72,15 @@ export default {
     },
     methods: {
         buscaTodosPR(){
-            PLAYREPORTS.buscaTodosPlayReports(this.idagree)
+            let idbusca = this.idagree ? this.idagree : 0
+            PLAYREPORTS.buscaTodosPlayReports(idbusca)
             .then(r => {
                
                 this.dpr = r.data.rr
                 return this.qtd = r.data.qtd
             })
             .catch(err => {
-                return alert('Algo deu errado.')
+                return console.log(err);
             })
         },
         novoPR(){

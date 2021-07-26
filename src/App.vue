@@ -75,5 +75,11 @@ table{
   text-align: right;
   padding-right: 10px;
 }
-
+.green{
+  background: rgb(2, 177, 2);
+  color: white;
+  padding: 1px 10px;
+  border-radius: 10px;
+  display: inline-block;
+}
 </style>

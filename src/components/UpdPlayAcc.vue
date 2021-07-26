@@ -3,6 +3,14 @@
           <h2><router-link to="/">Dashboard</router-link> > Edit Play-Account</h2>
           <form @submit.prevent="updPlayAcc" v-if="owner">
               <table class="tb2">
+                  <tr>
+                      <th>#ID Play-Account</th>
+                      <td>#{{fpa.idplay_accounts}}</td>
+                  </tr>
+                  <tr>
+                      <th>STATUS</th>
+                      <td v-html="UTILS.vStatusPlayAcc(fpa.status)"></td>
+                  </tr>
                 <tr>
                     <th>Selecione o Jogo: [game]</th>
                     <td><select name="game" id="game" v-model="fpa.idgame">
@@ -88,45 +96,51 @@
               </table>
           <h3>Acordos (Agreements) | <button @click="verAcordos()">{{mostrar}}</button></h3>
             <div v-if="mostrar=='ocultar'">
-                    <table class="tb1" >
-                <tr>
-                    <th>STATUS</th>
-                    <td>{{UTILS.vStatusAgreement(fpa.a_status)}}</td>
-                </tr>
-                <tr>
-                    <th>PLAYER [codename]</th>
-                    <td>{{fpa.player_nome}} #00{{fpa.player_id}}</td>
-                </tr>
-                <tr>
-                    <th>TERMOS</th>
-                    <td>{{fpa.termos}}</td>
-                </tr>
-                <tr>
-                    <th>META [points]</th>
-                    <td>{{fpa.meta_points}}</td>
-                </tr>
-                <tr>
-                    <th>META [record]</th>
-                    <td>{{UTILS.vMetaRecord(fpa.meta_record)}}</td>
-                </tr>
-                <tr>
-                    <th>(%) SHARE</th>
-                    <td>{{fpa.share}}</td>
-                </tr>
-                <tr>
-                    <th>Método de Pagamento</th>
-                    <td>{{UTILS.vPaymentType(fpa.payment_type)}}</td>
-                </tr>
-                <tr>
-                    <th>Enviado em</th>
-                    <td>{{UTILS.formatData(fpa.a_data) }}</td>
-                </tr>
-            </table>
+                <table class="tb1" v-if="fpa.plyer_id" >
+                    <tr>
+                        <th>STATUS</th>
+                        <td>{{UTILS.vStatusAgreement(fpa.a_status)}}</td>
+                    </tr>
+                    <tr>
+                        <th>PLAYER [codename]</th>
+                        <td>{{fpa.player_nome}} #00{{fpa.player_id}}</td>
+                    </tr>
+                    <tr>
+                        <th>TERMOS</th>
+                        <td>{{fpa.termos}}</td>
+                    </tr>
+                    <tr>
+                        <th>META [points]</th>
+                        <td>{{fpa.meta_points}}</td>
+                    </tr>
+                    <tr>
+                        <th>META [record]</th>
+                        <td>{{UTILS.vMetaRecord(fpa.meta_record)}}</td>
+                    </tr>
+                    <tr>
+                        <th>(%) SHARE</th>
+                        <td>{{fpa.share}}</td>
+                    </tr>
+                    <tr>
+                        <th>Método de Pagamento</th>
+                        <td>{{UTILS.vPaymentType(fpa.payment_type)}}</td>
+                    </tr>
+                    <tr>
+                        <th>Enviado em</th>
+                        <td>{{UTILS.formatData(fpa.a_data) }}</td>
+                    </tr>
+                </table>
+                <span v-else>Nenhum contrato em negociação.</span>
+            </div>
+
+            <div v-if="owner">
+                <h3>Venda de Cotas e Participações [share %]</h3>
+                <MYSALES :idpacc="this.$route.params.id" view="0" />
             </div>
           
           <div v-if="listaError" class="errors" @click="listaError=false">{{listaError}}</div>
 
-          <PLAYREPORTS :owner="owner" :idagree="this.$route.params.idagree" v-if="fpa.a_status==3" />
+          <PLAYREPORTS :owner="owner" :idagree="fpa.idagreements" v-if="fpa.a_status==3" />
       </div>
 </template>
 
@@ -134,10 +148,12 @@
 import UTILS from '@/utils/utils'
 import PLAYACC from '../services/playacc'
 import PLAYREPORTS from '@/components/PlayReports.vue'
+import MYSALES from '@/components/MySales.vue'
 
 export default {
     components:{
-        PLAYREPORTS
+        PLAYREPORTS,
+        MYSALES
     },
     data(){
         return {

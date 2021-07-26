@@ -1,7 +1,20 @@
 <template>
   <div>
     <div class="content1 meusdados">
+      <h4>FOTO PERFIL</h4>
+      <p><img :src="fm.foto_url" alt="" width="150px"></p>
+      <form @submit.prevent="upFiles" enctype="multipart/form-data">
+              <table>
+                  <tr>
+                      <th align="right">FAZER UPLOAD:</th>
+                      <td><input type="file" name="file" ref="file" @change="onSelect"> Formatos: JPG, PNG. Max.: 5mb <button type="submit">ENVIAR</button></td>
+                  </tr>
+              </table>
+          </form>
+        <hr>
       <h4>MEUS DADOS:</h4>
+
+      
       <form @submit.prevent="atualizaMeusDados">
         <table class="tb1">
           <tr>
@@ -92,6 +105,8 @@
 <script>
 
 import DATAUSER from '../services/dataUser'
+import DATA_FILES from '@/services/uploads'
+
 export default {
   data(){
     return {
@@ -100,7 +115,8 @@ export default {
         pass: null,
         pass_new: null,
         pass_new_confirm: null
-      }
+      },
+      file:null
     }
   },
   methods:{
@@ -142,7 +158,32 @@ export default {
       .catch(err => {
         return alert(err.response.data.error)
       })
-    }
+    },
+    onSelect(){
+        const file = this.$refs.file.files[0];
+        this.file = file
+    },
+    upFiles(){
+
+      if(this.file){
+
+          this.bt_upload = false
+
+          const formData = new FormData();
+          formData.append('file', this.file);
+
+              DATA_FILES.upFilesUser(formData)
+              .then((r) => {
+                  alert('Upload realizado com sucesso.')
+                  return this.$router.go()
+              })
+              
+      }else{
+          
+          return alert('Por favor, selecione um arquivo compatível.')
+      }
+        
+    },
   },
   mounted(){
     return this.buscaDadosUser()

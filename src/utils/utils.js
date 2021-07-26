@@ -22,13 +22,13 @@ export default {
             return 'Aguardando um novo acordo - <a href="/catalogo">Contratar player</a>'
         }
         if(s==3){
-            return 'Contrato confirmado. Player selecionado.'
+            return '<span class="green">Contrato confirmado. Player selecionado.</span>'
         }
     },
     vStatusPlayAccMarket: (s) => {
         if(s==1) return 'Acordo enviado. Aguardando confirmação de proposta.'
         if(s==2) return 'Aguardando um novo acordo'
-        if(s==3) return 'Contrato confirmado. Player selecionado.'
+        if(s==3) return '<span class="green">Contrato confirmado. Player selecionado.</span>'
     },
     vMetaRecord: (v) => {
         if(v==1) return 'DIÁRIA';
@@ -63,11 +63,16 @@ export default {
     },
     vStatusPlayReports: (v) => {
         if(v==1) return 'Não verificado.'
-        if(v==2) return 'Verificado.'
+        if(v==2) return '<span class="green">Verificado.</span>'
     },
     verQuotaCurrency(v){
         if(v=='BTC') return 'Bitcoin (BTC)'
         if(v=='ETH') return 'Ethereum (ETH)'
         if(v=='USDT') return 'Dollar Tether (USDT)'
+    },
+    vStatusOrders(v){
+        if(v==1) return 'Pedido enviado. [pendente]'
+        if(v==2) return 'Pedido cancelado.'
+        if(v==3) return '<span class="green">Pedido confirmado. [compra realizada]</span>'
     }
 }

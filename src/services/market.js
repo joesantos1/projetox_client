@@ -10,8 +10,8 @@ export default {
             authorization: authUserToken
         }})
     },
-    buscaTodasMinhasVendas: async () => {
-        const urlServer = '/buscaminhasvendas';
+    buscaTodasMinhasVendas: async (idpa) => {
+        const urlServer = '/buscaminhasvendas/' + idpa;
         return await http.get(urlServer,{ headers: {
             authorization: authUserToken
         }})
@@ -27,5 +27,17 @@ export default {
         return await http.post(urlServer,dados,{ headers: {
             authorization: authUserToken
         }})
-    }
+    },
+    confirmaPagamentoVenda: async (dados) => {
+        const urlServer = '/confirmapagamento';
+        return await http.put(urlServer,dados,{ headers: {
+            authorization: authUserToken
+        }})
+    },
+    buscaTodosMeusPedidos: async () => {
+        const urlServer = '/buscameuspedidos';
+        return await http.get(urlServer,{ headers: {
+            authorization: authUserToken
+        }})
+    },
 }

@@ -70,8 +70,8 @@
               <td>{{pa.quota_total}}</td>
           </tr>
           <tr>
-              <th>QUOTAS [sold]</th>
-              <td>{{pa.total_venda}}</td>
+              <th>QUOTAS [available]</th>
+              <td>{{pa.quota_total - pa.total_venda}}</td>
           </tr>
           <tr>
               <th>QUOTAS [price] 01 unit</th>
@@ -79,7 +79,7 @@
           </tr>
           <tr>
               <th>BUY AMOUNT [quotas]</th>
-              <td><input type="text" name="order" @keyup="calculaValor(v)" v-model="order"><span @click="calculaValor(pa.quota_total)"> :Max</span> <br> Total: U$ {{vt}}</td>
+              <td><input type="text" name="order" @keyup="calculaValor(pa.quota_total, pa.total_venda,false)" v-model="order"><span @click="calculaValor(pa.quota_total, pa.total_venda,true)"> :Max</span> <br> Total: U$ {{vt}}</td>
           </tr>
           <tr>
               <th>PAYMENT METHOD</th>
@@ -87,7 +87,7 @@
           </tr>
           <tr>
               <td></td>
-              <td><button @click="orderBuy()">COMPRAR</button></td>
+              <td><button v-if="(pa.quota_total - pa.total_venda) > 0" @click="orderBuy()">COMPRAR</button></td>
           </tr>
       </table>
   </div>
@@ -110,16 +110,18 @@ export default {
             MARKETPA.buscaDadosPAcompra(this.$route.params.idpa)
             .then(r => {
                 return this.pa = r.data.rr[0]
+
             })
             .catch(err => {
                 return console.log(err);
             })
         },
-        calculaValor(v){
-            if(this.order > this.pa.quota_total) return this.vt = 'Quantidade não disponível.'
-            if(v){
-                this.order = v
-                return this.vt = (this.pa.quota_price * v)
+        calculaValor(v,t,c){
+            let av = v - t
+            if(this.order > av) return this.vt = 'Quantidade não disponível.'
+            if(c){
+                this.order = av
+                return this.vt = (this.pa.quota_price * av)
             } 
             let num = parseFloat(this.order)
             let tot = parseInt(this.pa.quota_price)
@@ -138,10 +140,10 @@ export default {
             }
             MARKETPA.verificaOrderBuyPA(dados)
             .then(r => {
-                return alert('Compra realizada com sucesso.')
+                return alert('Pedido enviado com sucesso.')
             })
             .catch(err => {
-                return alert(err)
+                return alert(err.response.data.error)
             })
         }
     },

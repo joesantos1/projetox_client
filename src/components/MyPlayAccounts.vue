@@ -20,7 +20,7 @@
               <td align="center">{{v.player_nome}}</td>
               <td align="center">{{v.total_points}}</td>
               <td align="center">{{UTILS.formatData(v.last_report)}}</td>
-              <td><router-link :to="'/play-account/'+v.idplay_accounts +'/'+v.idagreements">Acessar</router-link></td>
+              <td><router-link :to="'/play-account/'+v.idplay_accounts">Acessar</router-link></td>
           </tr>
         </table>
         <h4><router-link to="/new-play-account"> + Cadastrar nova conta</router-link></h4>
