@@ -74,5 +74,15 @@ export default {
         if(v==1) return 'Pedido enviado. [pendente]'
         if(v==2) return 'Pedido cancelado.'
         if(v==3) return '<span class="green">Pedido confirmado. [compra realizada]</span>'
+    },
+    vCoin(v){
+        if(v=='bitcoin') return 'Bitcoin (BTC)'
+        if(v=='ethereum') return 'Ethereum (ETH)'
+        if(v=='smooth-love-potion') return 'Smooth Love Point (SLP)'
+        if(v=='axie-infinity') return 'Axie Infinity (AXS)'
+    },
+    vCoinLastChange(v){
+        if(v>0) return '<span class="green">'+v.toFixed(2)+'%</span>'
+        if(v<0) return '<span class="red">'+v.toFixed(2)+'%</span>'
     }
 }

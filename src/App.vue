@@ -78,7 +78,13 @@ table{
 .green{
   background: rgb(2, 177, 2);
   color: white;
-  padding: 1px 10px;
+}
+.red{
+  background: rgb(177, 2, 2);
+  color: white;
+}
+.red, .green{
+  padding: 0px 5px;
   border-radius: 10px;
   display: inline-block;
 }

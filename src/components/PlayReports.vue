@@ -1,30 +1,30 @@
 <template>
   <div>
-          <div>
-              <h3>(+) Novo registro de metas e resultado [new play reports]:</h3>
-          <form @submit.prevent="novoPR" v-if="!owner">
-              <table class="tb1">
-                <tr>
-                  <th>Resultado [points] (*)</th>
-                  <td><input type="text" name="points" v-model="fpr.points"></td>
-              </tr>
-              <tr>
-                  <th>Data (*)</th>
-                  <td><input type="text" name="data" v-model="fpr.play_data"></td>
-              </tr>
-              <tr>
-                  <th>Comentários (max.: 1000 caract.)</th>
-                  <td><textarea v-model="fpr.comments" name="comments" id="comments" cols="50" rows="4"></textarea></td>
-              </tr>
-              <tr>
-                  <td></td>
-                  <td><button type="submit">SALVAR</button></td>
-              </tr>
-              </table>
-              <i>(*) Campos obrigatórios.</i>
-          </form>
-          </div>
-          <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados</h3>
+        <div>
+            <h3>(+) Novo registro de metas e resultado [new play reports]:</h3>
+        <form @submit.prevent="novoPR" v-if="!owner">
+            <table class="tb1">
+            <tr>
+                <th>Resultado [points] (*)</th>
+                <td><input type="text" name="points" v-model="fpr.points"></td>
+            </tr>
+            <tr>
+                <th>Data (*)</th>
+                <td><input type="text" name="data" v-model="fpr.play_data"></td>
+            </tr>
+            <tr>
+                <th>Comentários (max.: 1000 caract.)</th>
+                <td><textarea v-model="fpr.comments" name="comments" id="comments" cols="50" rows="4"></textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button type="submit">SALVAR</button></td>
+            </tr>
+            </table>
+            <i>(*) Campos obrigatórios.</i>
+        </form>
+        </div>
+          <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados | <span class="green">{{total_points}}</span> points verificados.</h3>
           <table class="tb1">
               <tr>
                   <th>[#ID]</th>
@@ -67,6 +67,7 @@ export default {
             },
             dpr: [],
             qtd: 0,
+            total_points: 0,
             UTILS
         }
     },
@@ -77,6 +78,7 @@ export default {
             .then(r => {
                
                 this.dpr = r.data.rr
+                this.total_points = this.dpr[0].total_points
                 return this.qtd = r.data.qtd
             })
             .catch(err => {

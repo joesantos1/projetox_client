@@ -22,8 +22,11 @@
               <th>RATING</th>
               <td>{{dpr[0].rating}}</td>
           </tr>
+          <tr>
+              <th></th>
+          </tr>
       </table>
-    <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados</h3>
+    <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados | <span class="green">{{dpr[0].total_points}}</span> points verificados.</h3>
     <table class="tb1" v-if="qtd > 0">
         <tr>
             <th>#ID</th>
@@ -43,7 +46,7 @@
             <td>{{v.meta_points}}</td>
             <td>{{v.points}}</td>
             <td>{{v.comments}}</td>
-            <td>{{UTILS.vStatusPlayReports(v.status)}}</td>
+            <td v-html="UTILS.vStatusPlayReports(v.status)"></td>
         </tr>
     </table>
   </div>
