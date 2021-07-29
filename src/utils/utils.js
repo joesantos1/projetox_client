@@ -65,24 +65,35 @@ export default {
         if(v==1) return 'Não verificado.'
         if(v==2) return '<span class="green">Verificado.</span>'
     },
-    verQuotaCurrency(v){
+    verQuotaCurrency: (v) => {
         if(v=='BTC') return 'Bitcoin (BTC)'
         if(v=='ETH') return 'Ethereum (ETH)'
         if(v=='USDT') return 'Dollar Tether (USDT)'
     },
-    vStatusOrders(v){
+    vStatusOrders: (v) => {
         if(v==1) return 'Pedido enviado. [pendente]'
         if(v==2) return 'Pedido cancelado.'
         if(v==3) return '<span class="green">Pedido confirmado. [compra realizada]</span>'
     },
-    vCoin(v){
+    vCoin: (v) => {
         if(v=='bitcoin') return 'Bitcoin (BTC)'
         if(v=='ethereum') return 'Ethereum (ETH)'
         if(v=='smooth-love-potion') return 'Smooth Love Point (SLP)'
         if(v=='axie-infinity') return 'Axie Infinity (AXS)'
+        if(v=='tether') return 'US Dollar Tether (USDT)'
     },
-    vCoinLastChange(v){
+    vCoinLastChange: (v) => {
         if(v>0) return '<span class="green">'+v.toFixed(2)+'%</span>'
         if(v<0) return '<span class="red">'+v.toFixed(2)+'%</span>'
+    },
+    CoinsAndCriptos: () => {
+        let v = {
+            tether: 'US Dollar Tether (USDT)',
+            bitcoin: 'Bitcoin (BTC)',
+            ethereum: 'Ethereum (ETH)',
+            'smooth-love-potion': 'Smooth Love Points (SLP)',
+            'axie-infinity': 'Axie Infinity (AXS)'
+        }
+        return v
     }
 }

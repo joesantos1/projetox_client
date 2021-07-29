@@ -1,5 +1,6 @@
 <template>
   <div :class="dashview ? '' : 'content1'">
+      <div class="catalogo">
         <h3><span v-if="!dashview"><router-link to="/">Dashboard</router-link> | </span>Catálogo de Players | {{PL.length}} players cadastrados. <router-link to="/catalogo" v-if="dashview">ver completo</router-link></h3>
         <table class="tb1">
             <tr>
@@ -23,14 +24,23 @@
                 <td><span v-if="v.idusuarios != IDU.iduser"><router-link :to="'/fazerproposta/' + v.idusuarios">Fazer proposta</router-link></span>  </td>
             </tr>
         </table>
+      </div>
+    <div class="catalogo-rank">
+        <RANKING />
+    </div>
   </div>
 </template>
 
 <script>
 import ALLUSERS from '../services/dataUser'
 import UTILS from '@/utils/utils'
+import RANKING from '@/components/Ranking.vue'
+
 export default {
     props: ['dashview'],
+    components:{
+        RANKING
+    },
     data(){
         return {
             PL: [],
@@ -64,5 +74,16 @@ export default {
     height: 35px;
     border-radius: 100%;
     display: inline;
+}
+.catalogo{
+    float: left;
+    width: 60%;
+    font-size: 14px;
+}
+
+.catalogo-rank{
+    float: left;
+    width: 35%;
+    margin-left: 5%;
 }
 </style>

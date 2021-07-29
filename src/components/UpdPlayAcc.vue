@@ -22,44 +22,21 @@
                     
                 </tr>
                 <tr>
-                    <th>Venda de Cotas e Participações</th>
-                    <td><select name="quota_system" id="quota_system" v-model="fpa.quota_system">
-                        <option value="1">SIM</option>
-                        <option value="2">NÃO</option>
-                        </select></td>
-                </tr>
-                
-                <tr v-if="fpa.quota_system==1">
-                    <th>Quantidade de Cotas [total]</th>
-                    <td><input type="text" name="quota_total" v-model="fpa.quota_total" @keyup="calculaValor()"></td>
-                </tr>
-                <tr v-if="fpa.quota_system==1">
-                    <th>Participação Cotistas [share] (%)</th>
-                    <td><input type="text" name="quota_share" v-model="fpa.quota_share"></td>
-                </tr>
-                <tr v-if="fpa.quota_system==1">
-                    <th>01 Cota [price - in USD]</th>
-                    <td><input type="text" name="quota_price" v-model="fpa.quota_price" @keyup="calculaValor()"><p>Total: ${{qv}}</p> </td>
-                </tr>
-                <tr v-if="fpa.quota_system==1">
-                    <th>Pagamento [currency]</th>
-                    <td><select name="currency" id="currency" v-model="fpa.quota_currency">
-                        <option value="BTC">Bitcoin (BTC)</option>
-                        <option value="ETH">Ethereum (ETH)</option>
-                        <option value="SLP">Smooth Love Potion (SLP)</option>
-                        <option value="USDT">Dóllar Tether (USDT)</option>
-                        </select></td>
-                </tr>
-                <tr v-if="fpa.quota_system==1">
-                    <th>Data de validade da oferta [expires] 00/00/0000</th>
-                    <td><input type="text" name="expires" v-model="fpa.quota_expires"></td>
-                </tr>
-                <tr v-if="fpa.quota_system==1">
-                    <th>Manager #ID</th>
-                    <td>#0{{manager['iduser'] + ' ' + manager['nome']}}</td>
+                    <th>Informações (Opcional) (*) <i>Visíveis apenas para você.</i></th>
+                    <td><textarea name="infor" id="infor" v-model="fpa.infor" cols="30" rows="10"></textarea></td>
                 </tr>
                 <tr>
-                    <th colspan="2">Configurações</th>
+                    <th>Custo total [investiment] (*) <i>Apenas números. (0.00)</i></th>
+                    <td><input type="text" name="cost_total" v-model="fpa.cost_total"></td>
+                </tr>
+                <tr>
+                    <th>Custo [currency]</th>
+                    <td>
+                        <select name="cost_currency" v-model="fpa.cost_currency" id="">
+                            <option value="ETH">Ethereum (ETH)</option>
+                            <option value="BTC">Bitcoin (BTC)</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <th>Game Login (*) Os dados de Login e Pass do jogo serão encaminhados por email apenas para o jogador que você escolheu. </th>
@@ -78,7 +55,7 @@
           <table class="tb1" v-else>
                   <tr>
                       <th>GAME</th>
-                      <td>{{fpa.idgame}}</td>
+                      <td>{{fpa.idgame==1 ? 'Axie Infinity' : ''}}</td>
                   </tr>
                   <tr>
                       <th>Play-Account [titulo]</th>
@@ -96,7 +73,7 @@
               </table>
           <h3>Acordos (Agreements) | <button @click="verAcordos()">{{mostrar}}</button></h3>
             <div v-if="mostrar=='ocultar'">
-                <table class="tb1" v-if="fpa.plyer_id" >
+                <table class="tb1" v-if="fpa.player_id" >
                     <tr>
                         <th>STATUS</th>
                         <td>{{UTILS.vStatusAgreement(fpa.a_status)}}</td>
@@ -132,11 +109,6 @@
                 </table>
                 <span v-else>Nenhum contrato em negociação.</span>
             </div>
-
-            <div v-if="owner">
-                <h3>Venda de Cotas e Participações [share %]</h3>
-                <MYSALES :idpacc="this.$route.params.id" view="0" />
-            </div>
           
           <div v-if="listaError" class="errors" @click="listaError=false">{{listaError}}</div>
 
@@ -162,7 +134,7 @@ export default {
             fpa: [],
             btf: true,
             listaError: false,
-            owner: Boolean,
+            owner: false,
             mostrar: 'mostrar',
             qv: 0,
             manager: JSON.parse(localStorage.getItem('_user')),

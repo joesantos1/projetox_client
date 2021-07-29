@@ -19,6 +19,7 @@ import Market from '@/components/Market'
 import Market_PA from '@/components/Market_PA'
 import MySales from '@/components/MySales'
 import MyOrders from '@/components/MyOrders'
+import Calc from '@/components/Calc'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ const router = new Router({
       path: '/propostas',
       name: 'Propostas',
       component: VerPropostas
+    },
+    {
+      path: '/calc',
+      name: 'Calc',
+      component: Calc
     },
     {
       path: '/marketplace',

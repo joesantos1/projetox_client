@@ -1,6 +1,8 @@
 <template>
   <div>
       <div class="login">
+          <div class="content2">
+        <h3>LOGIN</h3>
           <form @submit.prevent="fazerLogin">
           <table cellspacing="0px">
               <tr>
@@ -17,8 +19,12 @@
               </tr>
           </table>
           </form>
+          </div>
+          
       </div>
       <div class="cadastro">
+          <div class="content2">
+        <h3>CADASTRO</h3>
             <form @submit.prevent="fazerCadastro">
         <table class="cadastro-user" cellspacing="10px">
             <tr>
@@ -69,6 +75,8 @@
             </tr>
         </table>
     </form>
+          </div>
+        
       </div>
       
       <div class="errors" v-if="listaError" @click="listaError=false">{{listaError}}</div>
@@ -158,7 +166,25 @@ export default {
 
 <style>
 .login{
-    margin: 50px 500px;
-    width: 300px;
+    width: 30%;
+    height: 100%;
+    background-color: rgb(44, 44, 44);
+    color: white;
+    position: fixed;
+    left: 0pt;
+    top: 0pt;
+}
+.cadastro{
+    width: 70%;
+    height: 100%;
+    background-color: rgb(44, 44, 44);
+    color: white;
+    position: fixed;
+    left: 30%;
+    top: 0pt;
+    border-left: 20px solid grey;
+}
+.content2{
+    margin: 40px;
 }
 </style>

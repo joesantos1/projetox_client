@@ -65,15 +65,16 @@ table{
   margin: 10px 0px;
 }
 .tb1 th, .tb2 th{
-  background-color: #2c3e50;
+  background-color: #535353;
   color: white;
 }
-.tb1 th, .tb1 td{
-  border: 1px solid rgb(216, 216, 216);
+.tb1 th, .tb1 td, .tb2 th, .tb2 td{
+  border: 1px solid rgb(240, 240, 240);
 }
 .tb2 th{
   text-align: right;
   padding-right: 10px;
+  width: 30%;
 }
 .green{
   background: rgb(2, 177, 2);

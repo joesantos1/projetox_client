@@ -1,16 +1,15 @@
 <template>
   <div>
-        <div>
+        <div v-if="!owner">
             <h3>(+) Novo registro de metas e resultado [new play reports]:</h3>
-        <form @submit.prevent="novoPR" v-if="!owner">
+        <form @submit.prevent="novoPR" >
             <table class="tb1">
             <tr>
-                <th>Resultado [points] (*)</th>
-                <td><input type="text" name="points" v-model="fpr.points"></td>
-            </tr>
-            <tr>
-                <th>Data (*)</th>
-                <td><input type="text" name="data" v-model="fpr.play_data"></td>
+                <th>TOTAL [points] (*)</th>
+                <td>
+                    <input type="text" name="points" v-model="points" @keyup="calcNewPoints()"> <br>
+                    New Points: {{fpr.points}}
+                </td>
             </tr>
             <tr>
                 <th>Comentários (max.: 1000 caract.)</th>
@@ -24,7 +23,7 @@
             <i>(*) Campos obrigatórios.</i>
         </form>
         </div>
-          <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados | <span class="green">{{total_points}}</span> points verificados.</h3>
+          <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados | <span class="green">{{total_points==undefined ? 0 : total_points}}</span> points verificados.</h3>
           <table class="tb1">
               <tr>
                   <th>[#ID]</th>
@@ -63,11 +62,11 @@ export default {
                 idagreements: this.idagree,
                 comments: null,
                 points: null,
-                play_data:null
             },
             dpr: [],
             qtd: 0,
             total_points: 0,
+            points: 0,
             UTILS
         }
     },
@@ -76,9 +75,9 @@ export default {
             let idbusca = this.idagree ? this.idagree : 0
             PLAYREPORTS.buscaTodosPlayReports(idbusca)
             .then(r => {
-               
+                
                 this.dpr = r.data.rr
-                this.total_points = this.dpr[0].total_points
+                this.total_points = this.dpr ? this.dpr[0].total_points : 0
                 return this.qtd = r.data.qtd
             })
             .catch(err => {
@@ -86,7 +85,7 @@ export default {
             })
         },
         novoPR(){
-            if(this.fpr.points == null && this.fpr.data == null){
+            if(!this.fpr.points || this.fpr.points==null){
                 return alert('Por favor, preencha todos os campos obrigatórios.')
             }
             PLAYREPORTS.novoPlayReport(this.fpr)
@@ -108,6 +107,13 @@ export default {
             .catch(err => {
                 return alert('Algo deu errado.')
             })
+        },
+        calcNewPoints(){
+            if(this.total_points>0){
+                return this.fpr.points = (this.points - this.total_points)
+            }else{
+                return this.fpr.points = this.points
+            }
         }
     },
     mounted(){

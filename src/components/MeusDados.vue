@@ -2,12 +2,13 @@
   <div>
     <div class="content1 meusdados">
       <h4>FOTO PERFIL</h4>
-      <p><img :src="fm.foto_url" alt="" width="150px"></p>
+      <p></p>
       <form @submit.prevent="upFiles" enctype="multipart/form-data">
-              <table>
+              <table class="tb1">
                   <tr>
-                      <th align="right">FAZER UPLOAD:</th>
-                      <td><input type="file" name="file" ref="file" @change="onSelect"> Formatos: JPG, PNG. Max.: 5mb <button type="submit">ENVIAR</button></td>
+                      <th><img :src="fm.foto_url" alt="" width="150px" style="margin:15px"></th>
+                      
+                      <td>FAZER UPLOAD: <input type="file" name="file" ref="file" @change="onSelect"> Formatos: JPG, PNG. Max.: 5mb <button type="submit">ENVIAR</button></td>
                   </tr>
               </table>
           </form>

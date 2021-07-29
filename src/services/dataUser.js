@@ -34,4 +34,10 @@ export default {
             authorization: authUserToken
         }})
     },
+    novoRanking: async () => {
+        const urlServer = '/ranking';
+        return await http.get(urlServer,{ headers: {
+            authorization: authUserToken
+        }})
+    }
 }

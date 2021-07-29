@@ -1,11 +1,169 @@
 <template>
   <div class="coin-market">
-      <h3>Últimos Preços e variações(%)(24h): </h3>
+      <div class="markets">
+        <h3>Últimos Preços e variações(%)(24h): </h3>
       <ul v-for="(v,key) in coin" :key="v.id">
           <li> <b>{{UTILS.vCoin(key)}}</b></li>
           <li>U$ {{new Intl.NumberFormat('pt-BR').format(v.usd) }} <span v-html="UTILS.vCoinLastChange(v.usd_24h_change) "></span></li>
           <li>R$ {{new Intl.NumberFormat('pt-BR').format(v.brl)}} <span v-html="UTILS.vCoinLastChange(v.brl_24h_change) "></span></li>
       </ul>
+      </div>
+      
+    
+      <div class="calc" v-if="dashview==0">
+          <table class="tb1">
+              <tr>
+                  <th>Account [name]</th>
+                  <th>Account $[Amount]</th>
+                  <th>Account [currency]</th>
+              </tr>
+              <tr>
+                <td><input type="text" name="name" v-model="cc.name"></td>
+                <td><input type="text" name="price" v-model="cc.price"></td>
+                <td>
+                    <select name="price" id="" v-model="cc.currency">
+                        <option v-for="(v,key) in AllCoins" :key="v.id" :value="key">{{v}}</option>
+                    </select>
+                </td>
+                
+                
+              </tr>
+              <tr>
+                  <th>Points [day]</th>
+                  <th>Points = $?</th>
+                  <th>Share (%) Player (0 a 100)</th>
+              </tr>
+              <tr>
+                  <td>
+                    <input type="text" v-model="cc.points">
+                </td>
+                <td>
+                    <select name="price" id="" v-model="cc.points_currency">
+                        <option v-for="(v,key) in AllCoins" :key="v.id" :value="key">{{v}}</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" v-model="cc.share">
+                </td>
+                
+              </tr>
+              <tr>
+                  <th colspan="4">Show Rules</th>
+                  
+              </tr>
+              <tr>
+                  <td colspan="4">
+                
+                    <input type="checkbox" name="usd" v-model="cc.usd" id="usd"><label for="usd">USD [U$]</label> <input type="checkbox" name="brl" id="brl" v-model="cc.brl"><label for="brl">BRL [R$]</label> 
+                    <input type="checkbox" name="ow" id="ow" v-model="cc.ow"><label for="ow"> Owner rev.</label> 
+                    <input type="checkbox" name="pl" id="pl" v-model="cc.pl"><label for="pl">Player rev.</label> 
+                  </td>
+              </tr>
+              <tr>
+                  <td colspan="4">
+                    <button @click="simulaCalc()">SIMULAR</button>
+                </td>
+              </tr>
+          </table>
+          <p></p>
+          <p style="font-size:12px"><i>Lendenda: P = Points | d = Day | w = Week | m = Mounth | y = Year | Pb = Payback | O = Owner | P = Player </i></p>
+          <table class="tb1">
+              <tr>
+                  <th rowspan="2">Account</th>
+                  <th rowspan="2">Cost $</th>
+                  <th colspan="4">Points</th>
+                  <th colspan="4">Pay-back</th>
+              </tr>
+              <tr>
+                  <th>D</th>
+                  <th>W</th>
+                  <th>M</th>
+                  <th>Y</th>
+                  <th>D</th>
+                  <th>W</th>
+                  <th>M</th>
+                  <th>Y</th>
+              </tr>
+              <tr style="font-size:14px">
+                  <td align="right">TOTAL</td>
+                  <td align="center">U$ {{total_usd}} <br> R$ {{total_brl}}</td>
+                  <td>U$ {{tusd_d}} <br> R$ {{tbrl_d}}</td>
+                  <td>U$ {{tusd_w}} <br> R$ {{tbrl_w}}</td>
+                  <td>U$ {{tusd_m}} <br> R$ {{tbrl_m}}</td>
+                  <td>U$ {{tusd_y}} <br> R$ {{tbrl_y}}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr v-for="v in ccr" :key="v.id">
+                  <td>{{v.name}}</td>
+                    <td>
+                      {{v.price}} <br>
+                        <span>
+                            {{v.c.price}} <br>
+                            {{v.c2.price}}
+                        </span>
+                    </td>
+                <td>
+                    {{v.p1.d}} <br>
+                    
+                    <span v-if="v.c.d">{{v.c.d}} <br></span>
+                    <span v-if="v.c2.d">{{v.c2.d}} <br></span>
+                    <span v-if="v.c.d_o"><b>O:</b> {{v.c.d_o}} <br></span>
+                    <span v-if="v.c.d_p"><b>P:</b> {{v.c.d_p}} <br></span>
+                    <span v-if="v.c2.d_o"><b>O:</b> {{v.c2.d_o}} <br></span>
+                    <span v-if="v.c2.d_p"><b>P:</b> {{v.c2.d_p}} <br></span>
+                    
+                </td>
+                <td>
+                    {{v.p1.w}} <br>
+                    
+                    <span v-if="v.c.w">{{v.c.w}} <br></span>
+                    <span v-if="v.c2.w">{{v.c2.w}} <br></span>
+                    <span v-if="v.c.w_o"><b>O:</b> {{v.c.w_o}} <br></span>
+                    <span v-if="v.c.w_p"><b>P:</b> {{v.c.w_p}} <br></span>
+                    <span v-if="v.c2.w_o"><b>O:</b> {{v.c2.w_o}} <br></span>
+                    <span v-if="v.c2.w_p"><b>P:</b> {{v.c2.w_p}} <br></span>
+                    
+                </td>
+                <td>
+                    {{v.p1.m}} <br>
+                    
+                    <span v-if="v.c.m">{{v.c.m}} <br></span>
+                    <span v-if="v.c2.m">{{v.c2.m}} <br></span>
+                    <span v-if="v.c.m_o"><b>O:</b> {{v.c.m_o}} <br></span>
+                    <span v-if="v.c.m_p"><b>P:</b> {{v.c.m_p}} <br></span>
+                    <span v-if="v.c2.m_o"><b>O:</b> {{v.c2.m_o}} <br></span>
+                    <span v-if="v.c2.m_p"><b>P:</b> {{v.c2.m_p}} <br></span>
+                    
+                </td>
+                <td>
+                    {{v.p1.y}} <br>
+                    
+                    <span v-if="v.c.y">{{v.c.y}} <br></span>
+                    <span v-if="v.c2.y">{{v.c2.y}} <br></span>
+                    <span v-if="v.c.y_o"><b>O:</b> {{v.c.y_o}} <br></span>
+                    <span v-if="v.c.y_p"><b>P:</b> {{v.c.y_p}} <br></span>
+                    <span v-if="v.c2.y_o"><b>O:</b> {{v.c2.y_o}} <br></span>
+                    <span v-if="v.c2.y_p"><b>P:</b> {{v.c2.y_p}} <br></span>
+                    
+                </td>
+                <td>
+                    {{v.pb.d ? v.pb.d.toFixed(1) : 0}}
+                </td>
+                <td>
+                    {{v.pb.w ? v.pb.w.toFixed(1) : 0}}
+                </td>
+                <td>
+                    {{v.pb.m ? v.pb.m.toFixed(1) : 0}}
+                </td>
+                <td>
+                    {{v.pb.y ? v.pb.y.toFixed(1) : 0}}
+                </td>
+              </tr>
+          </table>
+      </div>
   </div>
 </template>
 
@@ -13,10 +171,24 @@
 import COINS from '../services/coingecko'
 import UTILS from '@/utils/utils'
 export default {
+    props: ['dashview'],
     data(){
         return{
             coin: [],
-            UTILS
+            cc: [{}],
+            ccr: [],
+            UTILS,
+            AllCoins: UTILS.CoinsAndCriptos(),
+            total_brl: 0,
+            total_usd: 0,
+            tusd_d: 0,
+            tusd_w: 0,
+            tusd_m: 0,
+            tusd_y: 0,
+            tbrl_d: 0,
+            tbrl_w: 0,
+            tbrl_m: 0,
+            tbrl_y: 0
         }
     },
     methods: {
@@ -26,6 +198,128 @@ export default {
                 return this.coin = r.data
             })
             .catch(err => { return alert(err)})
+        },
+        simulaCalc(){
+            let {name, price, currency, points, record, usd, brl, points_currency, share, ow, pl} = this.cc
+
+            price = price.replace(',','.')
+            let share_p = parseFloat(share / 100)
+            let share_o = (1 - share_p)
+            
+            let c_usd = this.coin[points_currency].usd
+            let c_brl = this.coin[points_currency].brl
+            var d = 1
+            let w = 7
+            let m = 30
+            let y = 365
+
+            var c = []
+            var c2 = []
+            var p1 = []
+            var pb = []
+
+            p1['d'] = (points * d)
+            p1['w'] = (points * w)
+            p1['m'] = (points * m)
+            p1['y'] = (points * y)
+
+            if(usd){
+                c['price'] = (price * this.coin[currency].usd)
+                c['d'] = (p1['d'] * c_usd)  
+                c['w'] = (p1['w'] * c_usd)
+                c['m'] = (p1['m'] * c_usd)
+                c['y'] = (p1['y'] * c_usd)
+
+                if(ow){
+
+                    c['d_o'] = (c['d'] * share_o)
+                    pb['d'] = (c['price'] / c['d_o'])
+                    c['w_o'] = (c['w'] * share_o)
+                    pb['w'] = (c['price'] / c['w_o'])
+                    c['m_o'] = (c['m'] * share_o)
+                    pb['m'] = (c['price'] / c['m_o'])
+                    c['y_o'] = (c['y'] * share_o)
+                    pb['y'] = (c['price'] / c['y_o'])
+                }
+
+                if(pl){
+                                  
+                    c['d_p'] = (c['d'] * share_p)      
+                    c['w_p'] = (c['w'] * share_p)
+                    c['m_p'] = (c['m'] * share_p)
+                    c['y_p'] = (c['y'] * share_p)
+                }
+
+            }
+            if(brl){
+                c2['price'] = (price * this.coin[currency].brl)
+                c2['d'] = (p1['d'] * c_brl)  
+                c2['w'] = (p1['w'] * c_brl)
+                c2['m'] = (p1['m'] * c_brl)
+                c2['y'] = (p1['y'] * c_brl)
+
+                if(ow){
+
+                    c2['d_o'] = (c2['d'] * share_o)
+                    
+                    c2['w_o'] = (c2['w'] * share_o)
+                    
+                    c2['m_o'] = (c2['m'] * share_o)
+                    
+                    c2['y_o'] = (c2['y'] * share_o)
+                    
+
+                    if(!pb){
+                        pb['d'] = (c2['price'] / c2['d_o'])
+                        pb['w'] = (c2['price'] / c2['w_o'])
+                        pb['m'] = (c2['price'] / c2['m_o'])
+                        pb['y'] = (c2['price'] / c2['y_o'])
+                    }
+                }
+
+                if(pl){
+                                  
+                    c2['d_p'] = (c2['d'] * share_p)      
+                    c2['w_p'] = (c2['w'] * share_p)
+                    c2['m_p'] = (c2['m'] * share_p)
+                    c2['y_p'] = (c2['y'] * share_p)
+                }
+            } 
+            
+
+            for(var v in c){
+                
+                let vv = c[v].toFixed(2)
+                vv = new Intl.NumberFormat('pt-BR').format(vv)
+
+                if(v=='price') { this.total_usd += vv }
+                c[v] = 'U$ ' + vv
+            }
+
+            for(var v in c2){
+                
+                let tt = c2[v].toFixed(2)
+                tt = new Intl.NumberFormat('pt-BR').format(tt)
+
+                if(v=='price') { this.total_brl += tt }
+                c2[v] = 'R$ ' + tt
+            }
+            
+            
+
+            var res = {
+                name,
+                price,
+                p1,
+                c,
+                c2,
+                pb
+            }
+
+            
+
+            return this.ccr.push(res);
+
         }
     },
     mounted(){
@@ -49,5 +343,20 @@ export default {
     float: left;
     background: white;
     border-radius: 10px;
+}
+.calc,.coin-market{
+    float: left;
+    width: 100%;
+}
+.calc{
+    margin: 20px 0px;
+}
+.calc td{
+    text-align: center;
+    border: 1px solid rgb(231, 231, 231);
+    background: white;
+}
+.calc td span{
+    font-size: 12px;
 }
 </style>

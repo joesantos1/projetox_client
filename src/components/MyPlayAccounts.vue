@@ -6,7 +6,6 @@
             <th>Account</th>
             <th>Game</th>
             <th>Status</th>
-            <th>Owner</th>
             <th>Player</th>
             <th>Total Points</th>
             <th>Update at:</th>
@@ -16,7 +15,6 @@
               <td>{{v.titulo}}</td>
               <td align="center">{{v.game_nome}}</td>
               <td align="center"><span v-html="UTILS.vStatusPlayAcc(v.status)"></span></td>
-              <td>{{v.owner_name}}</td>
               <td align="center">{{v.player_nome}}</td>
               <td align="center">{{v.total_points}}</td>
               <td align="center">{{UTILS.formatData(v.last_report)}}</td>
