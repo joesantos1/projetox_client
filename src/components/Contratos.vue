@@ -35,7 +35,7 @@
             </tr>
             <tr>
                 <th>Meta [pontos] (*)</th>
-                <td><input type="text" name="meta_points" v-model="fm.meta_points"></td>
+                <td><input type="text" name="meta_points" v-model="fm.meta_points" v-mask="'#####'"></td>
             </tr>
             <tr>
                 <th>Meta [registro] (*)</th>
@@ -49,7 +49,7 @@
             </tr>
             <tr>
                 <th>Share [% de participação] 0 a 100 (*)</th>
-                <td><input type="text" name="share" v-model="fm.share"></td>
+                <td><input type="text" name="share" v-model="fm.share" v-mask="'###'"></td>
             </tr>
             <tr>
                 <th>Método de Pagamento</th>

@@ -1,6 +1,7 @@
 <template>
   <div>
       <div class="login">
+          <h2>Bookplyr - versão Beta.</h2>
           <div class="content2">
         <h3>LOGIN</h3>
           <form @submit.prevent="fazerLogin">

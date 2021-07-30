@@ -14,8 +14,8 @@
           <table class="tb1">
               <tr>
                   <th>Account [name] (*)</th>
-                  <th>Account $[Amount]</th>
-                  <th>Account [currency]</th>
+                  <th>Account $[Amount buy]</th>
+                  <th>Account [currency buy]</th>
               </tr>
               <tr>
                 <td><input type="text" name="name" v-model="cc.name"></td>
@@ -35,7 +35,7 @@
               </tr>
               <tr>
                   <td>
-                    <input type="text" v-model="cc.points">
+                    <input type="text" v-model="cc.points" v-mask="'####'">
                 </td>
                 <td>
                     <select name="price" id="" v-model="cc.points_currency">
@@ -43,7 +43,7 @@
                     </select>
                 </td>
                 <td>
-                    <input type="text" v-model="cc.share">
+                    <input type="text" v-model="cc.share" v-mask="'##'">
                 </td>
                 
               </tr>
@@ -68,7 +68,7 @@
           <p></p>
           <p style="font-size:12px">
               (*) Campos obrigatórios. <br>
-              (**) Os valores apresentados abaixo representa mera simulação de calculos realizados com base no preço atual de mercado das moedas selecionas, não garantindo assim nenhum rendimento ou retorno futuro;
+              (**) Os valores apresentados abaixo representa mera simulação de calculos realizados com base no preço atual de mercado das moedas selecionas, não garantindo assim nenhum rendimento ou retorno futuro; <br>
               <i>Lendenda: P = Points | d = Day | w = Week | m = Mounth | y = Year | Pb = Payback | O = Owner | P = Player </i>
               </p>
           <table class="tb1">
