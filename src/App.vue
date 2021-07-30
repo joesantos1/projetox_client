@@ -65,7 +65,7 @@ table{
   margin: 10px 0px;
 }
 .tb1 th, .tb2 th{
-  background-color: #535353;
+  background-color: #949494;
   color: white;
 }
 .tb1 th, .tb1 td, .tb2 th, .tb2 td{

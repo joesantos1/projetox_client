@@ -13,7 +13,7 @@
       <div class="calc" v-if="dashview==0">
           <table class="tb1">
               <tr>
-                  <th>Account [name]</th>
+                  <th>Account [name] (*)</th>
                   <th>Account $[Amount]</th>
                   <th>Account [currency]</th>
               </tr>
@@ -29,8 +29,8 @@
                 
               </tr>
               <tr>
-                  <th>Points [day]</th>
-                  <th>Points = $?</th>
+                  <th>Points [p/ day] (*)</th>
+                  <th>Points = $? (*)</th>
                   <th>Share (%) Player (0 a 100)</th>
               </tr>
               <tr>
@@ -66,13 +66,18 @@
               </tr>
           </table>
           <p></p>
-          <p style="font-size:12px"><i>Lendenda: P = Points | d = Day | w = Week | m = Mounth | y = Year | Pb = Payback | O = Owner | P = Player </i></p>
+          <p style="font-size:12px">
+              (*) Campos obrigatórios. <br>
+              (**) Os valores apresentados abaixo representa mera simulação de calculos realizados com base no preço atual de mercado das moedas selecionas, não garantindo assim nenhum rendimento ou retorno futuro;
+              <i>Lendenda: P = Points | d = Day | w = Week | m = Mounth | y = Year | Pb = Payback | O = Owner | P = Player </i>
+              </p>
           <table class="tb1">
               <tr>
                   <th rowspan="2">Account</th>
                   <th rowspan="2">Cost $</th>
                   <th colspan="4">Points</th>
                   <th colspan="4">Pay-back</th>
+                  <td></td>
               </tr>
               <tr>
                   <th>D</th>
@@ -83,70 +88,111 @@
                   <th>W</th>
                   <th>M</th>
                   <th>Y</th>
-              </tr>
-              <tr style="font-size:14px">
-                  <td align="right">TOTAL</td>
-                  <td align="center">U$ {{total_usd}} <br> R$ {{total_brl}}</td>
-                  <td>U$ {{tusd_d}} <br> R$ {{tbrl_d}}</td>
-                  <td>U$ {{tusd_w}} <br> R$ {{tbrl_w}}</td>
-                  <td>U$ {{tusd_m}} <br> R$ {{tbrl_m}}</td>
-                  <td>U$ {{tusd_y}} <br> R$ {{tbrl_y}}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
                   <td></td>
               </tr>
-              <tr v-for="v in ccr" :key="v.id">
+              <tr v-if="total_usd>0">
+                  <td align="right">OWNER R. TOTAL [U$]</td>
+                  <td align="center">U$ {{fn(total_usd)}}  </td>
+                  <td>U$ {{fn(tot1.d_o)}}  </td>
+                  <td>U$ {{fn(tot1.w_o)}}  </td>
+                  <td>U$ {{fn(tot1.m_o)}}</td>
+                  <td>U$ {{fn(tot1.y_o)}} </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr v-if="total_brl>0">
+                  <td>OWNER R. TOTAL [R$]</td>
+                  <td>R$ {{fn(total_brl)}}</td>
+                  <td>R$ {{fn(tot2.d_o)}}</td>
+                  <td>R$ {{fn(tot2.w_o)}}</td>
+                  <td>R$ {{fn(tot2.m_o)}}</td>
+                  <td>R$ {{fn(tot2.y_o)}}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr v-if="tusd_p">
+                  <td align="right">PLAYER R. TOTAL [U$]</td>
+                  <td></td>
+                  <td>U$ {{fn(tot1.d_p)}}  </td>
+                  <td>U$ {{fn(tot1.w_p)}}  </td>
+                  <td>U$ {{fn(tot1.m_p)}}</td>
+                  <td>U$ {{fn(tot1.y_p)}} </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr v-if="tbrl_p">
+                  <td>PLAYER R. TOTAL [R$]</td>
+                  <td></td>
+                  <td>R$ {{fn(tot2.d_p)}}</td>
+                  <td>R$ {{fn(tot2.w_p)}}</td>
+                  <td>R$ {{fn(tot2.m_p)}}</td>
+                  <td>R$ {{fn(tot2.y_p)}}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr v-for="(v,index) of ccr" :key="v.id">
                   <td>{{v.name}}</td>
                     <td>
                       {{v.price}} <br>
                         <span>
-                            {{v.c.price}} <br>
-                            {{v.c2.price}}
+                            {{v.c.price ? 'U$ ' + fn(v.c.price) : null}} <br>
+                            {{v.c2.price ? 'R$ ' + fn(v.c2.price) : null}}
                         </span>
                     </td>
                 <td>
                     {{v.p1.d}} <br>
                     
-                    <span v-if="v.c.d">{{v.c.d}} <br></span>
-                    <span v-if="v.c2.d">{{v.c2.d}} <br></span>
-                    <span v-if="v.c.d_o"><b>O:</b> {{v.c.d_o}} <br></span>
-                    <span v-if="v.c.d_p"><b>P:</b> {{v.c.d_p}} <br></span>
-                    <span v-if="v.c2.d_o"><b>O:</b> {{v.c2.d_o}} <br></span>
-                    <span v-if="v.c2.d_p"><b>P:</b> {{v.c2.d_p}} <br></span>
+                    <span v-if="v.c.d">U$ {{fn(v.c.d)}} <br></span>
+                    <span v-if="v.c2.d">R$ {{fn(v.c2.d)}} <br></span>
+                    <span v-if="v.c.d_o"><b>O: U$ </b> {{fn(v.c.d_o)}} <br></span>
+                    <span v-if="v.c.d_p"><b>P: U$ </b> {{fn(v.c.d_p)}} <br></span>
+                    <span v-if="v.c2.d_o"><b>O: R$</b> {{fn(v.c2.d_o)}} <br></span>
+                    <span v-if="v.c2.d_p"><b>P: R$</b> {{fn(v.c2.d_p)}} <br></span>
                     
                 </td>
                 <td>
                     {{v.p1.w}} <br>
                     
-                    <span v-if="v.c.w">{{v.c.w}} <br></span>
-                    <span v-if="v.c2.w">{{v.c2.w}} <br></span>
-                    <span v-if="v.c.w_o"><b>O:</b> {{v.c.w_o}} <br></span>
-                    <span v-if="v.c.w_p"><b>P:</b> {{v.c.w_p}} <br></span>
-                    <span v-if="v.c2.w_o"><b>O:</b> {{v.c2.w_o}} <br></span>
-                    <span v-if="v.c2.w_p"><b>P:</b> {{v.c2.w_p}} <br></span>
+                    <span v-if="v.c.w">U$ {{fn(v.c.w)}} <br></span>
+                    <span v-if="v.c2.w">R$ {{fn(v.c2.w)}} <br></span>
+                    <span v-if="v.c.w_o"><b>O: U$</b> {{fn(v.c.w_o)}} <br></span>
+                    <span v-if="v.c.w_p"><b>P: U$</b> {{fn(v.c.w_p)}} <br></span>
+                    <span v-if="v.c2.w_o"><b>O: R$</b> {{fn(v.c2.w_o)}} <br></span>
+                    <span v-if="v.c2.w_p"><b>P: R$</b> {{fn(v.c2.w_p)}} <br></span>
                     
                 </td>
                 <td>
                     {{v.p1.m}} <br>
                     
-                    <span v-if="v.c.m">{{v.c.m}} <br></span>
-                    <span v-if="v.c2.m">{{v.c2.m}} <br></span>
-                    <span v-if="v.c.m_o"><b>O:</b> {{v.c.m_o}} <br></span>
-                    <span v-if="v.c.m_p"><b>P:</b> {{v.c.m_p}} <br></span>
-                    <span v-if="v.c2.m_o"><b>O:</b> {{v.c2.m_o}} <br></span>
-                    <span v-if="v.c2.m_p"><b>P:</b> {{v.c2.m_p}} <br></span>
+                    <span v-if="v.c.m">U$ {{fn(v.c.m)}} <br></span>
+                    <span v-if="v.c2.m">R$ {{fn(v.c2.m)}} <br></span>
+                    <span v-if="v.c.m_o"><b>O: U$</b> {{fn(v.c.m_o)}} <br></span>
+                    <span v-if="v.c.m_p"><b>P: U$</b> {{fn(v.c.m_p)}} <br></span>
+                    <span v-if="v.c2.m_o"><b>O: R$</b> {{fn(v.c2.m_o)}} <br></span>
+                    <span v-if="v.c2.m_p"><b>P: R$</b> {{fn(v.c2.m_p)}} <br></span>
                     
                 </td>
                 <td>
                     {{v.p1.y}} <br>
                     
-                    <span v-if="v.c.y">{{v.c.y}} <br></span>
-                    <span v-if="v.c2.y">{{v.c2.y}} <br></span>
-                    <span v-if="v.c.y_o"><b>O:</b> {{v.c.y_o}} <br></span>
-                    <span v-if="v.c.y_p"><b>P:</b> {{v.c.y_p}} <br></span>
-                    <span v-if="v.c2.y_o"><b>O:</b> {{v.c2.y_o}} <br></span>
-                    <span v-if="v.c2.y_p"><b>P:</b> {{v.c2.y_p}} <br></span>
+                    <span v-if="v.c.y">U$ {{fn(v.c.y)}} <br></span>
+                    <span v-if="v.c2.y">R$ {{fn(v.c2.y)}} <br></span>
+                    <span v-if="v.c.y_o"><b>O: U$</b> {{fn(v.c.y_o)}} <br></span>
+                    <span v-if="v.c.y_p"><b>P: U$</b> {{fn(v.c.y_p)}} <br></span>
+                    <span v-if="v.c2.y_o"><b>O: R$</b> {{fn(v.c2.y_o)}} <br></span>
+                    <span v-if="v.c2.y_p"><b>P: R$</b> {{fn(v.c2.y_p)}} <br></span>
                     
                 </td>
                 <td>
@@ -161,6 +207,7 @@
                 <td>
                     {{v.pb.y ? v.pb.y.toFixed(1) : 0}}
                 </td>
+                <td><button @click="removeReg(index)">X</button></td>
               </tr>
           </table>
       </div>
@@ -175,20 +222,16 @@ export default {
     data(){
         return{
             coin: [],
-            cc: [{}],
+            cc: [],
             ccr: [],
             UTILS,
             AllCoins: UTILS.CoinsAndCriptos(),
             total_brl: 0,
             total_usd: 0,
-            tusd_d: 0,
-            tusd_w: 0,
-            tusd_m: 0,
-            tusd_y: 0,
-            tbrl_d: 0,
-            tbrl_w: 0,
-            tbrl_m: 0,
-            tbrl_y: 0
+            tusd_p: false,
+            tbrl_p: false,
+            tot1: [],
+            tot2: []
         }
     },
     methods: {
@@ -200,9 +243,13 @@ export default {
             .catch(err => { return alert(err)})
         },
         simulaCalc(){
-            let {name, price, currency, points, record, usd, brl, points_currency, share, ow, pl} = this.cc
+            let {name, price, currency, points, usd, brl, points_currency, share, ow, pl} = this.cc
 
-            price = price.replace(',','.')
+            if(name==null || points==null || points_currency==null){
+                return alert('Por favor, preencha todos os campos obrigatórios.')
+            }
+
+            price = price ? price.replace(',','.') : 1
             let share_p = parseFloat(share / 100)
             let share_o = (1 - share_p)
             
@@ -224,11 +271,12 @@ export default {
             p1['y'] = (points * y)
 
             if(usd){
-                c['price'] = (price * this.coin[currency].usd)
+                c['price'] = price ? (price * this.coin[currency].usd) : 0
                 c['d'] = (p1['d'] * c_usd)  
                 c['w'] = (p1['w'] * c_usd)
                 c['m'] = (p1['m'] * c_usd)
                 c['y'] = (p1['y'] * c_usd)
+                c['style'] = 'U$ '
 
                 if(ow){
 
@@ -248,15 +296,17 @@ export default {
                     c['w_p'] = (c['w'] * share_p)
                     c['m_p'] = (c['m'] * share_p)
                     c['y_p'] = (c['y'] * share_p)
+                    this.tusd_p = true
                 }
 
             }
             if(brl){
-                c2['price'] = (price * this.coin[currency].brl)
+                c2['price'] = price ? (price * this.coin[currency].brl) : 0
                 c2['d'] = (p1['d'] * c_brl)  
                 c2['w'] = (p1['w'] * c_brl)
                 c2['m'] = (p1['m'] * c_brl)
                 c2['y'] = (p1['y'] * c_brl)
+                c2['style'] = 'R$ '
 
                 if(ow){
 
@@ -269,12 +319,11 @@ export default {
                     c2['y_o'] = (c2['y'] * share_o)
                     
 
-                    if(!pb){
                         pb['d'] = (c2['price'] / c2['d_o'])
                         pb['w'] = (c2['price'] / c2['w_o'])
                         pb['m'] = (c2['price'] / c2['m_o'])
                         pb['y'] = (c2['price'] / c2['y_o'])
-                    }
+                
                 }
 
                 if(pl){
@@ -283,29 +332,38 @@ export default {
                     c2['w_p'] = (c2['w'] * share_p)
                     c2['m_p'] = (c2['m'] * share_p)
                     c2['y_p'] = (c2['y'] * share_p)
+                    this.tbrl_p = true
                 }
             } 
             
 
             for(var v in c){
                 
-                let vv = c[v].toFixed(2)
-                vv = new Intl.NumberFormat('pt-BR').format(vv)
+                let vv = c[v]
 
                 if(v=='price') { this.total_usd += vv }
-                c[v] = 'U$ ' + vv
+
+                if(this.tot1[v]){
+                    this.tot1[v] += vv
+                }else{
+                    this.tot1[v] = vv
+                }
+
             }
 
             for(var v in c2){
                 
-                let tt = c2[v].toFixed(2)
-                tt = new Intl.NumberFormat('pt-BR').format(tt)
+                let tt = c2[v]
 
                 if(v=='price') { this.total_brl += tt }
-                c2[v] = 'R$ ' + tt
+
+                if(this.tot2[v]){
+                    this.tot2[v] += tt
+                }else{
+                    this.tot2[v] = tt
+                }
+                
             }
-            
-            
 
             var res = {
                 name,
@@ -316,10 +374,41 @@ export default {
                 pb
             }
 
-            
-
             return this.ccr.push(res);
 
+        },
+        removeReg(id){
+
+            let h = this.ccr[id].c
+            let h2 = this.ccr[id].c2
+            let t1 = this.tot1
+            let t2 = this.tot2
+
+            if(h){
+                for(var v in t1){
+                    this.tot1[v] = t1[v] - h[v]
+                }
+            }
+            if(h2){
+                for(var v in t2){
+                    this.tot2[v] = t2[v] - h2[v]
+                }
+            }
+
+            this.total_brl = (this.total_brl - h2.price)
+            this.total_usd = (this.total_usd - h.price)
+
+            this.ccr.splice(id,1)
+
+            if(!this.ccr[0].c.d_p){this.tusd_p = false}
+            if(!this.ccr[0].c2.d_p){this.tbrl_p = false}
+
+            return
+        },
+        fn(v){
+            if(!v) return
+            let vv = v.toFixed(2)
+            return new Intl.NumberFormat('pt-BR').format(vv)
         }
     },
     mounted(){
