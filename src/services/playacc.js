@@ -28,4 +28,8 @@ export default {
             authorization: authUserToken
         }})
     },
+    buscaDadosAPIAxie: async(ronin) => {
+        const urlServer = 'https://game-api.skymavis.com/game-api/clients/0x'+ronin+'/items/1';
+        return await http.get(urlServer)
+    }
 }

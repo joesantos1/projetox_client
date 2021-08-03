@@ -5,8 +5,12 @@
               <table class="tb2">
                 <tr>
                     <th>Selecione o Jogo: [game]</th>
-                    <td><select name="game" id="game" v-model="fpa.idgame">
+                    <td><select name="game" id="game" v-model="fpa.idgame" @change="ronin=true">
                         <option value="1">Axie Infinity</option></select></td>
+                </tr>
+                <tr v-if="ronin==true">
+                    <th>Ronin Wallet - Address (ronin:xxx...)</th>
+                    <td><input type="text" name="contract_address" v-model="fpa.contract_address"></td>
                 </tr>
                 <tr>
                     <th>Titulo</th>
@@ -63,23 +67,33 @@ export default {
                 cost_total: null,
                 cost_currency: null,
                 game_login: null,
-                game_pass: null
+                game_pass: null,
+                contract_address: null,
+                api_data: null
             },
             qv: 0,
             manager: JSON.parse(localStorage.getItem('_user')),
             btf: true,
-            listaError: false
+            listaError: false,
+            ronin: false
         }
     },
     methods: {
-        cadastraNovaPA(){
+        async cadastraNovaPA(){
 
             this.btf = false
-            this.fpa.cost_total = this.fpa.cost_total.replace(',','.')
+            this.fpa.cost_total = this.fpa.cost_total != null ? this.fpa.cost_total.replace(',','.') : null
+
+            //BUSCA DADOS USARIO API AXI INFINITY
+            var ron = this.fpa.contract_address.split(':');
+            var aa = await PLAYCCS.buscaDadosAPIAxie(ron[1]);
+
+            this.fpa.api_data = JSON.stringify(aa.data)
+
             PLAYCCS.cadastraNovaPlayAcc(this.fpa)
             .then(r => {
                 alert('Conta cadastrada com sucesso.')
-                return location.replace('/');
+                return this.$router.push('/play-accounts');
             })
             .catch(error => {
                 this.btf = true;

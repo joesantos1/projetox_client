@@ -17,13 +17,17 @@
                         <option value="1">Axie Infinity</option></select></td>
                 </tr>
                 <tr>
+                    <th>Ronin Wallet - Address (ronin:xxx...)</th>
+                    <td><input type="text" name="contract_address" v-model="fpa.contract_address"></td>
+                </tr>
+                <tr>
                     <th>Titulo</th>
                     <td><input type="text" name="titulo" v-model="fpa.titulo"></td>
                     
                 </tr>
                 <tr>
                     <th>Informações (Opcional) (*) <i>Visíveis apenas para você.</i></th>
-                    <td><textarea name="infor" id="infor" v-model="fpa.infor" cols="30" rows="10"></textarea></td>
+                    <td><textarea name="infor" id="infor" v-model="fpa.infor" cols="50" rows="3"></textarea></td>
                 </tr>
                 <tr>
                     <th>Custo total [investiment] (*) <i>Apenas números. (0.00)</i></th>
@@ -71,6 +75,27 @@
                           <td>- Solicitar Game Pass</td>
                       </tr>
               </table>
+              <p>
+                  <table class="tb1" v-if="axs.slp_total">
+                      <tr>
+                          <th colspan="6">Axie Infinity : Infor</th>
+                      </tr>
+                      <tr>
+                          <th>SLP total</th>
+                          <th>SLP [p/ day]</th>
+                          <th>SLP Claim [data]</th>
+                          <th>Last Claim [SLP]</th>
+                          <th>Next Claim</th>
+                      </tr>
+                      <tr>
+                          <td>{{axs.slp_total}}</td>
+                          <td>{{axs.slp_avg }}</td>
+                          <td>{{UTILS.timeConverter(axs.last_claim,0)}}</td>
+                          <td>{{axs.last_claim_slp}}</td>
+                          <td>{{UTILS.timeConverter(axs.last_claim,1296000000)}}</td>
+                      </tr>
+                  </table>
+              </p>
           <h3>Acordos (Agreements) | <button @click="verAcordos()">{{mostrar}}</button></h3>
             <div v-if="mostrar=='ocultar'">
                 <table class="tb1" v-if="fpa.player_id" >
@@ -121,6 +146,7 @@ import UTILS from '@/utils/utils'
 import PLAYACC from '../services/playacc'
 import PLAYREPORTS from '@/components/PlayReports.vue'
 import MYSALES from '@/components/MySales.vue'
+import dayjs from 'dayjs'
 
 export default {
     components:{
@@ -138,16 +164,64 @@ export default {
             mostrar: 'mostrar',
             qv: 0,
             manager: JSON.parse(localStorage.getItem('_user')),
+            axs: []
         }
     },
     methods: {
-        buscaPlayAccParaUpd(){
+        async buscaPlayAccParaUpd(){
             
             PLAYACC.buscaParaUpdPlayAcc(this.paID)
-            .then(r => {
+            .then(async r => {
                 
                 this.owner = r.data.owner
                 this.fpa = r.data.rr
+
+                let axsData = r.data.rr.api_data
+
+                if(axsData || axsData != null){
+
+                    this.axs.slp_total = axsData.total
+                    this.axs.last_claim = axsData.blockchain_related.signature.timestamp
+                    this.axs.last_claim_slp = axsData.blockchain_related.signature.amount
+
+                    
+                    
+                    let hoje = new Date()
+                    let day1 = dayjs(hoje)
+                    let day2 = dayjs(this.axs.last_claim*1000)
+                    
+                    this.axs.slp_avg = (axsData.total / day1.diff(day2,'day'))
+
+                }else{
+
+                    if(this.fpa.contract_address){
+                        //BUSCA DADOS USARIO API AXI INFINITY
+                        var ron = this.fpa.contract_address.split(':');
+                        var aa = await PLAYACC.buscaDadosAPIAxie(ron[1]);
+
+                        this.fpa.api_data = JSON.stringify(aa.data)
+
+                        //ATUALIZA INFORMACOES DE API NO DB DA PLAY-ACC
+                        await PLAYACC.atualizaPlayAcc(this.fpa)
+
+                        //CARREGA DADOS DA API 
+                        axsData = this.fpa.api_data
+                        this.axs.slp_total = axsData.total
+                        this.axs.last_claim = axsData.blockchain_related ? axsData.blockchain_related.signature.timestamp : 0;
+                        this.axs.last_claim_slp = axsData.blockchain_related ? axsData.blockchain_related.signature.amount : 0
+
+                        
+                        
+                        let hoje = new Date()
+                        let day1 = dayjs(hoje)
+                        let day2 = dayjs(this.axs.last_claim*1000)
+                        
+                        this.axs.slp_avg = (axsData.total / day1.diff(day2,'day'))
+
+                    }
+                }
+
+                
                 return this.calculaValor()
                 
             })
@@ -160,7 +234,8 @@ export default {
             PLAYACC.atualizaPlayAcc(this.fpa)
             .then(r => {
                 this.btf = true
-                return alert('Conta atualizada com sucesso.');
+                alert('Conta atualizada com sucesso.');
+                return this.$router.go()
             })
             .catch(err => {
                 this.btf = true
