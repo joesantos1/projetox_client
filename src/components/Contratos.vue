@@ -1,6 +1,5 @@
 <template>
-<div class="content-u">
-    <div class="content1">
+<div class="content1">
 <div class="contratos">
       <h3><router-link to="/">DashBoard</router-link> | Proposta de contratação | Player: {{da[0].player_name}}</h3>
       <table class="tb1">
@@ -71,7 +70,6 @@
       </form>
   </div>
     </div>
-</div>
   
 </template>
 

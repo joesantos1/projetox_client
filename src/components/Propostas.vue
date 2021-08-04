@@ -49,7 +49,7 @@
                   <td></td>
                   <td>
                       <button @click="aceitaProposta(v.idagreements,3,v.idplay_acc)">ACEITAR PROPOSTA</button> 
-                      <button>FAZER CONTRA-PROPOSTA</button> 
+                    
                       <button @click="aceitaProposta(v.idagreements,2,v.idplay_acc)">RECURSAR</button></td>
               </tr>
           </table>
@@ -82,25 +82,15 @@ export default {
         aceitaProposta(idp,v,idpa){
 
             var da = {idp,tipo: v, idpa}
-
-            if(v==1){
-               PROPOSTAS.enviaAceiteProposta(da)
-                .then(r => {
-                    return this.$router.go()
-                })
-                .catch(err => {
-                    return alert('erro aqui.')
-                }) 
-            }else{
-                PROPOSTAS.enviaAceiteProposta(da)
-                .then(r => {
-                    return this.$router.go()
-                })
-                .catch(err => {
-                    return alert('erro agora aqui')
-                })
-            }
-            
+      
+            PROPOSTAS.enviaAceiteProposta(da)
+            .then(r => {
+                return this.$router.go()
+            })
+            .catch(err => {
+                return alert('erro aqui.')
+            }) 
+                  
         }
     },
     mounted(){

@@ -62,8 +62,8 @@
                       <td>{{fpa.idgame==1 ? 'Axie Infinity' : ''}}</td>
                   </tr>
                   <tr>
-                      <th>Play-Account [titulo]</th>
-                      <td>{{fpa.titulo}}</td>
+                      <th>Play-Account [titulo] #ID</th>
+                      <td>{{fpa.titulo}} #{{fpa.idplay_accounts}}</td>
                       
                   </tr>
                       <tr>
@@ -89,7 +89,7 @@
                       </tr>
                       <tr>
                           <td>{{axs.slp_total}}</td>
-                          <td>{{axs.slp_avg }}</td>
+                          <td>{{axs.slp_avg.toFixed(0) }}</td>
                           <td>{{UTILS.timeConverter(axs.last_claim,0)}}</td>
                           <td>{{axs.last_claim_slp}}</td>
                           <td>{{UTILS.timeConverter(axs.last_claim,1296000000)}}</td>
@@ -99,6 +99,10 @@
           <h3>Acordos (Agreements) | <button @click="verAcordos()">{{mostrar}}</button></h3>
             <div v-if="mostrar=='ocultar'">
                 <table class="tb1" v-if="fpa.player_id" >
+                    <tr>
+                        <th>CONTRACT #ID</th>
+                        <td>#{{fpa.idagreements}}</td>
+                    </tr>
                     <tr>
                         <th>STATUS</th>
                         <td>{{UTILS.vStatusAgreement(fpa.a_status)}}</td>
@@ -131,6 +135,13 @@
                         <th>Enviado em</th>
                         <td>{{UTILS.formatData(fpa.a_data) }}</td>
                     </tr>
+                    <tr>
+                        <th>Atualizado em</th>
+                        <td>{{UTILS.formatData(fpa.u_data) }}</td>
+                    </tr>
+                    <tr align="center" v-if="owner">
+                        <td colspan="2"><button @click="cancelaContrato(fpa.idagreements,4,fpa.idplay_accounts, fpa.player_id)">CANCEL CONTRACT</button></td>
+                    </tr>
                 </table>
                 <span v-else>Nenhum contrato em negociação.</span>
             </div>
@@ -147,6 +158,7 @@ import PLAYACC from '../services/playacc'
 import PLAYREPORTS from '@/components/PlayReports.vue'
 import MYSALES from '@/components/MySales.vue'
 import dayjs from 'dayjs'
+import PROPOSTAS from '../services/agreements'
 
 export default {
     components:{
@@ -250,6 +262,19 @@ export default {
             let num = parseFloat(this.fpa.quota_price)
             let tot = parseInt(this.fpa.quota_total)
             return this.qv = (num * tot) 
+        },
+        cancelaContrato(idp,v,idpa, idu){
+
+            var da = {idp,tipo: v, idpa, idu}
+
+            PROPOSTAS.enviaAceiteProposta(da)
+            .then(r => {
+                alert('Contrato cancelado com sucesso.')
+                return this.$router.go()
+            })
+            .catch(err => {
+                return console.log(err);
+            })
         }
 
     },

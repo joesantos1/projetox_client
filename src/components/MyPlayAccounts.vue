@@ -3,7 +3,7 @@
         <h3><span v-if="!dashview"><router-link to="/">Dashboard</router-link> | </span> My Play-Accounts | {{mpa.tt}} contas registradas.</h3>
         <table cellspacing="0px" class="tb1">
           <tr>
-            <th>Account</th>
+            <th>Account #ID</th>
             <th>Game</th>
             <th>Status</th>
             <th>Player</th>
@@ -12,7 +12,7 @@
             <td></td>
           </tr>
           <tr v-for="v of mpa.rr" :key="v.id">
-              <td>{{v.titulo}}</td>
+              <td>{{v.titulo}} #{{v.idplay_accounts}}</td>
               <td align="center">{{v.game_nome}}</td>
               <td align="center"><span v-html="UTILS.vStatusPlayAcc(v.status)"></span></td>
               <td align="center">{{v.player_nome}}</td>

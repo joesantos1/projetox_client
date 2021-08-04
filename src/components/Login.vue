@@ -45,19 +45,25 @@
                 <td><input type="password" name="confirm_pass" v-model="fm.pass_confirm"></td>
             </tr>
             <tr>
-                <th>GAMES (Experiência) (*) Blockchain Games, NFTs, RPG, MMOs e outros.</th>
+                <th>Blockchain Games, NFTs, RPG, MMOs e outros. (Expert)</th>
                 <td>
-                    <input type="checkbox" id="xp0" name="games" value="Axie Infinity" v-model="xp"> 
-                    <label for="xp0">Axie Infinity</label>
+                    <input type="checkbox" id="x0" name="games" value="Axie Infinity" v-model="xp"> 
+                    <label for="x0">Axie Infinity</label>
 
-                    <input type="checkbox" id="xp1" name="games" value="Alien Word" v-model="xp"> 
-                    <label for="xp1">Alien Word</label>
+                    <input type="checkbox" id="x1" name="games" value="Alien Word" v-model="xp"> 
+                    <label for="x1">Alien World</label>
                     
-                    <input type="checkbox" id="xp2" name="games" value="Decentraland" v-model="xp"> 
-                    <label for="xp2">Descentraland</label>
+                    <input type="checkbox" id="x2" name="games" value="Decentraland" v-model="xp"> 
+                    <label for="x2">Descentraland</label>
 
-                    <input type="checkbox" id="xp3" name="games" value="MyPet" v-model="xp"> 
-                    <label for="xp3">My Pet</label>
+                    <input type="checkbox" id="x3" name="games" value="MyPet" v-model="xp"> 
+                    <label for="x3">My DefiPet</label>
+                    <input type="checkbox" id="x4" name="games" value="CryptoBlades" v-model="xp"> 
+                    <label for="x4">CryptoBlades</label>
+                    <input type="checkbox" id="x5" name="games" value="SplinterLands" v-model="xp"> 
+                    <label for="x5">SplinterLands</label>
+                    <input type="checkbox" id="x6" name="games" value="Faraland" v-model="xp"> 
+                    <label for="x6">Faraland</label>
                 </td>
             </tr>
             <tr>

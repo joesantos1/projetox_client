@@ -32,15 +32,10 @@ export default {
         return time;
       },
     vStatusPlayAcc: (s) => {
-        if(s==1){
-            return 'Acordo enviado. Aguardando confirmação de proposta.'
-        }
-        if(s==2){
-            return 'Aguardando um novo acordo - <a href="/catalogo">Contratar player</a>'
-        }
-        if(s==3){
-            return '<span class="green">Contrato confirmado. Player selecionado.</span>'
-        }
+        if(s==1) return 'Acordo enviado. Aguardando confirmação de proposta.'
+        if(s==2) return 'Aguardando um novo acordo - <a href="/catalogo">Contratar player</a>'
+        if(s==3) return '<span class="green">Contrato confirmado. Player selecionado.</span>'
+        if(s==4) return 'Contrato cancelado.'
     },
     vStatusPlayAccMarket: (s) => {
         if(s==1) return 'Acordo enviado. Aguardando confirmação de proposta.'
@@ -62,6 +57,7 @@ export default {
         if(v==1) return 'Proposta enviada. Aguardando confirmação.'
         if(v==2) return 'Proposta recusada.'
         if(v==3) return 'Proposta aceita. Contrato confirmado.'
+        if(v==4) return 'Contrato cancelado.'
     },
     vStatusPlayer: (s) => {
         if(s==1){

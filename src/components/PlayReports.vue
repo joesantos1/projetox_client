@@ -1,6 +1,6 @@
 <template>
   <div>
-        <div v-if="!owner">
+        <div v-if="!owner || dpr[0].status_ag != 4">
             <h3>(+) Novo registro de metas e resultado [new play reports]:</h3>
         <form @submit.prevent="novoPR" >
             <table class="tb1">
