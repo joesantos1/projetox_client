@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <MENU />
+    <MENU v-if="showMenu" />
+    <div class="show-menu" v-if="verificaLogin">
+      <img src="@/assets/menu.png" alt="Acessar menu" @click="showMenu==true ? showMenu=false : showMenu==false ? showMenu = true : showMenu">
+    </div>
+    
     <div class="content-u">
       <div class="set-currency">
         <select name="currency" id="currency" @change="setCurrency(1)" v-model="set_currency">
@@ -27,7 +31,9 @@ export default {
   },
   data(){
     return {
-      set_currency: localStorage.getItem('currency') ? localStorage.getItem('currency') : 'usd'
+      set_currency: localStorage.getItem('currency') ? localStorage.getItem('currency') : 'usd',
+      showMenu: true,
+      verificaLogin: localStorage.getItem('access_token')
     }
   },
   methods: {
@@ -74,20 +80,28 @@ input, textarea, button, select{
   padding: 0.7em;
   background-color: white;
   border: 1px solid rgb(228, 228, 228);
+  border-radius: 10px;
 }
 table{
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0px;
 }
+.show-menu{
+  position: fixed;
+  top: 1%;
+  left: 1%;
+  z-index: 1000;
+}
 .content-user, .content-u{
   position: absolute;
-  left: 15%;
-  width: 85%;
+  width: 100%;
   height: auto;
 }
 .content1{
-  margin: 20px;
+  margin: 25px 10px;
+  width: 100%;
+  float: left;
 }
 .tb1{
   margin: 10px 0px;
@@ -118,6 +132,9 @@ a,a:visited,a:valid,a:active{
 a:hover{
   text-decoration:underline #212529;
 }
+a:hover, button:hover{
+  cursor: pointer;
+}
 .green{
   background: rgb(2, 177, 2);
   color: white;
@@ -137,11 +154,12 @@ a:hover{
   left: 80%;
 }
 .price{
-  font-size: 12px;
+  font-size: 0.8em;
   background: rgb(73, 146, 255);
   color: white;
   padding: 0px 5px;
   border-radius: 20px;
+  float: left;
 }
 
 .player-parent{
@@ -163,10 +181,28 @@ a:hover{
 }
 .rodape{
   width: 100%;
-  bottom: 0%;
-  position: fixed;
   text-align: center;
   padding: 1em 0em;
   float: left;
+}
+
+@media (max-width: 550px){
+  body{
+    font-size: 12px;
+  }
+  .foto-user-list{
+    width: 20px;
+    height: 20px;
+    background-size: 40px;
+  }
+  .set-currency select{
+    font-size: 0.6em;
+  }
+  .content1{
+    width: 95%;
+  }
+  .tb1,.tb2{
+    font-size: 9px;
+  }
 }
 </style>

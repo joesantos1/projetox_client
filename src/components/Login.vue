@@ -196,4 +196,21 @@ export default {
 .content2{
     margin: 40px;
 }
+@media (max-width: 1250px){
+    .login{
+        width: 100%;
+        height: 300px;
+        float: left;
+        position: relative;
+    }
+    .cadastro{
+        width: 100%;
+        float: left;
+        position: relative;
+        left: 0%;
+    }
+    .cadastro select{
+        font-size: 0.7em;
+    }
+}
 </style>

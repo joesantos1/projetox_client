@@ -470,4 +470,30 @@ export default {
 .calc td span{
     font-size: 12px;
 }
+@media (max-width: 1250px){
+    .markets{
+        flex-direction: column;
+    }
+    .markets ul{
+        width: 88%;
+        height: 40px;
+        margin: 5px;
+    }
+    .coin-market{
+        padding: 20px 0px;
+    }
+}
+@media (max-width: 550px){
+    .markets{
+        flex-direction: column;
+    }
+    .markets ul{
+        width: 88%;
+        height: 40px;
+        margin: 5px;
+    }
+    .coin-market{
+        padding: 20px 0px;
+    }
+}
 </style>

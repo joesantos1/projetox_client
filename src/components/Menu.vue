@@ -1,7 +1,7 @@
 <template>
 <div class="menu" v-if="mostraMenu" >
     <div class="content1">
-        <h4>Olá {{mydd.nome}},</h4>
+        <h4><br><br> Olá {{mydd.nome}},</h4>
             <ul>
                 <li><router-link to="/">Home</router-link></li>
                 
@@ -41,13 +41,14 @@ export default {
 
 <style>
 .menu{
-    width: 15%;
+    width: 165px;
     height: 100%;
     background-color: rgb(190, 190, 190);
     color: rgb(87, 87, 87);
     position: fixed;
     left: 0pt;
     top: 0pt;
+    z-index: 900;
 }
 .menu a, .menu a:visited{
   color: rgb(54, 54, 54);

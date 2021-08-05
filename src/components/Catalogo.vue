@@ -25,7 +25,7 @@
                 <td>{{UTILS.verGames(v.games)}}</td>
                 <td>{{v.total_xp}}</td>
                 <td>{{UTILS.formatData(v.createdAt)}}</td>
-                <td><span v-if="v.idusuarios != IDU.iduser"><router-link :to="'/fazerproposta/' + v.idusuarios"><img src="@/assets/contract.png" alt="Fazer proposta de contrato" width="30px"></router-link></span>  </td>
+                <td><span v-if="v.idusuarios != IDU.iduser"><router-link :to="'/fazerproposta/' + v.idusuarios"><img src="@/assets/contract.png" alt="Fazer proposta de contrato" class="img-contrato"></router-link></span>  </td>
             </tr>
         </table>
       </div>
@@ -83,5 +83,18 @@ export default {
     float: left;
     width: 33%;
     margin-left: 2%;
+}
+.img-contrato{
+    width: 30px;
+}
+@media (max-width: 550px){
+    .catalogo, .catalogo-rank{
+        width: 100%;
+        margin-left: 0px;
+    }
+    .img-contrato{
+        width: 15px;
+    }
+
 }
 </style>
