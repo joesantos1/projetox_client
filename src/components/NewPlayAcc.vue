@@ -10,7 +10,7 @@
                 </tr>
                 <tr v-if="ronin==true">
                     <th>Ronin Wallet - Address (ronin:xxx...)</th>
-                    <td><input type="text" name="contract_address" v-model="fpa.contract_address"></td>
+                    <td><input type="text" name="contract_address" size="50" v-model="fpa.contract_address"></td>
                 </tr>
                 <tr>
                     <th>Titulo</th>
@@ -19,7 +19,7 @@
                 </tr>
                 <tr>
                     <th>Informações (Opcional) (*) <i>Visíveis apenas para você.</i></th>
-                    <td><textarea name="infor" id="infor" v-model="fpa.infor" cols="30" rows="10"></textarea></td>
+                    <td><textarea name="infor" id="infor" v-model="fpa.infor" cols="50" rows="2"></textarea></td>
                 </tr>
                 <tr>
                     <th>Custo total [investiment] (*) <i>Apenas números. (0.00)</i></th>

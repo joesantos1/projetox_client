@@ -1,18 +1,17 @@
 <template>
 <div class="menu" v-if="mostraMenu" >
-    <div class="content1">
-        <h4><br><br> Olá {{mydd.nome}},</h4>
-            <ul>
-                <li><router-link to="/">Home</router-link></li>
-                
-                <li><router-link to="/catalogo">Players [catalogo]</router-link></li>
-                <li><router-link to="/play-accounts">My Play-accounts</router-link></li>
-                <li><router-link to="/calc">Calculadora</router-link></li>
-                <li><router-link to="/meusdiretos">Referrels Program</router-link></li>
-                <li><router-link to="/meusdados">Meus dados</router-link></li>
-                <li><router-link to="/logout">Sair</router-link></li>
-            </ul>
-    </div>
+
+    <h4><br><br> Olá {{mydd.nome}},</h4>
+        <ul>
+            <li><router-link to="/">Home</router-link></li>
+            
+            <li><router-link to="/catalogo">Players [catalogo]</router-link></li>
+            <li><router-link to="/play-accounts">My Play-accounts</router-link></li>
+            <li><router-link to="/calc">Calculadora</router-link></li>
+            <li><router-link to="/meusdiretos">Referrels Program</router-link></li>
+            <li><router-link to="/meusdados">Meus dados</router-link></li>
+            <li><router-link to="/logout">Sair</router-link></li>
+        </ul>
 </div>
   
 </template>
@@ -41,14 +40,14 @@ export default {
 
 <style>
 .menu{
-    width: 165px;
+    width: 180px;
     height: 100%;
     background-color: rgb(190, 190, 190);
     color: rgb(87, 87, 87);
-    position: fixed;
-    left: 0pt;
-    top: 0pt;
+    float: left;
     z-index: 900;
+    padding: 1em;
+    position: absolute;
 }
 .menu a, .menu a:visited{
   color: rgb(54, 54, 54);

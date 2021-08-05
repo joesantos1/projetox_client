@@ -81,7 +81,7 @@ export default {
         },
         aceitaProposta(idp,v,idpa){
 
-            var da = {idp,tipo: v, idpa}
+            var da = {idp,tipo: v, idpa, idu: this.fpa[0].idplayer}
       
             PROPOSTAS.enviaAceiteProposta(da)
             .then(r => {

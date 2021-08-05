@@ -94,9 +94,10 @@ table{
   z-index: 1000;
 }
 .content-user, .content-u{
-  position: absolute;
-  width: 100%;
-  height: auto;
+    width: 80%;
+    margin-left: 15%;
+    height: auto;
+    float: left;
 }
 .content1{
   margin: 25px 10px;
@@ -186,9 +187,13 @@ a:hover, button:hover{
   float: left;
 }
 
-@media (max-width: 550px){
+@media (max-width: 1250px){
   body{
     font-size: 12px;
+  }
+  .content-u{
+    width: 100%;
+    margin: 0px;
   }
   .foto-user-list{
     width: 20px;

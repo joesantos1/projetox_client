@@ -29,13 +29,14 @@
                 <th>Play-Account (*)</th>
                 <td>
                     <select name="play-acc" id="play-acc" v-model="fm.idplay_acc" >
-                        <option v-for="v of da" :key="v.id" :value="v.idplay_acc">{{v.titulo + ' | ' + v.games_name}}</option>
+                        <option v-for="v of da" :key="v.id" :value="v.idplay_acc">
+                            {{v.titulo + ' | ' + v.games_name}}</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <th>Termos e Condições (*)</th>
-                <td><textarea id="termos" name="termos" rows="4" v-model="fm.termos"></textarea>
+                <td><textarea id="termos" name="termos" rows="2" cols="50" v-model="fm.termos"></textarea>
                 <p>(*) INFORMAÇÕES RECOMENDADAS: Descrever Metas e objetivos, datas de pagamentos;</p></td>
             </tr>
             <tr>

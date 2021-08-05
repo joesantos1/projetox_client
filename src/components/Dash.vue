@@ -1,6 +1,7 @@
 <template>
     <div class="content1">
-      <h3>Você possui {{nprops}} propostas e acordos. <span v-if="nprops>0"><router-link to="/propostas">Acessar</router-link></span> </h3>
+      <span class="acordos"><h3>Você possui {{nprops}} propostas e acordos. <span v-if="nprops>0"><router-link to="/propostas">Acessar</router-link></span> </h3></span>
+      
       <COINMARKETS />
       <MYPLAYACCOUNTS dashview="true" />
       <CATALOGO dashview="true" />
@@ -42,6 +43,19 @@ export default {
 </script>
 
 <style>
-
+.acordos{
+  background-color: rgb(121, 136, 158);
+  float: left;
+  color: white;
+  width: 100%;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.acordos h3{
+  margin: 10px;
+}
+.acordos a, .acordos a:visited, .acordos a:active{
+  color: yellow;
+}
 
 </style>

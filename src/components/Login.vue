@@ -30,7 +30,7 @@
             <form @submit.prevent="fazerCadastro">
         <table class="cadastro-user" cellspacing="10px">
             <tr>
-                <th>NOME</th>
+                <th>NICKNAME</th>
                 <td><input type="text" name="nome" v-model="fm.nome"></td>
             </tr>
             <tr>
