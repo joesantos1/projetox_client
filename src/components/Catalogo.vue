@@ -16,7 +16,7 @@
                 <td>
                     <router-link :to="'/player/' + v.idusuarios">
                     <span class="player-parent">
-                        <span class="foto-user-list" v-if="v.foto_url" v-bind:style="{ backgroundImage: url(v.foto_url) }"></span> <span>{{v.nome + ' #' + v.idusuarios}}</span>
+                        <span class="foto-user-list" v-if="v.foto_url" v-bind:style="{ backgroundImage: url(v.foto_url) }"></span><span class="foto-user-list no-foto" v-else ></span> <span>{{v.nome + ' #' + v.idusuarios}}</span>
                     </span>
                 
                 </router-link> </td>
@@ -87,6 +87,7 @@ export default {
 .img-contrato{
     width: 30px;
 }
+
 @media (max-width: 550px){
     .catalogo, .catalogo-rank{
         width: 100%;

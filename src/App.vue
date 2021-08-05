@@ -181,6 +181,9 @@ a:hover, button:hover{
     border-radius: 100%;
     border: 3px solid #ffad17;
 }
+.no-foto{
+    background-image: url('./assets/axie.png');
+}
 .rodape{
   width: 100%;
   text-align: center;

@@ -11,7 +11,7 @@
               <td align="center">{{index+1}}</td>
               <td>
                   <span class="player-parent"> 
-                        <span class="foto-user-list" v-if="v.foto_url" v-bind:style="{ backgroundImage: UTILS.url(v.foto_url) }"></span> 
+                        <span class="foto-user-list" v-if="v.foto_url" v-bind:style="{ backgroundImage: UTILS.url(v.foto_url) }"></span> <span class="foto-user-list no-foto" v-else ></span>
                         <span><router-link :to="'/player/'+v.idusuarios">{{v.nome}} #{{v.idusuarios}}</router-link> </span>
                         
                     </span>
