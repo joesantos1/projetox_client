@@ -154,6 +154,11 @@ export default {
 
       DATAUSER.atualizaSenhaUsuario(this.fmp)
       .then(r => {
+        this.fmp = {
+          pass: null,
+          pass_new: null,
+          pass_new_confirm: null
+        }
         return alert('Senha atualizada com sucesso.')
       })
       .catch(err => {

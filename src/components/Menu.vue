@@ -41,7 +41,7 @@ export default {
 <style>
 .menu{
     width: 180px;
-    height: 100%;
+    height: 100vw;
     background-color: rgb(190, 190, 190);
     color: rgb(87, 87, 87);
     float: left;

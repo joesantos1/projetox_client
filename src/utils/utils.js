@@ -116,23 +116,15 @@ export default {
         let cota = JSON.parse(localStorage.getItem('coinmarket'))
         let curr = localStorage.getItem('currency')
 
-        if(curr=='usd'){
+        let cifra
 
-            if(coin=='slp'){
-                let c = cota['smooth-love-potion'].usd
-                let calc = (v*c).toFixed(2)
-                let c_price = new Intl.NumberFormat('pt-BR').format(calc)
-                return 'U$ ' + c_price
-            }
-        }
-        if(curr=='brl'){
-            if(coin=='slp'){
-                let c = cota['smooth-love-potion'].brl
-                let calc = (v*c).toFixed(2)
-                let c_price = new Intl.NumberFormat('pt-BR').format(calc)
-                return 'R$ ' + c_price
-            }
-        }
+        if(curr=='usd') cifra = 'U$ '
+        if(curr=='brl') cifra = 'R$ '
+
+        let c = cota[coin][curr]
+        let calc = (v*c).toFixed(2)
+        let c_price = new Intl.NumberFormat('pt-BR').format(calc)
+        return cifra + c_price
         
     },
     url(f){

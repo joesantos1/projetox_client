@@ -39,17 +39,8 @@
                     <td>
                         <select name="cost_currency" v-model="fpa.cost_currency" id="">
                             <option value="ETH">Ethereum (ETH)</option>
-                            <option value="BTC">Bitcoin (BTC)</option>
                         </select>
                     </td>
-                </tr>
-                <tr>
-                    <th>Game Login (*) Os dados de Login e Pass do jogo serão encaminhados por email apenas para o jogador que você escolheu. </th>
-                    <td><input type="text" name="game_login" v-model="fpa.game_login"></td>
-                </tr>
-                <tr>
-                    <th>Game Pass</th>
-                    <td><input type="text" name="game_pass" v-model="fpa.game_pass"></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -69,14 +60,6 @@
                       <td>{{fpa.titulo}} #{{fpa.idplay_accounts}}</td>
                       
                   </tr>
-                      <tr>
-                          <th>Game Login</th>
-                          <td>{{fpa.game_login}}</td>
-                      </tr>
-                      <tr>
-                          <th>Game Pass (*)</th>
-                          <td>- Solicitar Game Pass</td>
-                      </tr>
               </table>
               <p><button v-if="owner" @click="edit=true">EDIT PLAY-ACCOUNT</button></p>
               
@@ -154,7 +137,7 @@
                           <td>{{axs.slp_avg.toFixed(0) }} <span class="price">{{UTILS.priceCoin(axs.slp_avg,'slp')}}</span></td>
                           <td>{{UTILS.timeConverter(axs.last_claim,0)}} </td>
                           <td>{{axs.last_claim_slp}} <span class="price">{{UTILS.priceCoin(axs.last_claim_slp,'slp')}}</span></td>
-                          <td>{{UTILS.timeConverter(axs.last_claim,1296000000)}}</td>
+                          <td>{{UTILS.timeConverter(axs.last_claim,1209600000)}}</td>
                       </tr>
                   </table>
               </p>
@@ -211,8 +194,6 @@ export default {
                     this.axs.slp_total = axsData.total
                     this.axs.last_claim = axsData.blockchain_related.signature.timestamp
                     this.axs.last_claim_slp = axsData.blockchain_related.signature.amount
-
-                    
                     
                     let hoje = new Date()
                     let day1 = dayjs(hoje)
@@ -238,8 +219,6 @@ export default {
                         this.axs.last_claim = axsData.blockchain_related ? axsData.blockchain_related.signature.timestamp : 0;
                         this.axs.last_claim_slp = axsData.blockchain_related ? axsData.blockchain_related.signature.amount : 0
 
-                        
-                        
                         let hoje = new Date()
                         let day1 = dayjs(hoje)
                         let day2 = dayjs(this.axs.last_claim*1000)

@@ -120,6 +120,7 @@ table{
 .tb1 th, .tb2 th{
   background-color: #ececec;
   color: rgb(99, 99, 99);
+  font-size: 0.8em;
 }
 .tb2 th{
   text-align: right;
