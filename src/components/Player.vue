@@ -1,6 +1,6 @@
 <template>
   <div class="content1">
-      <h3><router-link to="/">Dashboard</router-link>  | Reports Player: {{dpr[0].player_name}}</h3>
+      <h3><router-link to="/">Dashboard</router-link>  | <span class="player-parent2"> <span class="foto-user-list2" v-if="dpr[0].foto_url" v-bind:style="{ backgroundImage: UTILS.url(dpr[0].foto_url) }"></span> Player: {{dpr[0].player_name}} #{{dpr[0].idusuarios}}</span> </h3>
       <table class="tb1">
           <tr>
               <th>PAÍS</th>
@@ -16,7 +16,7 @@
           </tr>
           <tr>
               <th>POINTS [total]</th>
-              <td>{{dpr[0].total_points}}</td>
+              <td>{{dpr[0].total_points}} <span class="price">{{UTILS.priceCoin(dpr[0].total_points,'slp')}}</span></td>
           </tr>
           <tr>
               <th>RATING</th>
@@ -44,7 +44,7 @@
             <td>{{UTILS.formatData(v.updatedAt)}}</td>
             <td>{{v.game_name}}</td>
             <td>{{v.meta_points}}</td>
-            <td>{{v.points}}</td>
+            <td>{{v.points}} <span class="price">{{UTILS.priceCoin(v.points,'slp')}}</span></td>
             <td>{{v.comments}}</td>
             <td v-html="UTILS.vStatusPlayReports(v.status)"></td>
         </tr>
@@ -83,5 +83,21 @@ export default {
 </script>
 
 <style>
-
+.player-parent2{
+    display: flex;
+    align-items: center;
+}
+.foto-user-list2{
+    margin-right: 0.5em;
+}
+.foto-user-list2{
+    width: 60px;
+    height: 60px;
+    float: left;
+    background-size: 120px;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 100%;
+    border: 3px solid #ffad17;
+}
 </style>

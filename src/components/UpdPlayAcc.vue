@@ -1,7 +1,8 @@
 <template>
       <div class="content1">
-          <h2><router-link to="/">Dashboard</router-link> > Edit Play-Account</h2>
-          <form @submit.prevent="updPlayAcc" v-if="owner">
+          <h2><router-link to="/">Dashboard</router-link> > My Play-Account</h2>
+          <div class="edit" v-if="owner && edit">
+            <form @submit.prevent="updPlayAcc" >
               <table class="tb2">
                   <tr>
                       <th>#ID Play-Account</th>
@@ -52,11 +53,13 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td><button v-if="btf" type="submit">Salvar</button></td>
+                    <td><button v-if="btf" type="submit">Salvar</button> <button @click="edit=false">Hide</button></td>
                 </tr>
               </table>
           </form>
-          <table class="tb1" v-else>
+          </div>
+          
+          <table class="tb1" v-if="!owner">
                   <tr>
                       <th>GAME</th>
                       <td>{{fpa.idgame==1 ? 'Axie Infinity' : ''}}</td>
@@ -75,6 +78,7 @@
                           <td>- Solicitar Game Pass</td>
                       </tr>
               </table>
+              <p><button @click="edit=true">EDIT PLAY-ACCOUNT</button></p>
               <p>
                   <table class="tb1" v-if="axs.slp_total">
                       <tr>
@@ -88,10 +92,10 @@
                           <th>Next Claim</th>
                       </tr>
                       <tr>
-                          <td>{{axs.slp_total}}</td>
-                          <td>{{axs.slp_avg.toFixed(0) }}</td>
-                          <td>{{UTILS.timeConverter(axs.last_claim,0)}}</td>
-                          <td>{{axs.last_claim_slp}}</td>
+                          <td>{{axs.slp_total}} <span class="price">{{UTILS.priceCoin(axs.slp_total,'slp')}}</span></td>
+                          <td>{{axs.slp_avg.toFixed(0) }} <span class="price">{{UTILS.priceCoin(axs.slp_avg,'slp')}}</span></td>
+                          <td>{{UTILS.timeConverter(axs.last_claim,0)}} </td>
+                          <td>{{axs.last_claim_slp}} <span class="price">{{UTILS.priceCoin(axs.last_claim_slp,'slp')}}</span></td>
                           <td>{{UTILS.timeConverter(axs.last_claim,1296000000)}}</td>
                       </tr>
                   </table>
@@ -109,7 +113,12 @@
                     </tr>
                     <tr>
                         <th>PLAYER [codename]</th>
-                        <td>{{fpa.player_nome}} #00{{fpa.player_id}}</td>
+                        <td>
+                            <span class="player-parent"> 
+                                <span class="foto-user-list" v-if="fpa.foto_url" v-bind:style="{ backgroundImage: UTILS.url(fpa.foto_url) }"></span> 
+                                {{fpa.player_nome}} #{{fpa.player_id}}
+                            </span>
+                        </td>
                     </tr>
                     <tr>
                         <th>TERMOS</th>
@@ -176,7 +185,10 @@ export default {
             mostrar: 'mostrar',
             qv: 0,
             manager: JSON.parse(localStorage.getItem('_user')),
-            axs: []
+            axs: [],
+            coins: JSON.parse(localStorage.getItem('coinmarket')),
+            curr: localStorage.getItem('currency'),
+            edit: false
         }
     },
     methods: {

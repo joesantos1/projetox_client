@@ -1,6 +1,6 @@
 <template>
   <div>
-        <div v-if="!owner || dpr[0].status_ag != 4">
+        <div v-if="!owner && dpr[0].status_ag != 4">
             <h3>(+) Novo registro de metas e resultado [new play reports]:</h3>
         <form @submit.prevent="novoPR" >
             <table class="tb1">
@@ -23,10 +23,10 @@
             <i>(*) Campos obrigatórios.</i>
         </form>
         </div>
-          <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados | <span class="green">{{total_points==undefined ? 0 : total_points}}</span> points verificados.</h3>
+          <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados | <span class="green">{{total_points==undefined ? 0 : total_points}}</span> points verificados. <span class="price">{{UTILS.priceCoin(total_points,'slp')}}</span></h3>
           <table class="tb1">
               <tr>
-                  <th>[#ID]</th>
+                  <th>#ID</th>
                   <th>Registrado em</th>
                   <th>Atualizado em</th>
                   <th>Player [codename]</th>
@@ -40,9 +40,14 @@
                   <td>#0x{{idagree}}</td>
                   <td>{{UTILS.formatData(v.createdAt)}}</td>
                   <td>{{UTILS.formatData(v.updatedAt)}}</td>
-                  <td>{{v.player_name}}</td>
+                  <td>
+                      <span class="player-parent"> 
+                            <span class="foto-user-list" v-if="v.foto_url" v-bind:style="{ backgroundImage: UTILS.url(v.foto_url) }"></span> 
+                            {{v.player_nome}} #{{v.idusuarios}}
+                        </span>
+                  </td>
                   <td>{{v.meta_points}}</td>
-                  <td>{{v.points}}</td>
+                  <td>{{v.points}} <span class="price">{{UTILS.priceCoin(v.points,'slp')}}</span></td>
                   <td>{{v.comments}}</td>
                   <td v-html="UTILS.vStatusPlayReports(v.status)"></td>
                   <td v-if="owner"><button v-if="v.status==1" @click="verificaPR(v.idplay_reports)">Verificar</button></td>

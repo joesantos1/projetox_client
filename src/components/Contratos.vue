@@ -1,11 +1,17 @@
 <template>
 <div class="content1">
 <div class="contratos">
-      <h3><router-link to="/">DashBoard</router-link> | Proposta de contratação | Player: {{da[0].player_name}}</h3>
+      <h3><router-link to="/">DashBoard</router-link> | Proposta de contratação</h3>
       <table class="tb1">
               <tr>
                   <th>Player [codename]</th>
-                  <td>{{da[0].player_name}}</td>
+                  <td>
+                    <span class="player-parent"> 
+                        <span class="foto-user-list" v-if="da[0].foto_url" v-bind:style="{ backgroundImage: UTILS.url(da[0].foto_url) }"></span> 
+                        {{da[0].player_name}} #{{da[0].idusuarios}}
+                    </span>
+                      
+                    </td>
               </tr>
               <tr>
                   <th>Player [apresentação]</th>
@@ -75,6 +81,7 @@
 
 <script>
 import NOVOACORDO from '../services/agreements'
+import UTILS from '@/utils/utils.js'
 export default {
     data(){
         return {
@@ -89,7 +96,8 @@ export default {
                 payment_type: null
             },
             da: [{0:{player:null}}],
-            btf: true
+            btf: true,
+            UTILS
         }
     },
     methods:{

@@ -15,13 +15,17 @@
             <tr v-for="v of PL" :key="v.id">
                 <td>
                     <router-link :to="'/player/' + v.idusuarios">
-                <span class="foto-user-list" v-if="v.foto_url"><img :src="v.foto_url" alt=""></span> <span>{{v.nome + ' #' + v.idusuarios}}</span></router-link> </td>
+                    <span class="player-parent">
+                        <span class="foto-user-list" v-if="v.foto_url" v-bind:style="{ backgroundImage: url(v.foto_url) }"></span> <span>{{v.nome + ' #' + v.idusuarios}}</span>
+                    </span>
+                
+                </router-link> </td>
                 <td>{{UTILS.vStatusPlayer(v.status) }}</td>
                 <td>{{v.pais}}</td>
                 <td>{{UTILS.verGames(v.games)}}</td>
                 <td>{{v.total_xp}}</td>
                 <td>{{UTILS.formatData(v.createdAt)}}</td>
-                <td><span v-if="v.idusuarios != IDU.iduser"><router-link :to="'/fazerproposta/' + v.idusuarios">Fazer proposta</router-link></span>  </td>
+                <td><span v-if="v.idusuarios != IDU.iduser"><router-link :to="'/fazerproposta/' + v.idusuarios"><img src="@/assets/contract.png" alt="Fazer proposta de contrato" width="30px"></router-link></span>  </td>
             </tr>
         </table>
       </div>
@@ -57,6 +61,9 @@ export default {
             .catch(err => {
                 return alert(err)
             })
+        },
+        url(f){
+            return 'url("'+f+'")'
         }
     },
     created(){
@@ -66,24 +73,15 @@ export default {
 </script>
 
 <style>
-.tb1 span{
-    display: inline;
-}
-.foto-user-list img{
-    width: 35px;
-    height: 35px;
-    border-radius: 100%;
-    display: inline;
-}
 .catalogo{
     float: left;
-    width: 60%;
+    width: 65%;
     font-size: 14px;
 }
 
 .catalogo-rank{
     float: left;
-    width: 35%;
-    margin-left: 5%;
+    width: 33%;
+    margin-left: 2%;
 }
 </style>

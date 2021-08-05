@@ -1,7 +1,7 @@
 <template>
   <div>
       <div class="login">
-          <h2>Bookplyr - versão Beta.</h2>
+          <h2>Bookplyr</h2>
           <div class="content2">
         <h3>LOGIN</h3>
           <form @submit.prevent="fazerLogin">
@@ -20,6 +20,7 @@
               </tr>
           </table>
           </form>
+          <p><i>v1. Beta</i></p>
           </div>
           
       </div>
@@ -173,21 +174,22 @@ export default {
 
 <style>
 .login{
-    width: 30%;
+    width: 50%;
     height: 100%;
-    background-color: rgb(44, 44, 44);
-    color: white;
+    background-color: rgb(236, 236, 236);
+    color: rgb(61, 61, 61);
     position: fixed;
     left: 0pt;
     top: 0pt;
+    padding: 1em;
 }
 .cadastro{
-    width: 70%;
+    width: 50%;
     height: 100%;
-    background-color: rgb(44, 44, 44);
+    background-color: rgb(87, 87, 87);
     color: white;
     position: fixed;
-    left: 30%;
+    left: 50%;
     top: 0pt;
     border-left: 20px solid grey;
 }

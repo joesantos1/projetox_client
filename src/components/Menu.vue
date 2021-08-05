@@ -43,20 +43,25 @@ export default {
 .menu{
     width: 15%;
     height: 100%;
-    background-color: rgb(44, 44, 44);
-    color: white;
+    background-color: rgb(190, 190, 190);
+    color: rgb(87, 87, 87);
     position: fixed;
     left: 0pt;
     top: 0pt;
 }
 .menu a, .menu a:visited{
-  color: white;
+  color: rgb(54, 54, 54);
   text-decoration: none;
+  font-weight: bold;
 }
 .menu a:hover{
     text-decoration: underline;
 }
 .menu ul{
     padding: 0px;
+    list-style: none;
+}
+.menu ul li{
+    margin: 10px 0px;
 }
 </style>

@@ -1,12 +1,14 @@
 <template>
-  <div class="coin-market">
+  <div class="coin-market"><h3> Últimos Preços e variações(%)(24h): </h3>
       <div class="markets">
-        <h3>Últimos Preços e variações(%)(24h): </h3>
+              
       <ul v-for="(v,key) in coin" :key="v.id">
-          <li> <b>{{UTILS.vCoin(key)}}</b></li>
-          <li>U$ {{new Intl.NumberFormat('pt-BR').format(v.usd) }} <span v-html="UTILS.vCoinLastChange(v.usd_24h_change) "></span></li>
-          <li>R$ {{new Intl.NumberFormat('pt-BR').format(v.brl)}} <span v-html="UTILS.vCoinLastChange(v.brl_24h_change) "></span></li>
+          <li><img :src="require('@/assets/'+key+'.png')" :alt="key" width="35px"></li>
+          <li> <b v-html="UTILS.vCoin(key)"></b></li>
+          <li v-if="curr=='usd'">U$ {{new Intl.NumberFormat('pt-BR').format(v.usd) }} <span v-html="UTILS.vCoinLastChange(v.usd_24h_change) "></span></li>
+          <li v-if="curr=='brl'">R$ {{new Intl.NumberFormat('pt-BR').format(v.brl)}} <span v-html="UTILS.vCoinLastChange(v.brl_24h_change) "></span></li>
       </ul>
+        
       </div>
       
     
@@ -231,13 +233,15 @@ export default {
             tusd_p: false,
             tbrl_p: false,
             tot1: [],
-            tot2: []
+            tot2: [],
+            curr: localStorage.getItem('currency')
         }
     },
     methods: {
         buscaCoins(){
             COINS.buscaCoinPrice()
             .then(r => {
+                localStorage.setItem('coinmarket',JSON.stringify(r.data))
                 return this.coin = r.data
             })
             .catch(err => { return alert(err)})
@@ -418,23 +422,41 @@ export default {
 </script>
 
 <style>
-.coin-market{
-    float: left;
-    width: 100%;
-    border-radius: 10px;
-    background: rgb(236, 236, 236);
-    align-items: center;
-}
-.coin-market ul{
-    padding: 1px 10px;
-    margin: 5px 10px;
-    list-style: none;
-    float: left;
-    background: white;
-    border-radius: 10px;
-}
 .calc,.coin-market{
     float: left;
+    width: 100%;
+    font-size: 0.9em;
+}
+.coin-market{
+    border-radius: 10px;
+    background: rgb(241, 241, 241);
+    padding: 30px 10px;
+    margin-bottom: 20px;
+}
+.coin-market h3{
+    margin: 10px;
+}
+.markets{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.markets ul{
+    width: 220px;
+    height: 80px;
+    padding: 1px 10px;
+    margin: 10px;
+    list-style: none;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 10px 5px 5px rgb(204, 204, 204);
+}
+.markets ul li{
+    margin: 0px 3px;
+}
+.markets-child{
     width: 100%;
 }
 .calc{

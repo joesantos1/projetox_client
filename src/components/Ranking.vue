@@ -9,7 +9,13 @@
           </tr>
           <tr v-for="(v, index) in ra" :key="v.id">
               <td align="center">{{index+1}}</td>
-              <td>{{v.nome}}</td>
+              <td>
+                  <span class="player-parent"> 
+                        <span class="foto-user-list" v-if="v.foto_url" v-bind:style="{ backgroundImage: UTILS.url(v.foto_url) }"></span> 
+                        <span><router-link :to="'/player/'+v.idusuarios">{{v.nome}} #{{v.idusuarios}}</router-link> </span>
+                        
+                    </span>
+              </td>
               <td align="center">{{v.points_rank > 0  ? v.points_rank : 0}}</td>
           </tr>
       </table>
@@ -18,10 +24,13 @@
 
 <script>
 import RANKING from '../services/dataUser'
+import UTILS from '@/utils/utils.js'
+
 export default {
     data(){
         return{
-            ra: []
+            ra: [],
+            UTILS
         }
     },
     methods:{
