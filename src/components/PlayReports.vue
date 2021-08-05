@@ -23,7 +23,7 @@
             <i>(*) Campos obrigatórios.</i>
         </form>
         </div>
-          <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados | <span class="green">{{total_points==undefined ? 0 : total_points}}</span> points verificados. <span class="price">{{UTILS.priceCoin(total_points,'slp')}}</span></h3>
+          <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados | <span class="green">{{total_points==undefined ? 0 : total_points}}</span> points verificados. <span class="price">{{UTILS.priceCoin(total_points,'smooth-love-potion')}}</span></h3>
           <table class="tb1">
               <tr>
                   <th>#ID</th>
@@ -47,7 +47,7 @@
                         </span>
                   </td>
                   <td>{{v.meta_points}}</td>
-                  <td>{{v.points}} <span class="price">{{UTILS.priceCoin(v.points,'slp')}}</span></td>
+                  <td>{{v.points}} <span class="price">{{UTILS.priceCoin(v.points,'smooth-love-potion')}}</span></td>
                   <td>{{v.comments}}</td>
                   <td v-html="UTILS.vStatusPlayReports(v.status)"></td>
                   <td v-if="owner"><button v-if="v.status==1" @click="verificaPR(v.idplay_reports)">Verificar</button></td>

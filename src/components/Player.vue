@@ -16,7 +16,7 @@
           </tr>
           <tr>
               <th>POINTS [total]</th>
-              <td>{{dpr[0].total_points}} <span class="price">{{UTILS.priceCoin(dpr[0].total_points,'slp')}}</span></td>
+              <td>{{dpr[0].total_points}} <span class="price">{{UTILS.priceCoin(dpr[0].total_points,'smooth-love-potion')}}</span></td>
           </tr>
           <tr>
               <th>RATING</th>
@@ -44,7 +44,7 @@
             <td>{{UTILS.formatData(v.updatedAt)}}</td>
             <td>{{v.game_name}}</td>
             <td>{{v.meta_points}}</td>
-            <td>{{v.points}} <span class="price">{{UTILS.priceCoin(v.points,'slp')}}</span></td>
+            <td>{{v.points}} <span class="price">{{UTILS.priceCoin(v.points,'smooth-love-potion')}}</span></td>
             <td>{{v.comments}}</td>
             <td v-html="UTILS.vStatusPlayReports(v.status)"></td>
         </tr>

@@ -41,13 +41,13 @@ export default {
 <style>
 .menu{
     width: 180px;
-    height: 100vw;
+    height: 100%;
     background-color: rgb(190, 190, 190);
     color: rgb(87, 87, 87);
     float: left;
     z-index: 900;
     padding: 1em;
-    position: absolute;
+    position: fixed;
 }
 .menu a, .menu a:visited{
   color: rgb(54, 54, 54);

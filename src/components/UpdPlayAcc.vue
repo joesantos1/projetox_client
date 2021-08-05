@@ -133,10 +133,10 @@
                           <th>Next Claim</th>
                       </tr>
                       <tr>
-                          <td>{{axs.slp_total}} <span class="price">{{UTILS.priceCoin(axs.slp_total,'slp')}}</span></td>
-                          <td>{{axs.slp_avg.toFixed(0) }} <span class="price">{{UTILS.priceCoin(axs.slp_avg,'slp')}}</span></td>
+                          <td>{{axs.slp_total}} <span class="price">{{UTILS.priceCoin(axs.slp_total,'smooth-love-potion')}}</span></td>
+                          <td>{{axs.slp_avg.toFixed(0) }} <span class="price">{{UTILS.priceCoin(axs.slp_avg,'smooth-love-potion')}}</span></td>
                           <td>{{UTILS.timeConverter(axs.last_claim,0)}} </td>
-                          <td>{{axs.last_claim_slp}} <span class="price">{{UTILS.priceCoin(axs.last_claim_slp,'slp')}}</span></td>
+                          <td>{{axs.last_claim_slp}} <span class="price">{{UTILS.priceCoin(axs.last_claim_slp,'smooth-love-potion')}}</span></td>
                           <td>{{UTILS.timeConverter(axs.last_claim,1209600000)}}</td>
                       </tr>
                   </table>
