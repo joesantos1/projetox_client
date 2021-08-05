@@ -1,6 +1,6 @@
 <template>
   <div>
-        <div v-if="!owner && dpr[0].status_ag != 4">
+        <div v-if="!owner && dprStatus != 4">
             <h3>(+) Novo registro de metas e resultado [new play reports]:</h3>
         <form @submit.prevent="novoPR" >
             <table class="tb1">
@@ -72,7 +72,8 @@ export default {
             qtd: 0,
             total_points: 0,
             points: 0,
-            UTILS
+            UTILS,
+            dprStatus: 0
         }
     },
     methods: {
@@ -82,7 +83,14 @@ export default {
             .then(r => {
                 
                 this.dpr = r.data.rr
-                this.total_points = this.dpr ? this.dpr[0].total_points : 0
+                if(this.dpr){
+                    this.total_points = this.dpr[0].total_points
+                    this.dprStatus = this.dpr[0].status_ag
+                }else{
+                    this.total_points = 0
+                    this.dprStatus = 0
+                }
+
                 return this.qtd = r.data.qtd
             })
             .catch(err => {

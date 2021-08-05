@@ -19,7 +19,7 @@
                 </tr>
                 <tr>
                     <th>Ronin Wallet - Address (ronin:xxx...)</th>
-                    <td><input type="text" name="contract_address" v-model="fpa.contract_address"></td>
+                    <td><input type="text" name="contract_address" size="50" v-model="fpa.contract_address"></td>
                 </tr>
                 <tr>
                     <th>Titulo</th>
@@ -78,28 +78,8 @@
                           <td>- Solicitar Game Pass</td>
                       </tr>
               </table>
-              <p><button @click="edit=true">EDIT PLAY-ACCOUNT</button></p>
-              <p>
-                  <table class="tb1" v-if="axs.slp_total">
-                      <tr>
-                          <th colspan="6">Axie Infinity : Infor</th>
-                      </tr>
-                      <tr>
-                          <th>SLP total</th>
-                          <th>SLP [p/ day]</th>
-                          <th>SLP Claim [data]</th>
-                          <th>Last Claim [SLP]</th>
-                          <th>Next Claim</th>
-                      </tr>
-                      <tr>
-                          <td>{{axs.slp_total}} <span class="price">{{UTILS.priceCoin(axs.slp_total,'slp')}}</span></td>
-                          <td>{{axs.slp_avg.toFixed(0) }} <span class="price">{{UTILS.priceCoin(axs.slp_avg,'slp')}}</span></td>
-                          <td>{{UTILS.timeConverter(axs.last_claim,0)}} </td>
-                          <td>{{axs.last_claim_slp}} <span class="price">{{UTILS.priceCoin(axs.last_claim_slp,'slp')}}</span></td>
-                          <td>{{UTILS.timeConverter(axs.last_claim,1296000000)}}</td>
-                      </tr>
-                  </table>
-              </p>
+              <p><button v-if="owner" @click="edit=true">EDIT PLAY-ACCOUNT</button></p>
+              
           <h3>Acordos (Agreements) | <button @click="verAcordos()">{{mostrar}}</button></h3>
             <div v-if="mostrar=='ocultar'">
                 <table class="tb1" v-if="fpa.player_id" >
@@ -156,6 +136,30 @@
             </div>
           
           <div v-if="listaError" class="errors" @click="listaError=false">{{listaError}}</div>
+          <div v-if="owner">
+              <p>
+                  <table class="tb1">
+                      <tr>
+                          <th colspan="6">Axie Infinity : Infor</th>
+                      </tr>
+                      <tr>
+                          <th>SLP total</th>
+                          <th>SLP [p/ day]</th>
+                          <th>SLP Claim [data]</th>
+                          <th>Total Claim [SLP]</th>
+                          <th>Next Claim</th>
+                      </tr>
+                      <tr>
+                          <td>{{axs.slp_total}} <span class="price">{{UTILS.priceCoin(axs.slp_total,'slp')}}</span></td>
+                          <td>{{axs.slp_avg.toFixed(0) }} <span class="price">{{UTILS.priceCoin(axs.slp_avg,'slp')}}</span></td>
+                          <td>{{UTILS.timeConverter(axs.last_claim,0)}} </td>
+                          <td>{{axs.last_claim_slp}} <span class="price">{{UTILS.priceCoin(axs.last_claim_slp,'slp')}}</span></td>
+                          <td>{{UTILS.timeConverter(axs.last_claim,1296000000)}}</td>
+                      </tr>
+                  </table>
+              </p>
+          </div>
+          
 
           <PLAYREPORTS :owner="owner" :idagree="fpa.idagreements" v-if="fpa.a_status==3" />
       </div>
@@ -242,6 +246,8 @@ export default {
                         
                         this.axs.slp_avg = (axsData.total / day1.diff(day2,'day'))
 
+                    }else{
+                        this.fpa.api_data = null
                     }
                 }
 
@@ -255,6 +261,10 @@ export default {
         },
         updPlayAcc(){
             this.btf = false
+
+            this.fpa.cost_total = this.fpa.cost_total != null ? this.fpa.cost_total.replace(',','.') : null
+
+            this.fpa.api_data = JSON.stringify(this.fpa.api_data)
             PLAYACC.atualizaPlayAcc(this.fpa)
             .then(r => {
                 this.btf = true

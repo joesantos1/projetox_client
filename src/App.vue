@@ -160,7 +160,7 @@ a:hover, button:hover{
   color: white;
   padding: 0px 5px;
   border-radius: 20px;
-  float: left;
+  float: right;
 }
 
 .player-parent{
