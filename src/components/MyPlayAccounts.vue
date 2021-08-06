@@ -5,7 +5,7 @@
         <table class="tb1" v-if="mpa.tt || mpa.tt > 0">
             <tr>
                 <th>TOTAL INVESTED</th>
-                <td>{{all.total_invested}} <span class="price">{{UTILS.priceCoin(all.total_invested,'ethereum')}}</span></td>
+                <td>{{all.total_invested.toFixed(4)}} <span class="price">{{UTILS.priceCoin(all.total_invested,'ethereum')}}</span></td>
                 <th>ROI (%)</th>
                 <td>{{all.roi.toFixed(2)}}%</td>
                 <th>ROI [p/ day] (%)</th>
@@ -26,6 +26,25 @@
                 <td>{{all.next_claim_acc}}</td>
                 <th>Next Claim [SLP]</th>
                 <td>{{all.next_claim_slp}}<span class="price">{{UTILS.priceCoin(all.next_claim_slp,'smooth-love-potion')}}</span></td>
+            </tr>
+            <tr>
+                <th colspan="2">High Performance SLP p/day</th>
+                <td>
+                    <span style="display:flex;justify-content: space-between;">
+                    <img src="@/assets/best.png" width="24px" alt=""> {{all.high_slp.toFixed(0)}} <span class="price">{{UTILS.priceCoin(all.high_slp,'smooth-love-potion')}}</span>
+                    </span> </td>
+                <th colspan="2">Best Account | Player</th>
+                <td v-html="all.high_acc"></td>
+            </tr>
+            <tr>
+                <th colspan="2">Low Performance SLP p/day</th>
+                <td>
+                    <span style="display:flex;justify-content: space-between;">
+                    <img src="@/assets/down2.png" alt=""> {{all.low_slp}} <span class="price">{{UTILS.priceCoin(all.low_slp,'smooth-love-potion')}}</span>
+                    </span>
+                </td>
+                <th colspan="2">Lower Account | Player</th>
+                <td v-html="all.low_acc"></td>
             </tr>
         </table>
         
@@ -69,7 +88,11 @@ export default {
                 next_claim: 0,
                 roi:0,
                 roi_day:0,
-                total_invested:0
+                total_invested:0,
+                high_slp:0,
+                high_acc:null,
+                low_slp:0,
+                low_acc: null
             },
             UTILS
         }
@@ -79,58 +102,85 @@ export default {
             MYPLAYACC.buscaTodasPlayAcc()
             .then(r => {
                 this.mpa = r.data
-                let all = this.all
-                let mm = this.mpa.rr
-                let hoje = new Date()
-                let tdia = 0
 
-                for(var v in mm){
-                    
-                    //CALCULA TOTAL INVESTIDO NAS CONTAS
-                    all.total_invested += mm[v].cost_total
-
-                    if(mm[v].api_data!=null){
-                        //CALCULA TOTAL DE SLPS
-                        let mmm = mm[v].api_data
-                        all.total_slp += mmm.blockchain_related.checkpoint
-                        all.total_slp += mmm.total
-                        all.total_claimed += mmm.blockchain_related.checkpoint
-
-                        //CALC AVG SLP/DIA
-                        let lastc = mmm.blockchain_related ? mmm.blockchain_related.signature.timestamp : 0;
-                        
-                        let day1 = dayjs(hoje)
-                        let day2 = dayjs(lastc*1000)
-                        
-                        if(mmm.total>0){
-                            tdia += (mmm.total / day1.diff(day2,'day'))
-                        } 
-
-                        //BUSCA DATA DE CLAIM MAIS PROXIMA [NEXT CLAIM]
-                        if(all.next_claim==0) all.next_claim = lastc
-                        if(lastc < all.next_claim){
-                            all.next_claim = lastc
-                            all.next_claim_acc = mm[v].titulo
-                            all.next_claim_slp = mmm.total
-                        } 
-
-                    }
+                if(r.data.rr){
+                    this.apiData(r.data.rr)
                 }
-                
-                all.total_slp_avg = tdia
-
-                //CALC DE ROI
-                let coinm = JSON.parse(localStorage.getItem('coinmarket'))
-                let curr = localStorage.getItem('currency')
-                all.roi = ((all.total_slp*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
-                all.roi_day = ((tdia*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
-                
                 return
             })
             .catch(err => {
                 return alert(err)
             })
         },
+        apiData(data){
+            let all = this.all
+            let mm = data
+            let hoje = new Date()
+            let tdia = 0
+            let md = 0
+            let low = []
+            let low_acc = []
+
+            for(var v in mm){
+                
+                //CALCULA TOTAL INVESTIDO NAS CONTAS
+                all.total_invested += mm[v].cost_total
+
+                if(mm[v].api_data!=null && mm[v].api_data.blockchain_related.signature){
+
+                    let mmm = mm[v].api_data
+                    let ttt = mmm.total ? mmm.total : 0;
+                    let cpp = mmm.blockchain_related.checkpoint ? mmm.blockchain_related.checkpoint : 0
+                    //CALCULA TOTAL DE SLPS
+                    
+                    all.total_slp += cpp
+                    all.total_slp += ttt
+                    all.total_claimed += cpp
+
+                    //CALC AVG SLP/DIA
+                    let dd = mm[v].data_buy ? mm[v].data_buy.split('/') : ['01','01','2021']
+                    let ddd = dd[2] + '/' + dd[1] + '/' + dd[0]
+                    let created = Date.parse(ddd)
+                    
+                    let day1 = dayjs(hoje)
+                    let day2 = dayjs(created)
+
+                    let tt = (parseInt(ttt)+parseInt(cpp))
+                    
+                    if(tt>0){
+                        tdia += (tt / day1.diff(day2,'day'))
+                        md = (tt / day1.diff(day2,'day'))
+                        low.push(md)
+                        low_acc[md] = mm[v].titulo + ' | <i>' + mm[v].player_nome + '</i>'
+                    } 
+
+                    //BEST PERFORMANCE AND PLAY-ACC
+                    if(md > all.high_slp){
+                        all.high_slp = md 
+                        all.high_acc = mm[v].titulo + ' | <i>' + mm[v].player_nome + '</i>'
+                    } 
+
+                    //BUSCA DATA DE CLAIM MAIS PROXIMA [NEXT CLAIM]
+                    let lastc = mmm.blockchain_related ? mmm.blockchain_related.signature.timestamp : 0;
+                    if(all.next_claim==0) all.next_claim = lastc
+                    if(lastc < all.next_claim){
+                        all.next_claim = lastc
+                        all.next_claim_acc = mm[v].titulo
+                        all.next_claim_slp = ttt
+                    } 
+                }
+            }
+            
+            all.low_slp = Math.min(...low)
+            all.low_acc = low_acc[all.low_slp]
+            all.total_slp_avg = tdia
+
+            //CALC DE ROI
+            let coinm = JSON.parse(localStorage.getItem('coinmarket'))
+            let curr = localStorage.getItem('currency')
+            all.roi = ((all.total_slp*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
+            all.roi_day = ((tdia*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
+        }
         
     },
     mounted(){
@@ -140,5 +190,8 @@ export default {
 </script>
 
 <style>
-
+.teste{
+    display: flex;
+    justify-content: space-between;
+}
 </style>

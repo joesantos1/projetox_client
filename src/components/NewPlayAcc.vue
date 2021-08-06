@@ -34,15 +34,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <th colspan="2">Configurações</th>
-                </tr>
-                <tr>
-                    <th>Game Login (*) Os dados de Login e Pass do jogo serão encaminhados por email apenas para o jogador que você escolheu. </th>
-                    <td><input type="text" name="game_login" v-model="fpa.game_login"></td>
-                </tr>
-                <tr>
-                    <th>Game Password</th>
-                    <td><input type="text" name="game_pass" v-model="fpa.game_pass"></td>
+                    <th>Comprado realizada em</th>
+                    <td><input type="text" name="data_buy" v-model="fpa.data_buy" v-mask="'##/##/####'"></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -68,7 +61,8 @@ export default {
                 game_login: null,
                 game_pass: null,
                 contract_address: null,
-                api_data: null
+                api_data: null,
+                data_buy: null
             },
             qv: 0,
             manager: JSON.parse(localStorage.getItem('_user')),
@@ -84,11 +78,13 @@ export default {
             this.fpa.cost_total = this.fpa.cost_total != null ? this.fpa.cost_total.replace(',','.') : null
 
             //BUSCA DADOS USARIO API AXI INFINITY
-            var ron = this.fpa.contract_address.split(':');
-            var aa = await PLAYCCS.buscaDadosAPIAxie(ron[1]);
+            if(this.fpa.contract_address){
+                var ron = this.fpa.contract_address.split(':');
+                var aa = await PLAYCCS.buscaDadosAPIAxie(ron[1]);
 
-            this.fpa.api_data = JSON.stringify(aa.data)
-
+                this.fpa.api_data = JSON.stringify(aa.data)
+            }
+            
             PLAYCCS.cadastraNovaPlayAcc(this.fpa)
             .then(r => {
                 alert('Conta cadastrada com sucesso.')

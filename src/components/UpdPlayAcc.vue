@@ -1,12 +1,12 @@
 <template>
       <div class="content1">
-          <h2><router-link to="/">Dashboard</router-link> > My Play-Account</h2>
+          <h2><router-link to="/">Dashboard</router-link> > My Play-Account | {{fpa.titulo}}</h2>
           <div class="edit" v-if="owner && edit">
             <form @submit.prevent="updPlayAcc" >
               <table class="tb2">
                   <tr>
                       <th>#ID Play-Account</th>
-                      <td>#{{fpa.idplay_accounts}}</td>
+                      <td>#{{fpa.idplay_accounts}} | {{fpa.titulo}}</td>
                   </tr>
                   <tr>
                       <th>STATUS</th>
@@ -147,8 +147,8 @@
             <tr>
                 <th>Next Claim</th>
                 <td>{{UTILS.timeConverter(all.next_claim,1209600000)}}</td>
-                <th>Next Claim [account]</th>
-                <td>{{all.next_claim_acc}}</td>
+                <th>Atividade [dias](*) </th>
+                <td>{{all.days_buyed}}</td>
                 <th>Next Claim [SLP]</th>
                 <td>{{all.next_claim_slp}}<span class="price">{{UTILS.priceCoin(all.next_claim_slp,'smooth-love-potion')}}</span></td>
             </tr>
@@ -156,7 +156,8 @@
                 <td colspan="7" align="center"><button @click="updApiData()">ATUALIZAR DADOS</button></td>
             </tr>
         </table>
-              </p>
+        
+              </p><p><i>(*)Para contagem correta dos dias, assim como o calculo de ROI p/day, cadastre uma data de compra ou início.</i></p>
           </div>
           
 
@@ -199,7 +200,8 @@ export default {
                 next_claim: 0,
                 roi:0,
                 roi_day:0,
-                total_invested:0
+                total_invested:0,
+                days_buyed: 0
             },
         }
     },
@@ -214,14 +216,15 @@ export default {
 
                 let axsData = r.data.rr.api_data
 
-                if(axsData || axsData != null){
-
+                if(axsData && axsData.blockchain_related.signature != null){
+                    
                     this.dadosApi(this.fpa)
 
                 }else{
-
-                    if(this.fpa.contract_address){
+                
+                    if(this.fpa.contract_address && this.fpa.contract_address.length > 10){
                         //BUSCA DADOS USARIO API AXI INFINITY
+    
                         var ron = this.fpa.contract_address.split(':');
                         var aa = await PLAYACC.buscaDadosAPIAxie(ron[1]);
 
@@ -234,13 +237,10 @@ export default {
                         this.dadosApi(this.fpa)
 
                     }else{
-                        this.fpa.api_data = null
+                        return this.fpa.api_data = null
                     }
                 }
-
-                
-                return this.calculaValor()
-                
+                return 
             })
             .catch(err => {
                 return alert(err)
@@ -262,42 +262,50 @@ export default {
             all.total_claimed = mmm.blockchain_related.checkpoint
 
             //CALC AVG SLP/DIA
-            let lastc = mmm.blockchain_related.signature.timestamp;
+
+            let dd = mm.data_buy ? mm.data_buy.split('/') : ['01','01','2021']
+            let ddd = dd[2] + '/' + dd[1] + '/' + dd[0]
+            let created = Date.parse(ddd)
             
             let day1 = dayjs(hoje)
-            let day2 = dayjs(lastc*1000)
+            let day2 = dayjs(created)
             
-            if(mmm.total>0){
-                tdia = (mmm.total / day1.diff(day2,'day'))
+            if(all.total_slp>0){
+                tdia = (all.total_slp / day1.diff(day2,'day'))
+                all.days_buyed = day1.diff(day2,'day')
             } 
 
             //BUSCA DATA DE CLAIM MAIS PROXIMA [NEXT CLAIM]
-            if(all.next_claim==0) all.next_claim = lastc
-            if(lastc < all.next_claim){
-                all.next_claim = lastc
-                all.next_claim_slp = mmm.total
-            } 
+            all.next_claim = mmm.blockchain_related.signature.timestamp
+            all.next_claim_slp = mmm.total
             
-            all.total_slp_avg = tdia <=0 ? 1 : tdia
+            all.total_slp_avg = tdia
 
             //CALC DE ROI
             let coinm = JSON.parse(localStorage.getItem('coinmarket'))
             let curr = localStorage.getItem('currency')
             all.roi = ((all.total_slp*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
             all.roi_day = ((tdia*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
+            
+            return
         },
         async updApiData(){
-            //BUSCA DADOS USARIO API AXI INFINITY
-            var ron = this.fpa.contract_address.split(':');
-            var aa = await PLAYACC.buscaDadosAPIAxie(ron[1]);
+            if(this.fpa.contract_address){
+                //BUSCA DADOS USARIO API AXI INFINITY
+                var ron = this.fpa.contract_address.split(':');
+                var aa = await PLAYACC.buscaDadosAPIAxie(ron[1]);
 
-            this.fpa.api_data = JSON.stringify(aa.data)
+                this.fpa.api_data = JSON.stringify(aa.data)
 
-            //ATUALIZA INFORMACOES DE API NO DB DA PLAY-ACC
-            PLAYACC.atualizaPlayAcc(this.fpa)
-            .then(() => {
-                return this.$router.go()
-            })
+                //ATUALIZA INFORMACOES DE API NO DB DA PLAY-ACC
+                PLAYACC.atualizaPlayAcc(this.fpa)
+                .then(() => {
+                    return this.$router.go()
+                })
+            }else{
+                return alert('Você precisa informar um endereço de Ronin Wallet');
+            }
+            
         },
         updPlayAcc(){
             this.btf = false
@@ -305,7 +313,7 @@ export default {
             if(ccc){
 
                 if(ccc.indexOf(",")>-1){
-                    this.fpa.cost_total.replace(',','.')
+                    this.fpa.cost_total = this.fpa.cost_total.replace(',','.')
                 }
 
             }else{

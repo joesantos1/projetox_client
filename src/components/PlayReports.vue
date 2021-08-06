@@ -43,7 +43,7 @@
                   <td>
                       <span class="player-parent"> 
                             <span class="foto-user-list" v-if="v.foto_url" v-bind:style="{ backgroundImage: UTILS.url(v.foto_url) }"></span> 
-                            {{v.player_nome}} #{{v.idusuarios}}
+                            {{v.player_name}} #{{v.idusuarios}}
                         </span>
                   </td>
                   <td>{{v.meta_points}}</td>

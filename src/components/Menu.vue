@@ -62,6 +62,8 @@ export default {
     list-style: none;
 }
 .menu ul li{
-    margin: 10px 0px;
+    margin: 0px;
+    padding: 1em 0;
+    border-top:1px solid grey;
 }
 </style>
