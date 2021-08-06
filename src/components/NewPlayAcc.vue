@@ -30,7 +30,6 @@
                     <td>
                         <select name="cost_currency" v-model="fpa.cost_currency" id="">
                             <option value="ETH">Ethereum (ETH)</option>
-                            <option value="BTC">Bitcoin (BTC)</option>
                         </select>
                     </td>
                 </tr>

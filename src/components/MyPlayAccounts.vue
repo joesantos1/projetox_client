@@ -6,9 +6,9 @@
             <tr>
                 <th>TOTAL INVESTED</th>
                 <td>{{all.total_invested}} <span class="price">{{UTILS.priceCoin(all.total_invested,'ethereum')}}</span></td>
-                <th>ROI</th>
+                <th>ROI (%)</th>
                 <td>{{all.roi.toFixed(2)}}%</td>
-                <th>ROI [p/ day]</th>
+                <th>ROI [p/ day] (%)</th>
                 <td>{{all.roi_day.toFixed(2)}}%</td>
             </tr>
             <tr>
@@ -68,7 +68,8 @@ export default {
                 total_slp_avg: 0,
                 next_claim: 0,
                 roi:0,
-                roi_day:0
+                roi_day:0,
+                total_invested:0
             },
             UTILS
         }
@@ -80,13 +81,13 @@ export default {
                 this.mpa = r.data
                 let all = this.all
                 let mm = this.mpa.rr
-                all.total_invested = mm[mm.length-1].total_cost
                 let hoje = new Date()
                 let tdia = 0
 
                 for(var v in mm){
                     
                     //CALCULA TOTAL INVESTIDO NAS CONTAS
+                    all.total_invested += mm[v].cost_total
 
                     if(mm[v].api_data!=null){
                         //CALCULA TOTAL DE SLPS
@@ -123,9 +124,7 @@ export default {
                 let curr = localStorage.getItem('currency')
                 all.roi = ((all.total_slp*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
                 all.roi_day = ((tdia*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
-
                 
-
                 return
             })
             .catch(err => {

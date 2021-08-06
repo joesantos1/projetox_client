@@ -43,6 +43,12 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>Comprado em</th>
+                    <td>
+                        <input type="text" name="data_buy" v-model="fpa.data_buy" v-mask="'##/##/####'">
+                    </td>
+                </tr>
+                <tr>
                     <td></td>
                     <td><button v-if="btf" type="submit">Salvar</button> <button @click="edit=false">Hide</button></td>
                 </tr>
@@ -122,24 +128,34 @@
           <div v-if="owner">
               <p>
                   <table class="tb1">
-                      <tr>
-                          <th colspan="6">Axie Infinity : Infor</th>
-                      </tr>
-                      <tr>
-                          <th>SLP total</th>
-                          <th>SLP [p/ day]</th>
-                          <th>SLP Claim [data]</th>
-                          <th>Total Claim [SLP]</th>
-                          <th>Next Claim</th>
-                      </tr>
-                      <tr>
-                          <td>{{axs.slp_total}} <span class="price">{{UTILS.priceCoin(axs.slp_total,'smooth-love-potion')}}</span></td>
-                          <td>{{axs.slp_avg.toFixed(0) }} <span class="price">{{UTILS.priceCoin(axs.slp_avg,'smooth-love-potion')}}</span></td>
-                          <td>{{UTILS.timeConverter(axs.last_claim,0)}} </td>
-                          <td>{{axs.last_claim_slp}} <span class="price">{{UTILS.priceCoin(axs.last_claim_slp,'smooth-love-potion')}}</span></td>
-                          <td>{{UTILS.timeConverter(axs.last_claim,1209600000)}}</td>
-                      </tr>
-                  </table>
+            <tr>
+                <th>TOTAL INVESTED</th>
+                <td>{{all.total_invested}} <span class="price">{{UTILS.priceCoin(all.total_invested,'ethereum')}}</span></td>
+                <th>ROI (%)</th>
+                <td>{{all.roi.toFixed(2)}}%</td>
+                <th>ROI [p/ day] (%)</th>
+                <td>{{all.roi_day.toFixed(2)}}%</td>
+            </tr>
+            <tr>
+                <th>SLP TOTAL</th>
+                <td>{{all.total_slp}} <span class="price">{{UTILS.priceCoin(all.total_slp,'smooth-love-potion')}}</span></td>
+                <th>SLP TOTAL [claimed]</th>
+                <td>{{all.total_claimed}} <span class="price">{{UTILS.priceCoin(all.total_claimed,'smooth-love-potion')}}</span></td>
+                <th>SLP Avg/Day</th>
+                <td>{{all.total_slp_avg.toFixed(0)}} <span class="price">{{UTILS.priceCoin(all.total_slp_avg,'smooth-love-potion')}}</span></td>
+            </tr>
+            <tr>
+                <th>Next Claim</th>
+                <td>{{UTILS.timeConverter(all.next_claim,1209600000)}}</td>
+                <th>Next Claim [account]</th>
+                <td>{{all.next_claim_acc}}</td>
+                <th>Next Claim [SLP]</th>
+                <td>{{all.next_claim_slp}}<span class="price">{{UTILS.priceCoin(all.next_claim_slp,'smooth-love-potion')}}</span></td>
+            </tr>
+            <tr>
+                <td colspan="7" align="center"><button @click="updApiData()">ATUALIZAR DADOS</button></td>
+            </tr>
+        </table>
               </p>
           </div>
           
@@ -175,7 +191,16 @@ export default {
             axs: [],
             coins: JSON.parse(localStorage.getItem('coinmarket')),
             curr: localStorage.getItem('currency'),
-            edit: false
+            edit: false,
+            all: {
+                total_slp: 0,
+                total_claimed: 0,
+                total_slp_avg: 0,
+                next_claim: 0,
+                roi:0,
+                roi_day:0,
+                total_invested:0
+            },
         }
     },
     methods: {
@@ -191,15 +216,7 @@ export default {
 
                 if(axsData || axsData != null){
 
-                    this.axs.slp_total = axsData.total
-                    this.axs.last_claim = axsData.blockchain_related.signature.timestamp
-                    this.axs.last_claim_slp = axsData.blockchain_related.signature.amount
-                    
-                    let hoje = new Date()
-                    let day1 = dayjs(hoje)
-                    let day2 = dayjs(this.axs.last_claim*1000)
-                    
-                    this.axs.slp_avg = (axsData.total / day1.diff(day2,'day'))
+                    this.dadosApi(this.fpa)
 
                 }else{
 
@@ -214,16 +231,7 @@ export default {
                         await PLAYACC.atualizaPlayAcc(this.fpa)
 
                         //CARREGA DADOS DA API 
-                        axsData = this.fpa.api_data
-                        this.axs.slp_total = axsData.total
-                        this.axs.last_claim = axsData.blockchain_related ? axsData.blockchain_related.signature.timestamp : 0;
-                        this.axs.last_claim_slp = axsData.blockchain_related ? axsData.blockchain_related.signature.amount : 0
-
-                        let hoje = new Date()
-                        let day1 = dayjs(hoje)
-                        let day2 = dayjs(this.axs.last_claim*1000)
-                        
-                        this.axs.slp_avg = (axsData.total / day1.diff(day2,'day'))
+                        this.dadosApi(this.fpa)
 
                     }else{
                         this.fpa.api_data = null
@@ -238,12 +246,73 @@ export default {
                 return alert(err)
             })
         },
+        dadosApi(data){
+             let all = this.all
+            let mm = data
+            let hoje = new Date()
+            let tdia = 0
+                    
+            //CALCULA TOTAL INVESTIDO NAS CONTAS
+            all.total_invested = mm.cost_total
+
+            //CALCULA TOTAL DE SLPS
+            let mmm = mm.api_data
+            all.total_slp += mmm.blockchain_related.checkpoint
+            all.total_slp += mmm.total
+            all.total_claimed = mmm.blockchain_related.checkpoint
+
+            //CALC AVG SLP/DIA
+            let lastc = mmm.blockchain_related.signature.timestamp;
+            
+            let day1 = dayjs(hoje)
+            let day2 = dayjs(lastc*1000)
+            
+            if(mmm.total>0){
+                tdia = (mmm.total / day1.diff(day2,'day'))
+            } 
+
+            //BUSCA DATA DE CLAIM MAIS PROXIMA [NEXT CLAIM]
+            if(all.next_claim==0) all.next_claim = lastc
+            if(lastc < all.next_claim){
+                all.next_claim = lastc
+                all.next_claim_slp = mmm.total
+            } 
+            
+            all.total_slp_avg = tdia <=0 ? 1 : tdia
+
+            //CALC DE ROI
+            let coinm = JSON.parse(localStorage.getItem('coinmarket'))
+            let curr = localStorage.getItem('currency')
+            all.roi = ((all.total_slp*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
+            all.roi_day = ((tdia*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
+        },
+        async updApiData(){
+            //BUSCA DADOS USARIO API AXI INFINITY
+            var ron = this.fpa.contract_address.split(':');
+            var aa = await PLAYACC.buscaDadosAPIAxie(ron[1]);
+
+            this.fpa.api_data = JSON.stringify(aa.data)
+
+            //ATUALIZA INFORMACOES DE API NO DB DA PLAY-ACC
+            PLAYACC.atualizaPlayAcc(this.fpa)
+            .then(() => {
+                return this.$router.go()
+            })
+        },
         updPlayAcc(){
             this.btf = false
+            let ccc = '"'+this.fpa.cost_total+'"'
+            if(ccc){
 
-            this.fpa.cost_total = this.fpa.cost_total != null ? this.fpa.cost_total.replace(',','.') : null
+                if(ccc.indexOf(",")>-1){
+                    this.fpa.cost_total.replace(',','.')
+                }
 
+            }else{
+                this.fpa.cost_total = null
+            }
             this.fpa.api_data = JSON.stringify(this.fpa.api_data)
+
             PLAYACC.atualizaPlayAcc(this.fpa)
             .then(r => {
                 this.btf = true

@@ -14,7 +14,7 @@
       </div>
       <router-view />
       <div class="rodape">
-        <span>® Bookplyr.com - 2021 - version 1.0</span>
+        <span>® Bookplyr.com - 2021 - version 1.0 - SUPORTE e Comunidade: <a href="https://discord.gg/ZTMApcSK" target="_blank" rel="noopener noreferrer">Acesse nosso servidor no Discord</a> </span>
         
       </div>
     </div>
@@ -94,7 +94,7 @@ table{
   z-index: 1000;
 }
 .content-user, .content-u{
-    width: 80%;
+    width: 82%;
     margin-left: 15%;
     height: auto;
     float: left;
