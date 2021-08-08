@@ -40,7 +40,7 @@
                 <th colspan="2">Low Performance SLP p/day</th>
                 <td>
                     <span style="display:flex;justify-content: space-between;">
-                    <img src="@/assets/down2.png" alt=""> {{all.low_slp}} <span class="price">{{UTILS.priceCoin(all.low_slp,'smooth-love-potion')}}</span>
+                    <img src="@/assets/down2.png" alt=""> {{all.low_slp.toFixed(0)}} <span class="price">{{UTILS.priceCoin(all.low_slp,'smooth-love-potion')}}</span>
                     </span>
                 </td>
                 <th colspan="2">Lower Account | Player</th>

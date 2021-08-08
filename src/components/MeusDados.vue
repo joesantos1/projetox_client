@@ -28,17 +28,39 @@
                     </select>
                 </td>
             </tr>
+            <tr>
+                <th>Blockchain Games, NFTs, RPG, MMOs e outros. (Experience)</th>
+                <td>
+                    <input type="checkbox" id="x0" name="games" value="Axie Infinity" v-model="xp"> 
+                    <label for="x0">Axie Infinity</label>
+
+                    <input type="checkbox" id="x1" name="games" value="Alien Word" v-model="xp"> 
+                    <label for="x1">Alien World</label>
+                    
+                    <input type="checkbox" id="x2" name="games" value="Decentraland" v-model="xp"> 
+                    <label for="x2">Descentraland</label>
+
+                    <input type="checkbox" id="x3" name="games" value="MyPet" v-model="xp"> 
+                    <label for="x3">My DefiPet</label>
+                    <input type="checkbox" id="x4" name="games" value="CryptoBlades" v-model="xp"> 
+                    <label for="x4">CryptoBlades</label>
+                    <input type="checkbox" id="x5" name="games" value="SplinterLands" v-model="xp"> 
+                    <label for="x5">SplinterLands</label>
+                    <input type="checkbox" id="x6" name="games" value="Faraland" v-model="xp"> 
+                    <label for="x6">Faraland</label>
+                </td>
+            </tr>
           <tr>
             <th>NOME</th>
             <td><input type="text" name="nome" v-model="fm.nome"></td>
           </tr>
           <tr>
               <th>EMAIL</th>
-              <td><input type="text" name="email" v-model="fm.email"></td>
+              <td><input disabled type="text" name="email" v-model="fm.email"></td>
           </tr>
           <tr>
             <th>DATA DE NASCIMENTO</th>
-            <td><input type="text" name="nascimento" v-model="fm.nascimento"></td>
+            <td><input type="text" name="nascimento" v-model="fm.nascimento" v-mask="'##/##/####'"></td>
           </tr>
           <tr>
             <th>CPF OU Nº PASSAPORTE</th>
@@ -62,7 +84,7 @@
           </tr>
           <tr>
             <th>PAÍS</th>
-            <td><select id="country" name="country" v-model="fm.pais">
+            <td><select id="pais" name="pais" v-model="fm.pais">
    <option value="Afganistan">Afghanistan</option>
    <option value="Albania">Albania</option>
    <option value="Algeria">Algeria</option>
@@ -364,7 +386,8 @@ export default {
         pass_new: null,
         pass_new_confirm: null
       },
-      file:null
+      file:null,
+      xp: []
     }
   },
   methods:{
@@ -372,7 +395,11 @@ export default {
 
       DATAUSER.buscaDadosUsuario()
       .then(r => {
-        return this.fm = r.data.rr
+
+        this.fm = r.data.rr
+        this.xp = this.fm.games ? this.fm.games : []
+        
+        return
       })
       .catch(err => {
         return alert(err)
@@ -381,9 +408,11 @@ export default {
     },
     atualizaMeusDados(){
 
+      this.fm.xp = JSON.stringify(this.xp)
       DATAUSER.atualizaDadosUsuario(this.fm)
       .then(r => {
-        return alert('Dados atualizados com sucesso.')
+        alert('Dados atualizados com sucesso.')
+        return 
       })
       .catch(err => {
         return alert(err)

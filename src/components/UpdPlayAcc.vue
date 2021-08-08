@@ -127,35 +127,47 @@
           <div v-if="listaError" class="errors" @click="listaError=false">{{listaError}}</div>
           <div v-if="owner">
               <p>
-                  <table class="tb1">
+            <table class="tb1">
+                <tr>
+                    <th colspan="4">Account Axie Infinity Data</th>
+                </tr>
             <tr>
                 <th>TOTAL INVESTED</th>
-                <td>{{all.total_invested}} <span class="price">{{UTILS.priceCoin(all.total_invested,'ethereum')}}</span></td>
+                <td>{{all.total_invested + ' ' + fpa.cost_currency}} <span class="price">{{UTILS.priceCoin(all.total_invested,'ethereum')}}</span></td>
                 <th>ROI (%)</th>
                 <td>{{all.roi.toFixed(2)}}%</td>
+                
+            </tr>
+            <tr>
                 <th>ROI [p/ day] (%)</th>
                 <td>{{all.roi_day.toFixed(2)}}%</td>
+                <th>SLP Avg/Day</th>
+                <td>{{all.total_slp_avg.toFixed(0)}} ({{all.days_buyed}} days)<span class="price">{{UTILS.priceCoin(all.total_slp_avg,'smooth-love-potion')}}</span></td>
             </tr>
             <tr>
                 <th>SLP TOTAL</th>
                 <td>{{all.total_slp}} <span class="price">{{UTILS.priceCoin(all.total_slp,'smooth-love-potion')}}</span></td>
                 <th>SLP TOTAL [claimed]</th>
                 <td>{{all.total_claimed}} <span class="price">{{UTILS.priceCoin(all.total_claimed,'smooth-love-potion')}}</span></td>
-                <th>SLP Avg/Day</th>
-                <td>{{all.total_slp_avg.toFixed(0)}} <span class="price">{{UTILS.priceCoin(all.total_slp_avg,'smooth-love-potion')}}</span></td>
+                
             </tr>
             <tr>
-                <th>Next Claim</th>
-                <td>{{UTILS.timeConverter(all.next_claim,1209600000)}}</td>
-                <th>Atividade [dias](*) </th>
-                <td>{{all.days_buyed}}</td>
                 <th>Next Claim [SLP]</th>
                 <td>{{all.next_claim_slp}}<span class="price">{{UTILS.priceCoin(all.next_claim_slp,'smooth-love-potion')}}</span></td>
+                <th>Next Claim [data]</th>
+                <td>{{UTILS.timeConverter(all.next_claim,1209600000)}}</td>
+            </tr>
+            <tr>
+                <th>Total SLP (-) Share(%) player</th>
+                <td>({{100-fpa.share}}%) {{all.total_noshare.toFixed(0)}} <span class="price">{{UTILS.priceCoin(all.total_noshare,'smooth-love-potion')}}</span></td>
+                <th>ROI (-) Share(%) </th>
+                <td>{{all.roi_share.toFixed(2)}}%</td>
+                
             </tr>
             <tr>
                 <td colspan="7" align="center"><button @click="updApiData()">ATUALIZAR DADOS</button></td>
             </tr>
-        </table>
+            </table>
         
               </p><p><i>(*)Para contagem correta dos dias, assim como o calculo de ROI p/day, cadastre uma data de compra ou início.</i></p>
           </div>
@@ -201,7 +213,9 @@ export default {
                 roi:0,
                 roi_day:0,
                 total_invested:0,
-                days_buyed: 0
+                days_buyed: 0,
+                total_noshare:0,
+                roi_share: 0
             },
         }
     },
@@ -251,6 +265,8 @@ export default {
             let mm = data
             let hoje = new Date()
             let tdia = 0
+            let coinm = JSON.parse(localStorage.getItem('coinmarket'))
+            let curr = localStorage.getItem('currency')
                     
             //CALCULA TOTAL INVESTIDO NAS CONTAS
             all.total_invested = mm.cost_total
@@ -280,12 +296,17 @@ export default {
             all.next_claim_slp = mmm.total
             
             all.total_slp_avg = tdia
+            
+            //CALC GAINS - SHARE PLAYER
+            all.total_noshare = (all.total_slp * ((100-parseInt(mm.share))/100))
+            all.roi_share = ((all.total_noshare*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
 
             //CALC DE ROI
-            let coinm = JSON.parse(localStorage.getItem('coinmarket'))
-            let curr = localStorage.getItem('currency')
             all.roi = ((all.total_slp*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
             all.roi_day = ((tdia*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
+
+
+            
             
             return
         },

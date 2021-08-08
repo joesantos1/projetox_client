@@ -8,7 +8,7 @@
               <th>T. POINTS</th>
           </tr>
           <tr v-for="(v, index) in ra" :key="v.id">
-              <td align="center">{{index+1}}</td>
+              <td align="center"><img v-if="index<3" :src="index==0 ? require('@/assets/best.png'): index==1 ? require('@/assets/silver.png') : index==2 ? require('@/assets/bronze.png') : ''" alt="Medals" width="32px"> {{index==0 ? '' : index==1 ? '' : index==2 ? '' : index+1}}</td>
               <td>
                   <span class="player-parent"> 
                         <span class="foto-user-list" v-if="v.foto_url" v-bind:style="{ backgroundImage: UTILS.url(v.foto_url) }"></span> <span class="foto-user-list no-foto" v-else ></span>
