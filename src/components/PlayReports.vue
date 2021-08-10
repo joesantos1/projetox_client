@@ -1,6 +1,6 @@
 <template>
   <div>
-        <div v-if="!owner && dprStatus != 4">
+        <div v-if="newRpr">
             <h3>(+) Novo registro de metas e resultado [new play reports]:</h3>
         <form @submit.prevent="novoPR" >
             <table class="tb1">
@@ -25,6 +25,9 @@
         </div>
           <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados | <span class="green">{{total_points==undefined ? 0 : total_points}}</span> points verificados. <span class="price">{{UTILS.priceCoin(total_points,'smooth-love-potion')}}</span></h3>
           <table class="tb1">
+              <tr v-if="owner">
+                <td colspan="9" align="center"><button v-if="btff" @click="novoPR()">REGISTRAR NOVOS POINTS </button></td>
+            </tr>
               <tr>
                   <th>#ID</th>
                   <th>Registrado em</th>
@@ -37,7 +40,7 @@
                   <td v-if="owner"></td>
               </tr>
               <tr v-for="v of dpr" :key="v.id">
-                  <td>#0x{{idagree}}</td>
+                  <td>#0x{{v.idplay_reports}}</td>
                   <td>{{UTILS.formatData(v.createdAt)}}</td>
                   <td>{{UTILS.formatData(v.updatedAt)}}</td>
                   <td>
@@ -60,7 +63,7 @@
 import UTILS from '@/utils/utils'
 import PLAYREPORTS from '../services/playreports'
 export default {
-    props: ['owner','idagree'],
+    props: ['owner','idagree','totalslp','playerid'],
     data(){
         return {
             fpr: {
@@ -73,7 +76,9 @@ export default {
             total_points: 0,
             points: 0,
             UTILS,
-            dprStatus: 0
+            dprStatus: 0,
+            newRpr: false,
+            btff:true
         }
     },
     methods: {
@@ -98,15 +103,25 @@ export default {
             })
         },
         novoPR(){
-            if(!this.fpr.points || this.fpr.points==null){
-                return alert('Por favor, preencha todos os campos obrigatórios.')
-            }
-            PLAYREPORTS.novoPlayReport(this.fpr)
+            this.btff=false
+            //CALC PARA CRIAR NOVO PLAYREPORT
+                    let calcpoints = parseInt(this.totalslp) - parseInt(this.total_points) 
+                    
+                    let dataPRP = {
+                        idplayer: this.playerid,
+                        idagreements: this.idagree,
+                        comments:'Points updated by Ronin Wallet Data',
+                        points: calcpoints
+                    }
+
+            PLAYREPORTS.novoPlayReport(dataPRP)
             .then(r => {
                 alert('Registro salvo com sucesso.')
+                this.btff=true
                 return this.$router.go()
             })
             .catch(err => {
+                this.btff=true
                 return alert('Algo deu errado aqui.')
             })
         },

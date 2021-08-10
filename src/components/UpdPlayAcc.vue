@@ -165,15 +165,42 @@
                 
             </tr>
             <tr>
-                <td colspan="7" align="center"><button @click="updApiData()">ATUALIZAR DADOS</button></td>
+                <td colspan="7" align="center"><button v-if="btf" @click="updApiData()">ATUALIZAR DADOS</button></td>
             </tr>
             </table>
         
               </p><p><i>(*)Para contagem correta dos dias, assim como o calculo de ROI p/day, cadastre uma data de compra ou início.</i></p>
           </div>
-          
+          <div v-else>
+              <table class="tb1">
+                <tr>
+                    <th colspan="4">Account Axie Infinity Data | <a :href="'https://explorer.roninchain.com/address/'+fpa.contract_address" target="_blank" rel="noopener noreferrer">Ronin Wallet (Explorer)</a></th>
+                </tr>
+            <tr>
+                <th>Total SLP Share(%) Player</th>
+                <td>({{fpa.share}}%) {{all.total_shareplayer.toFixed(0)}} <span class="price">{{UTILS.priceCoin(all.total_shareplayer,'smooth-love-potion')}}</span></td>
+                <th>SLP Avg/Day</th>
+                <td>{{all.total_slp_avg.toFixed(0)}} ({{all.days_buyed}} days)<span class="price">{{UTILS.priceCoin(all.total_slp_avg,'smooth-love-potion')}}</span></td>
+            </tr>
+            <tr>
+                <th>SLP TOTAL</th>
+                <td>{{all.total_slp}} <span class="price">{{UTILS.priceCoin(all.total_slp,'smooth-love-potion')}}</span></td>
+                <th>SLP TOTAL [claimed]</th>
+                <td>{{all.total_claimed}} <span class="price">{{UTILS.priceCoin(all.total_claimed,'smooth-love-potion')}}</span></td>
+            </tr>
+            <tr>
+                <th>Next Claim [SLP]</th>
+                <td>{{all.next_claim_slp}}<span class="price">{{UTILS.priceCoin(all.next_claim_slp,'smooth-love-potion')}}</span></td>
+                <th>Next Claim [data]</th>
+                <td>{{UTILS.timeConverter(all.next_claim,1209600000)}}</td>
+            </tr>
+            <tr v-if="owner">
+                <td colspan="7" align="center"><button v-if="btf" @click="updApiData()">ATUALIZAR DADOS</button></td>
+            </tr>
+            </table>
+          </div>
 
-          <PLAYREPORTS :owner="owner" :idagree="fpa.idagreements" v-if="fpa.a_status==3" />
+          <PLAYREPORTS :owner="owner" :idagree="fpa.idagreements" :totalslp="all.total_slp" :playerid="fpa.player_id" v-if="fpa.a_status==3" />
       </div>
 </template>
 
@@ -184,6 +211,7 @@ import PLAYREPORTS from '@/components/PlayReports.vue'
 import MYSALES from '@/components/MySales.vue'
 import dayjs from 'dayjs'
 import PROPOSTAS from '../services/agreements'
+import PRP from '../services/playreports'
 
 export default {
     components:{
@@ -215,7 +243,8 @@ export default {
                 total_invested:0,
                 days_buyed: 0,
                 total_noshare:0,
-                roi_share: 0
+                roi_share: 0,
+                total_shareplayer:0
             },
         }
     },
@@ -300,6 +329,7 @@ export default {
             //CALC GAINS - SHARE PLAYER
             all.total_noshare = (all.total_slp * ((100-parseInt(mm.share))/100))
             all.roi_share = ((all.total_noshare*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
+            all.total_shareplayer = (all.total_slp * (parseInt(mm.share)/100))
 
             //CALC DE ROI
             all.roi = ((all.total_slp*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
@@ -311,7 +341,9 @@ export default {
             return
         },
         async updApiData(){
+            
             if(this.fpa.contract_address){
+                this.btf = false
                 //BUSCA DADOS USARIO API AXI INFINITY
                 var ron = this.fpa.contract_address.split(':');
                 var aa = await PLAYACC.buscaDadosAPIAxie(ron[1]);
@@ -321,9 +353,12 @@ export default {
                 //ATUALIZA INFORMACOES DE API NO DB DA PLAY-ACC
                 PLAYACC.atualizaPlayAcc(this.fpa)
                 .then(() => {
+
+                    this.btf=true
                     return this.$router.go()
                 })
             }else{
+                this.btf=true
                 return alert('Você precisa informar um endereço de Ronin Wallet');
             }
             
