@@ -1,8 +1,11 @@
 <template>
   <div :class="dashview ? '' : 'content1'">
       <div class="catalogo">
-        <h3><span v-if="!dashview"><router-link to="/">Dashboard</router-link> | </span>Catálogo de Players | {{PL.length}} players cadastrados. <router-link to="/catalogo" v-if="dashview">ver completo</router-link></h3>
+        
         <table class="tb1">
+            <tr>
+                <th colspan="7"><h3><span v-if="!dashview"><router-link to="/">Dashboard</router-link> | </span>Catálogo de Players | {{PL.length}} players cadastrados. <router-link to="/catalogo" v-if="dashview">ver completo</router-link></h3></th>
+            </tr>
             <tr>
                 <th>Player</th>
                 <th>Status</th>

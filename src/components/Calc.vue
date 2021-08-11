@@ -1,6 +1,6 @@
 <template>
   <div class="content1">
-      <h2>Calculadora [Simulações]</h2>
+      <h2><router-link to="/">Dashboard</router-link> | Calculadora [Simulações]</h2>
       <COINMARKETS dashview="0" />
 
   </div>

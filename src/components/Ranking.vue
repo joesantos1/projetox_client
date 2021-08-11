@@ -1,7 +1,10 @@
 <template>
   <div class="ranking">
-      <h3>Ranking Players</h3>
+      
       <table class="tb1">
+          <tr>
+              <th colspan="3"><h3>Ranking Players</h3></th>
+          </tr>
           <tr>
               <th>Pº</th>
               <th>PLAYER</th>

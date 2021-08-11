@@ -1,55 +1,70 @@
 <template>
   <div :class="dashview ? '': 'content1'">
-        <h3><span v-if="!dashview"><router-link to="/">Dashboard</router-link> | </span> My Play-Accounts | {{mpa.tt}} contas registradas.</h3>
+        
         
         <table class="tb1" v-if="mpa.tt || mpa.tt > 0">
+            <tr>
+                <th colspan="6"><h3>My Play-Accounts Performance Report | Axie Infinity</h3> </th>
+            </tr>
             <tr>
                 <th>TOTAL INVESTED</th>
                 <td>{{all.total_invested.toFixed(4)}} <span class="price">{{UTILS.priceCoin(all.total_invested,'ethereum')}}</span></td>
                 <th>ROI (%)</th>
                 <td>{{all.roi.toFixed(2)}}%</td>
-                <th>ROI [p/ day] (%)</th>
+                
+            </tr>
+            <tr>
+                <th>ROI [1d] (%)</th>
                 <td>{{all.roi_day.toFixed(2)}}%</td>
+                <th>ROI [30d] (%)</th>
+                <td>{{all.roi_month.toFixed(2)}}%</td>
             </tr>
             <tr>
                 <th>SLP TOTAL</th>
                 <td>{{all.total_slp}} <span class="price">{{UTILS.priceCoin(all.total_slp,'smooth-love-potion')}}</span></td>
                 <th>SLP TOTAL [claimed]</th>
                 <td>{{all.total_claimed}} <span class="price">{{UTILS.priceCoin(all.total_claimed,'smooth-love-potion')}}</span></td>
-                <th>SLP Avg/Day</th>
-                <td>{{all.total_slp_avg.toFixed(0)}} <span class="price">{{UTILS.priceCoin(all.total_slp_avg,'smooth-love-potion')}}</span></td>
+                
             </tr>
             <tr>
+                <th>SLP Avg/Day</th>
+                <td>{{all.total_slp_avg.toFixed(0)}} <span class="price">{{UTILS.priceCoin(all.total_slp_avg,'smooth-love-potion')}}</span></td>
                 <th>Next Claim</th>
                 <td>{{UTILS.timeConverter(all.next_claim,1209600000)}}</td>
+                
+            </tr>
+            <tr>
                 <th>Next Claim [account]</th>
                 <td>{{all.next_claim_acc}}</td>
                 <th>Next Claim [SLP]</th>
                 <td>{{all.next_claim_slp}}<span class="price">{{UTILS.priceCoin(all.next_claim_slp,'smooth-love-potion')}}</span></td>
             </tr>
             <tr>
-                <th colspan="2">High Performance SLP p/day</th>
+                <th>High Performance SLP p/day</th>
                 <td>
                     <span style="display:flex;justify-content: space-between;">
                     <img src="@/assets/best.png" width="24px" alt=""> {{all.high_slp.toFixed(0)}} <span class="price">{{UTILS.priceCoin(all.high_slp,'smooth-love-potion')}}</span>
                     </span> </td>
-                <th colspan="2">Best Account | Player</th>
+                <th>Best Account | Player</th>
                 <td v-html="all.high_acc"></td>
             </tr>
             <tr>
-                <th colspan="2">Low Performance SLP p/day</th>
+                <th>Low Performance SLP p/day</th>
                 <td>
                     <span style="display:flex;justify-content: space-between;">
                     <img src="@/assets/down2.png" alt=""> {{all.low_slp.toFixed(0)}} <span class="price">{{UTILS.priceCoin(all.low_slp,'smooth-love-potion')}}</span>
                     </span>
                 </td>
-                <th colspan="2">Lower Account | Player</th>
+                <th>Lower Account | Player</th>
                 <td v-html="all.low_acc"></td>
             </tr>
         </table>
         
         <p></p>
         <table cellspacing="0px" class="tb1">
+            <tr>
+                <th colspan="6"><h3><span v-if="!dashview"><router-link to="/">Dashboard</router-link> | </span> My Play-Accounts | {{mpa.tt}} contas registradas.</h3> </th>
+            </tr>
           <tr>
             <th>Account #ID</th>
             <th>Game</th>
@@ -66,8 +81,11 @@
               <td align="center">{{v.total_points}}</td>
               <td><router-link :to="'/play-account/'+v.idplay_accounts">Acessar</router-link></td>
           </tr>
+          <tr>
+              <th colspan="6"><h3><router-link to="/new-play-account"> + Cadastrar nova conta</router-link></h3></th>
+          </tr>
         </table>
-        <h4><router-link to="/new-play-account"> + Cadastrar nova conta</router-link></h4>
+        
       </div>
 </template>
 
@@ -88,6 +106,7 @@ export default {
                 next_claim: 0,
                 roi:0,
                 roi_day:0,
+                roi_month:0,
                 total_invested:0,
                 high_slp:0,
                 high_acc:null,
@@ -180,6 +199,7 @@ export default {
             let curr = localStorage.getItem('currency')
             all.roi = ((all.total_slp*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
             all.roi_day = ((tdia*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
+            all.roi_month = (((tdia*30)*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
         }
         
     },
