@@ -200,7 +200,7 @@
             </table>
           </div>
 
-          <PLAYREPORTS :owner="owner" :idagree="fpa.idagreements" :totalslp="all.total_slp" :playerid="fpa.player_id" v-if="fpa.a_status==3" />
+          <PLAYREPORTS :owner="owner" :idagree="fpa.idagreements" :totalslp="all.total_slp" :playerid="fpa.player_id" :paid="this.$route.params.id" v-if="fpa.a_status==3" />
       </div>
 </template>
 
@@ -290,7 +290,7 @@ export default {
             })
         },
         dadosApi(data){
-             let all = this.all
+            let all = this.all
             let mm = data
             let hoje = new Date()
             let tdia = 0
@@ -335,9 +335,6 @@ export default {
             all.roi = ((all.total_slp*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
             all.roi_day = ((tdia*coinm['smooth-love-potion'][curr]) / (all.total_invested*coinm['ethereum'][curr]))*100
 
-
-            
-            
             return
         },
         async updApiData(){
@@ -355,7 +352,21 @@ export default {
                 .then(() => {
 
                     this.btf=true
-                    return this.$router.go()
+                    this.all = {
+                        total_slp: 0,
+                        total_claimed: 0,
+                        total_slp_avg: 0,
+                        next_claim: 0,
+                        roi:0,
+                        roi_day:0,
+                        total_invested:0,
+                        days_buyed: 0,
+                        total_noshare:0,
+                        roi_share: 0,
+                        total_shareplayer:0
+                    }
+                    alert('Dados atualizados.')
+                    return this.buscaPlayAccParaUpd()
                 })
             }else{
                 this.btf=true
@@ -414,7 +425,8 @@ export default {
     },
     created(){
         return this.buscaPlayAccParaUpd()
-    }
+    },
+    
 }
 </script>
 

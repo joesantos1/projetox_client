@@ -23,10 +23,12 @@
             <i>(*) Campos obrigatórios.</i>
         </form>
         </div>
-          <h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados | <span class="green">{{total_points==undefined ? 0 : total_points}}</span> points verificados. <span class="price">{{UTILS.priceCoin(total_points,'smooth-love-potion')}}</span></h3>
-          <table class="tb1">
+        <table class="tb1">
+              <tr>
+                  <th colspan="8"><h3>Últimos registros de metas e resultados [play reports] | {{qtd}} registros encontrados | <span class="green">{{total_points==undefined ? 0 : total_points}}</span> points verificados. <span class="price">{{UTILS.priceCoin(total_points,'smooth-love-potion')}}</span></h3></th>
+              </tr>
               <tr v-if="owner">
-                <td colspan="9" align="center"><button v-if="btff" @click="novoPR()">REGISTRAR NOVOS POINTS </button></td>
+                <td colspan="8" align="center"><button v-if="btff" @click="novoPR()">REGISTRAR NOVOS POINTS </button></td>
             </tr>
               <tr>
                   <th>#ID</th>
@@ -37,7 +39,6 @@
                   <th>Report [points]</th>
                   <th>Comentários</th>
                   <th>Status</th>
-                  <td v-if="owner"></td>
               </tr>
               <tr v-for="v of dpr" :key="v.id">
                   <td>#0x{{v.idplay_reports}}</td>
@@ -53,7 +54,6 @@
                   <td>{{v.points}} <span class="price">{{UTILS.priceCoin(v.points,'smooth-love-potion')}}</span></td>
                   <td>{{v.comments}}</td>
                   <td v-html="UTILS.vStatusPlayReports(v.status)"></td>
-                  <td v-if="owner"><button v-if="v.status==1" @click="verificaPR(v.idplay_reports)">Verificar</button></td>
               </tr>
           </table>
   </div>
@@ -62,8 +62,9 @@
 <script>
 import UTILS from '@/utils/utils'
 import PLAYREPORTS from '../services/playreports'
+
 export default {
-    props: ['owner','idagree','totalslp','playerid'],
+    props: ['owner','idagree','totalslp','playerid','paid'],
     data(){
         return {
             fpr: {
@@ -103,11 +104,18 @@ export default {
             })
         },
         novoPR(){
+
             this.btff=false
             //CALC PARA CRIAR NOVO PLAYREPORT
                     let totslp = this.totalslp ? this.totalslp : 0
                     let totpoi = this.total_points ? this.total_points : 0
                     let calcpoints = parseInt(totslp) - parseInt(totpoi) 
+
+                    if(calcpoints==0){
+                        this.btff=true
+                        alert('Não há novos points para registro.')
+                        return
+                    }
                     
                     let dataPRP = {
                         idplayer: this.playerid,
@@ -119,8 +127,10 @@ export default {
             PLAYREPORTS.novoPlayReport(dataPRP)
             .then(r => {
                 alert('Registro salvo com sucesso.')
+
+                return this.buscaTodosPR()
                 this.btff=true
-                return this.$router.go()
+                
             })
             .catch(err => {
                 this.btff=true
@@ -148,6 +158,13 @@ export default {
     },
     mounted(){
         return this.buscaTodosPR()
+    },
+    watch: {
+        $route(to, from){
+            
+            return this.buscaTodosPR()
+
+        }
     }
 }
 </script>
