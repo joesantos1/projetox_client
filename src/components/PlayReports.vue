@@ -105,7 +105,9 @@ export default {
         novoPR(){
             this.btff=false
             //CALC PARA CRIAR NOVO PLAYREPORT
-                    let calcpoints = parseInt(this.totalslp) - parseInt(this.total_points) 
+                    let totslp = this.totalslp ? this.totalslp : 0
+                    let totpoi = this.total_points ? this.total_points : 0
+                    let calcpoints = parseInt(totslp) - parseInt(totpoi) 
                     
                     let dataPRP = {
                         idplayer: this.playerid,
