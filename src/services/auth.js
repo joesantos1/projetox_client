@@ -24,15 +24,13 @@ export default {
                     localStorage.removeItem('access_token')
                     localStorage.removeItem('_user')
 
-                    return location.replace('/login');
+                    return false
                 }
                 
             }
             
-            localStorage.removeItem('access_token')
-            localStorage.removeItem('_user')
-            return location.replace('/login');
-            
+            return
+
         } catch (error) {
                  
                 localStorage.removeItem('access_token')
