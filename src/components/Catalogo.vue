@@ -10,7 +10,6 @@
                 <th>Player</th>
                 <th>Status</th>
                 <th>País</th>
-                <th>Games (Exp)</th>
                 <th>Total XP</th>
                 <th>Data do cadastro</th>
                 <th></th>
@@ -23,10 +22,9 @@
                     </span>
                 
                 </router-link> </td>
-                <td>{{UTILS.vStatusPlayer(v.status) }}</td>
+                <td align="center">{{UTILS.vStatusPlayer(v.status) }}</td>
                 <td>{{v.pais}}</td>
-                <td>{{UTILS.verGames(v.games)}}</td>
-                <td>{{v.total_xp}}</td>
+                <td align="center">{{v.total_xp}}</td>
                 <td>{{UTILS.formatData(v.createdAt)}}</td>
                 <td><span v-if="v.idusuarios != IDU.iduser"><router-link :to="'/fazerproposta/' + v.idusuarios"><img src="@/assets/contract.png" alt="Fazer proposta de contrato" class="img-contrato"></router-link></span>  </td>
             </tr>

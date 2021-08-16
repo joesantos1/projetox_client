@@ -1,6 +1,6 @@
 <template>
       <div class="content1">
-          <h2><router-link to="/">Dashboard</router-link> > My Play-Account | {{fpa.titulo}}</h2>
+          <h2><router-link to="/">Dashboard</router-link> | <router-link to="/play-accounts">My Play-Accounts</router-link> | {{fpa.titulo}}</h2>
           <div class="edit" v-if="owner && edit">
             <form @submit.prevent="updPlayAcc" >
               <table class="tb2">

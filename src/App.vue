@@ -109,6 +109,7 @@ table{
   border-radius: 1em;
   overflow: hidden;
   box-shadow: 6px 6px 10px rgb(235, 235, 235);
+  border: 5px solid white;
 }
 .tb1 td, .tb2 td{
   padding: 0.6em;
