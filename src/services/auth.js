@@ -21,12 +21,19 @@ export default {
                 if(v.data.loggin==true){
                     return true
                 }else{
-                    throw false
+                    localStorage.removeItem('access_token')
+                    localStorage.removeItem('_user')
+
+                    return location.replace('/login');
                 }
                 
             }
+            
+            localStorage.removeItem('access_token')
+            localStorage.removeItem('_user')
+            return location.replace('/login');
+            
         } catch (error) {
-            alert(error)
                  
                 localStorage.removeItem('access_token')
                 localStorage.removeItem('_user')
