@@ -116,16 +116,7 @@ const router = new Router({
     {
       path: '/login',
       name: 'Login',
-      component: Login,
-      beforeEnter: (to,from,next) => {
-        
-        if(TOKEN_USER){
-          
-          next({name: 'DashBoad'})
-        }else{
-          next()
-        }
-      }
+      component: Login
     },
     {
       path: '/logout',
